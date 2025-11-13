@@ -3,7 +3,7 @@ using UnityEngine;
 public class HiddenPlatformBehaviour : MonoBehaviour
 {
     public GameObject MusicRange;
-    public GameObject Player;
+    public GameObject PlayerColor;
     public Transform Transform;
 
     public int color = 0;
@@ -35,9 +35,9 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     void Update()
     {
         // COLOR CHANGE
-        //playerNote = Player.GetComponent<PlayerColor>().currentColor;
+        playerNote = PlayerColor.GetComponent<MusicPlay>().color;
 
-        //if (Player.GetComponent<PlayerColor>().currentColor == pattern[currentNote])
+        if (PlayerColor.GetComponent<MusicPlay>().color == pattern[currentNote])
         {
             Transform.localScale = new Vector2(0.25f * currentNote, 0.25f * currentNote);
 

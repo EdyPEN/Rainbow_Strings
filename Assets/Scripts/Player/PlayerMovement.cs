@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityY = force;
         }
-        else if (!grounded && (jumpInputHold == false || rb.linearVelocityY < 0) && rb.linearVelocityY > -maxFallSpeed)
+        else if (!grounded && (jumpInputHold == false || rb.linearVelocityY < 2) && rb.linearVelocityY > -maxFallSpeed)
         {
             rb.AddForceY(-pushDownForce);
         }
@@ -54,10 +54,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocityX = xInputRaw * speed * Time.fixedDeltaTime;
 
-        if (rb.linearVelocityY < -maxFallSpeed)
-        {
-            rb.linearVelocityY = -maxFallSpeed * Time.fixedDeltaTime;
-        }
+        rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
 
     }
 
