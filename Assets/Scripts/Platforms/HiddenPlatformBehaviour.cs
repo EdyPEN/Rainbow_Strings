@@ -4,7 +4,9 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 {
     public GameObject MusicRange;
     public GameObject PlayerColor;
+    public GameObject HiddenPlatform;
     public Transform Transform;
+    SpriteRenderer sr;
 
     public int color = 0;
 
@@ -15,8 +17,6 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     public int currentNote = 0;
     public int playerNote;
-
-    SpriteRenderer sr;
 
     public int[] pattern = new int[3];
 
@@ -37,13 +37,23 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         // COLOR CHANGE
         playerNote = PlayerColor.GetComponent<MusicPlay>().color;
 
-        if (PlayerColor.GetComponent<MusicPlay>().color == pattern[currentNote])
+        if (playerNote == pattern[currentNote])
         {
-            Transform.localScale = new Vector2(0.25f * currentNote, 0.25f * currentNote);
-
             currentNote++;
         }
-        color = pattern[currentNote];
+
+        if (currentNote < 3)
+        {
+            color = pattern[currentNote];
+            Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
+        }
+        else
+        {
+            color = 0;
+            Transform.localScale = Vector2.zero;
+            HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
+            HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
+        }
 
         if (color == yellow)
         {
