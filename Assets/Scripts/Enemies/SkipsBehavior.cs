@@ -91,7 +91,7 @@ public class SkipsBehaviour : MonoBehaviour
 
     }
 
-    void Interaction() //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    void Interaction() //
     {
         if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (combo >= 0))
         {
