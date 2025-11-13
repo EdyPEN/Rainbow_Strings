@@ -6,6 +6,7 @@ public class KeyMovement : MonoBehaviour
     public GameObject Player;
 
     public float speed;
+    public float distance;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,20 +17,24 @@ public class KeyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     private void FixedUpdate()
     {
         if (Player.GetComponent<PlayerInteractions>().keyCollected == true)
         {
-            float distance = Vector3.Distance(transform.transform.position, Target.transform.position);
+            float currentDistance = Vector3.Distance(transform.transform.position, Target.transform.position);
 
             Vector2 currentPosition2D = new Vector3(transform.position.x, transform.position.y);
             Vector2 targetPosition2D = new Vector3(Target.position.x, Target.position.y);
 
-            if (distance > 1)
+            if (currentDistance > distance)
                 transform.position = Vector2.MoveTowards(currentPosition2D, targetPosition2D, speed * Time.fixedDeltaTime);
+        }
+
+        if (Player.GetComponent<PlayerInteractions>().gateOpened == true)
+        {
+            gameObject.SetActive(false);
         }
     }
 }

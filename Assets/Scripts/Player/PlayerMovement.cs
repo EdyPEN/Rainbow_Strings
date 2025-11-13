@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocityY = force;
         }
-        else if (!grounded && (jumpInputHold == false || rb.linearVelocityY < 2) && rb.linearVelocityY > -maxFallSpeed)
+        else if (!grounded && (jumpInputHold == false || rb.linearVelocityY < 5) && rb.linearVelocityY > -maxFallSpeed)
         {
             rb.AddForceY(-pushDownForce);
         }

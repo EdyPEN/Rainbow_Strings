@@ -3,8 +3,10 @@ using UnityEngine;
 public class PlayerInteractions : MonoBehaviour
 {
     public int hp;
-    public bool keyCollected = false;
-    public bool inChallengeArea = false;
+    public bool keyCollected;
+    public bool gateOpened;
+
+    public bool inChallengeArea;
     public bool interactButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,7 +41,7 @@ public class PlayerInteractions : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Challenge")
+        if (collision.gameObject.CompareTag("Challenge"))
         {
             inChallengeArea = true;
         }
@@ -47,10 +49,11 @@ public class PlayerInteractions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Lock")
+        if (collision.gameObject.CompareTag("Gate"))
         {
             if (keyCollected == true)
             {
+                gateOpened = true;
                 Destroy(collision.gameObject);
             }
         }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Gate
+  - Challenge
   layers:
   - Default
   - TransparentFX
