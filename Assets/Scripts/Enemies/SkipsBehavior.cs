@@ -10,8 +10,8 @@ public class SkipsBehaviour : MonoBehaviour
     public int damage = 1;
     public int jump = 3;
     public int direction = 1;
-
     public int color = 0;
+    public float speed, force;
 
     private int idle = 0;
     private int red = 1;
@@ -28,10 +28,7 @@ public class SkipsBehaviour : MonoBehaviour
     SpriteRenderer sr;
 
     [Header("Pattern")]
-    public float speed, force;
-
     public int[] pattern = new int[3];
-
     public int currentPattern = 0;
 
     void Start()
