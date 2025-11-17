@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class SkipsBehaviour : MonoBehaviour
 {
+    [Header("About Player")]
     public GameObject AreaInteraction;
     public GameObject ColorDisplay;
 
+    [Header("Variables")]
     public int damage = 1;
     public int jump = 3;
     public int direction = 1;
@@ -17,6 +19,7 @@ public class SkipsBehaviour : MonoBehaviour
     private int green = 3;
     private int blue = 4;
 
+    [Header("Skips' death")]
     public int combo = 0;
     public float timerIdle;
     public float timerHit;
@@ -24,6 +27,7 @@ public class SkipsBehaviour : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sr;
 
+    [Header("Pattern")]
     public float speed, force;
 
     public int[] pattern = new int[3];
