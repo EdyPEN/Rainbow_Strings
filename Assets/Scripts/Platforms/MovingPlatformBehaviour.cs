@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
+    [Header ("Points")]
     public Transform pointA;
     public Transform pointB;
     public Transform pointC;
     public Transform pointD;
 
+    [Header("Variables")]
     public float speed = 2;
     public bool isMoving = false;
 
