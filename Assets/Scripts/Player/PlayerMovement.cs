@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
 
     // Inputs
-    private float xInputRaw;
+    private int xInput;
 
     public bool jumpInputHold, jumpInputTap;
 
@@ -25,11 +25,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xInputRaw = Input.GetAxisRaw("Horizontal");
+        if (Input.GetKey(KeyCode.A))
+        {
+            xInput = -1;
+        } else if (Input.GetKey(KeyCode.D))
+        {
+            xInput = 1;
+        } else
+        {
+            xInput = 0;
+        }
 
-        jumpInputHold = Input.GetButton("Jump");
+            jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
 
-        jumpInputTap = Input.GetButtonDown("Jump");
+        jumpInputTap = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
 
         resetButton = Input.GetKeyDown(KeyCode.R);
 
@@ -52,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.linearVelocityX = xInputRaw * speed * Time.fixedDeltaTime;
+        rb.linearVelocityX = xInput * speed * Time.fixedDeltaTime;
 
         rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
 
