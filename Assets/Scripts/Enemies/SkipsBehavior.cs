@@ -14,10 +14,10 @@ public class SkipsBehaviour : MonoBehaviour
     public float speed, force;
 
     private int idle = 0;
-    private int red = 1;
-    private int yellow = 2;
-    private int green = 3;
-    private int blue = 4;
+    private int blue = 1;
+    private int green = 2;
+    private int yellow = 3;
+    private int red = 4;
 
     [Header("Skips' death")]
     public int combo = 0;

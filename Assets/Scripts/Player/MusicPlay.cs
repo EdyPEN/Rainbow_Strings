@@ -11,10 +11,10 @@ public class MusicPlay : MonoBehaviour
     public int color = 0;
 
     private int idle = 0;
-    private int red = 1;
-    private int yellow = 2;
-    private int green = 3;
-    private int blue = 4;
+    private int blue = 1;
+    private int green = 2;
+    private int yellow = 3;
+    private int red = 4;
 
     void Start()
     {
@@ -79,7 +79,7 @@ public class MusicPlay : MonoBehaviour
         }
         else if (color == blue)
         {
-            sr.color = Color.blue;
+            sr.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {
