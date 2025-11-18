@@ -184,9 +184,9 @@ public class SkipsBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            //collision.gameObject.GetComponent<Movement>().hp -= damage; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            collision.gameObject.GetComponent<PlayerInteractions>().hp -= damage;
         }
         if (collision.gameObject.tag == "Ground")
         {
