@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Gate
   - Challenge
+  - Enemy
+  - EnemyBullet
+  - MusicRange
   layers:
   - Default
   - TransparentFX
