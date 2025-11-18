@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.99830675, b: 0.9779874, a: 1}
+  m_Color: {r: 1, g: 1, b: 0.63836473, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1373,7 +1373,7 @@ Transform:
   m_GameObject: {fileID: 500208513}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.52, y: -0.67, z: 0}
+  m_LocalPosition: {x: -9.06, y: 13.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0.97647065, a: 1}
+  m_Color: {r: 0.9960785, g: 0.9960785, b: 0.6392157, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2539,8 +2539,15 @@ MonoBehaviour:
   Player: {fileID: 993817220}
   ColorDisplay: {fileID: 38424585}
   spriteState: 0
+  ChallengeInProcess: 0
   ChallengeBeaten: 0
-  timer: 0
+  timerPerNote: 0
+  timerReaction: 0
+  playerNote: 0
+  pattern1: 00000000000000000000000000000000
+  pattern2: 00000000000000000000000000000000
+  currentNote: 0
+  currentPattern: 0
 --- !u!1 &1092758014
 GameObject:
   m_ObjectHideFlags: 0
