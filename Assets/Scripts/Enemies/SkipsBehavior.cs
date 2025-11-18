@@ -10,8 +10,8 @@ public class SkipsBehaviour : MonoBehaviour
     public int damage = 1;
     public int jump = 3;
     public int direction = 1;
-    public int color = 0;
     public float speed, force;
+    public int color = 0;
 
     private int idle = 0;
     private int blue = 1;
@@ -28,7 +28,7 @@ public class SkipsBehaviour : MonoBehaviour
     SpriteRenderer sr;
 
     [Header("Pattern")]
-    public int[] pattern = new int[3];
+    public int[] pattern = new int[3]; //Need a randomizer for patterns
     public int currentPattern = 0;
 
     void Start()
@@ -92,7 +92,7 @@ public class SkipsBehaviour : MonoBehaviour
 
     }
 
-    void Interaction() //
+    void Interaction() //Need a randomizer of patterns...
     {
         if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (combo >= 0))
         {

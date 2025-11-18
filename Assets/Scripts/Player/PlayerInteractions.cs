@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,6 @@ public class PlayerInteractions : MonoBehaviour
     public bool inChallengeArea;
     public bool interactButton;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
 
@@ -22,7 +22,7 @@ public class PlayerInteractions : MonoBehaviour
 
         if (interactButton == true && inChallengeArea == true)
         {
-            keyCollected = true;
+            //keyCollected = true;
         }
     }
 
