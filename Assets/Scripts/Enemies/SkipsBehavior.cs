@@ -74,6 +74,7 @@ public class SkipsBehaviour : MonoBehaviour
             timerHit = 0;
         }
 
+
         // COLOR CHANGE ---------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (color == idle)
         {
@@ -97,7 +98,7 @@ public class SkipsBehaviour : MonoBehaviour
         }
 
         // Interaction without area dependens
-        if (timerHit == 0 && combo == 3)
+        if ( combo == 3) //NEED TIME ALSO!!!
         {
             Destroy(gameObject);
         }
@@ -121,7 +122,7 @@ public class SkipsBehaviour : MonoBehaviour
         else if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (timerHit > 0) && (combo >= 2))
         {
             Note[2].GetComponent<Note>().color = yellow;
-            timerHit = 0.5f;
+            timerHit = 2;
             combo = 3;
         }
         else
@@ -226,8 +227,11 @@ public class SkipsBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        Note[0].SetActive(false);
-        Note[1].SetActive(false);
-        Note[2].SetActive(false);
+        if (collider.gameObject.name == "Area")
+        {
+            Note[0].SetActive(false);
+            Note[1].SetActive(false);
+            Note[2].SetActive(false);
+        }
     }
 }
