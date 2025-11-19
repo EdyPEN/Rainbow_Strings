@@ -2521,7 +2521,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 932025884}
-  - {fileID: 1171677785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1053525800
@@ -2538,7 +2537,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimonSays
   Player: {fileID: 993817220}
   ColorDisplay: {fileID: 38424585}
-  ChallangeArea: {fileID: 932025883}
   spriteState: 0
   ChallengeInProcess: 0
   FinishPattern1: 0
@@ -3071,14 +3069,14 @@ Transform:
   m_GameObject: {fileID: 1171677782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 1}
+  m_LocalPosition: {x: -13, y: 15.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 350201878}
   - {fileID: 738767502}
   - {fileID: 1962428101}
-  m_Father: {fileID: 1053525799}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1192118603
 GameObject:
@@ -5003,6 +5001,7 @@ SceneRoots:
   - {fileID: 2102918067}
   - {fileID: 1145399459}
   - {fileID: 910788381}
+  - {fileID: 1171677785}
   - {fileID: 1053525799}
   - {fileID: 28576001}
   - {fileID: 485127606}

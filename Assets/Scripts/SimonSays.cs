@@ -148,6 +148,12 @@ public class SimonSays : MonoBehaviour
             return;
         }
 
+        if (FinishPattern2 == true && PlayedPattern2 == false)
+        {
+            spriteState = idle;
+            return;
+        }
+
         // missing check of the player INSIDE the area
         if (currentPattern == 0)
         {
@@ -180,7 +186,7 @@ public class SimonSays : MonoBehaviour
             currentNote = 0;
             FinishPattern1 = true;
         } 
-        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
             currentNote++;
@@ -226,6 +232,7 @@ public class SimonSays : MonoBehaviour
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo >= 3))
             {
                 PlayedPattern1 = true;
+                combo = 0;
             }
             else if (timerReaction == 0)
             {
