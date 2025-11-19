@@ -16,13 +16,13 @@ public class MovingPlatform : MonoBehaviour
     public int currentPosition = 0;
 
     // Player interaction with a platform
-    public GameObject AreaInteraction;
+    public GameObject Area;
     public GameObject ColorDisplay;
 
     // Pattern & Colors
     public int[] pattern = new int[3];
     public int currentPattern = 0;
-    public int color = 4;
+    public int color = 1;
 
     public float timerIdle;
     public float timerHit;
@@ -52,8 +52,6 @@ public class MovingPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Interaction();
-
         if (isMoving)
         {
             MovePlatform();
@@ -139,8 +137,16 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collider)
     {
-        Interaction();
+        if (collider.gameObject == Area)
+        {
+            Interaction();
+        }
     }
+
+    //private void OnTriggerExit2D(Collider2D collider)
+    //{
+        
+    //}
 }

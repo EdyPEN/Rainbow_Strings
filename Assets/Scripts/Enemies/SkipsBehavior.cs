@@ -78,7 +78,7 @@ public class SkipsBehaviour : MonoBehaviour
         // COLOR CHANGE ---------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (color == idle)
         {
-            sr.color = Color.black;
+            sr.color = Color.white;
         }
         else if (color == yellow)
         {
