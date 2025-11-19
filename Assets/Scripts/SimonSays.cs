@@ -69,6 +69,11 @@ public class SimonSays : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (Note[].SetActive(false))
+        //{
+        //    Note[].GetComponent<MusicPlay>.color = idle;
+        //}
+
         // TIMER------------------
         if (timerPerNote > 0)
         {
@@ -96,6 +101,7 @@ public class SimonSays : MonoBehaviour
         if (Player.GetComponent<PlayerInteractions>().interactButton == true)
         {
             timerPerNote = 1;
+            Note[0].SetActive(true);
             ChallengeInProcess = true;
         }
 
@@ -158,6 +164,7 @@ public class SimonSays : MonoBehaviour
         if (FinishPattern2 == true && PlayedPattern2 == false)
         {
             spriteState = idle;
+
             return;
         }
 
@@ -174,16 +181,19 @@ public class SimonSays : MonoBehaviour
         if (currentNote == 0 && currentPattern == 0 && timerPerNote == 0)
         {
             timerPerNote = 1;
+            Note[1].SetActive(true);
             currentNote++;
         }
         else if (currentNote == 1 && currentPattern == 0 && timerPerNote == 0)
         {
             timerPerNote = 1;
+            Note[2].SetActive(true);
             currentNote++;
         }
         else if (currentNote == 2 && currentPattern == 0 && timerPerNote == 0)
         {
             timerPerNote = 1;
+            Note[3].SetActive(true);
             currentNote++;
         }
         else if (currentNote == 3 && currentPattern == 0 && timerPerNote == 0)
@@ -196,16 +206,19 @@ public class SimonSays : MonoBehaviour
         else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
+            Note[1].GetComponent<Note>().color = idle;
             currentNote++;
         }
         else if (currentNote == 1 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
         {
             timerPerNote = 1;
+            Note[2].GetComponent<Note>().color = idle;
             currentNote++;
         }
         else if (currentNote == 2 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
         {
             timerPerNote = 1;
+            Note[3].GetComponent<Note>().color = idle;
             currentNote++;
         }
         else if (currentNote == 3 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
@@ -225,22 +238,27 @@ public class SimonSays : MonoBehaviour
             {
                 combo = 1;
                 timerReaction = 2;
+                Note[0].GetComponent<Note>().color = yellow;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
                 timerReaction = 2;
+                Note[1].GetComponent<Note>().color = green;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
                 timerReaction = 2;
+                Note[2].GetComponent<Note>().color = red;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern1 = true;
                 combo = 0;
                 timerPerNote = 1;
+                Note[3].GetComponent<Note>().color = blue;
+                Note[0].GetComponent<Note>().color = idle;
             }
             else if (timerReaction == 0)
             {
@@ -257,22 +275,26 @@ public class SimonSays : MonoBehaviour
             if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (combo == 0))
             {
                 combo = 1;
+                Note[0].GetComponent<Note>().color = red;
                 timerReaction = 2;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
+                Note[1].GetComponent<Note>().color = green;
                 timerReaction = 2;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
+                Note[2].GetComponent<Note>().color = blue;
                 timerReaction = 2;
             }
             else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern2 = true;
                 combo = 0;
+                Note[3].GetComponent<Note>().color = green;
                 timerPerNote = 1;
             }
             else if (timerReaction == 0)

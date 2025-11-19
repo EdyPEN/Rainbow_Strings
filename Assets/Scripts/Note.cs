@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    public GameObject ColorDisplay;
-
     public GameObject circle;
     public GameObject square;
 
@@ -20,7 +18,7 @@ public class Note : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
