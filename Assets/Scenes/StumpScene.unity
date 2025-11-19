@@ -1236,7 +1236,7 @@ Transform:
   m_GameObject: {fileID: 466129061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.52, y: -0.67, z: -10}
+  m_LocalPosition: {x: -9.28, y: 13.58, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2538,11 +2538,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SimonSays
   Player: {fileID: 993817220}
   ColorDisplay: {fileID: 38424585}
+  ChallangeArea: {fileID: 932025883}
   spriteState: 0
   ChallengeInProcess: 0
+  FinishPattern1: 0
+  PlayedPattern1: 0
+  FinishPattern2: 0
+  PlayedPattern2: 0
   ChallengeBeaten: 0
   timerPerNote: 0
   timerReaction: 0
+  combo: 0
   playerNote: 0
   pattern1: 00000000000000000000000000000000
   pattern2: 00000000000000000000000000000000
@@ -3364,7 +3370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1366861474
 Transform:
   m_ObjectHideFlags: 0

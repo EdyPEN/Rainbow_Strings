@@ -1,4 +1,6 @@
+using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SimonSays : MonoBehaviour
 {
@@ -16,6 +18,13 @@ public class SimonSays : MonoBehaviour
     private int red = 4;
 
     public bool ChallengeInProcess = false;
+
+    public bool FinishPattern1 = false;
+    public bool PlayedPattern1 = false;
+
+    public bool FinishPattern2 = false;
+    public bool PlayedPattern2 = false;
+
     public bool ChallengeBeaten;
 
     [Header("SimonSaysLogic")]
@@ -23,6 +32,7 @@ public class SimonSays : MonoBehaviour
     public float timerPerNote;
     // After each pattern player will have some time to play their strings(AFTER EACH RIGHT NOTE TIMER SHOULD UPDATE);
     public float timerReaction;
+    public int combo = 0;
 
     public int playerNote;
 
@@ -42,16 +52,9 @@ public class SimonSays : MonoBehaviour
         pattern2[0] = red;
         pattern2[1] = green;
         pattern2[2] = blue;
-        pattern2[3] = yellow;
+        pattern2[3] = green;
 
         sr = GetComponent<SpriteRenderer>();
-
-        //Same as in HiddenPlatforms, but with +1 note and 2 patterns
-        //for (int i = 0; i < pattern1.Length; i++)
-        //{
-        //    pattern1[i] = i + 1;
-        //}
-        //spriteState = pattern1[0];
 
         ChallengeBeaten = false;
     }
@@ -59,6 +62,7 @@ public class SimonSays : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // TIMER------------------
         if (timerPerNote > 0)
         {
             timerPerNote -= Time.deltaTime;
@@ -68,19 +72,47 @@ public class SimonSays : MonoBehaviour
             timerPerNote = 0;
         }
 
+        if (timerReaction > 0)
+        {
+            timerReaction -= Time.deltaTime;
+        }
+        else
+        {
+            timerReaction = 0;
+        }
+        // TIMER------------------
+
+
         ColorLogic();
+
+        //Challenge Bubble!--------------------
         if (Player.GetComponent<PlayerInteractions>().interactButton == true)
         {
             timerPerNote = 1;
             ChallengeInProcess = true;
         }
+
         if (ChallengeInProcess == true)
         {
             SimonSaysLogic();
         }
+        //Challenge Bubble!--------------------
+
+
+        if (FinishPattern1 == true && PlayedPattern1 == false)
+        {
+            PlayerLogic(); // check player input every frame
+        }
+
+        if (PlayedPattern2 == true)
+        {
+            ChallengeBeaten = true;
+        }
+
         if (ChallengeBeaten == true)
         {
             Player.GetComponentInParent<PlayerInteractions>().keyCollected = true;
+            Destroy(gameObject);
         }
     }
 
@@ -110,11 +142,18 @@ public class SimonSays : MonoBehaviour
 
     void SimonSaysLogic()
     {
+        if (FinishPattern1 == true && PlayedPattern1 == false)
+        {
+            spriteState = idle;
+            return;
+        }
+
         // missing check of the player INSIDE the area
         if (currentPattern == 0)
         {
             spriteState = pattern1[currentNote];
-        } else if (currentPattern == 1)
+        } 
+        else if (currentPattern == 1)
         {
             spriteState = pattern2[currentNote];
         }
@@ -136,16 +175,99 @@ public class SimonSays : MonoBehaviour
         }
         else if (currentNote == 3 && currentPattern == 0 && timerPerNote == 0)
         {
-            timerPerNote = 1;
+            timerReaction = 2;
             currentPattern++;
-            spriteState = 0;
             currentNote = 0;
-            //PlayerLogic();
-        }
-        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0)
+            FinishPattern1 = true;
+        } 
+        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
         {
-
+            timerPerNote = 1;
+            currentNote++;
         }
+        else if (currentNote == 1 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        {
+            timerPerNote = 1;
+            currentNote++;
+        }
+        else if (currentNote == 2 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        {
+            timerPerNote = 1;
+            currentNote++;
+        }
+        else if (currentNote == 3 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        {
+            timerReaction = 2;
+            currentNote = 0;
+            FinishPattern2 = true;
+        }
+    }
+
+    void PlayerLogic()
+    {
+        // Same code as Skips
+        if (FinishPattern1 == true)
+        {
+            if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (combo >= 0))
+            {
+                combo = 1;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 1))
+            {
+                combo = 2;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerReaction > 0) && (combo >= 2))
+            {
+                combo = 3;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo >= 3))
+            {
+                PlayedPattern1 = true;
+            }
+            else if (timerReaction == 0)
+            {
+                combo = 0;
+                FinishPattern1 = false;
+                currentPattern = 0;
+                currentNote = 0;
+                timerPerNote = 1;
+            }
+        }
+
+        if (FinishPattern2 == true)
+        {
+            if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (combo >= 0))
+            {
+                combo = 1;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 1))
+            {
+                combo = 2;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo >= 2))
+            {
+                combo = 3;
+                timerReaction = 2;
+            }
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 3))
+            {
+                PlayedPattern2 = true;
+            }
+            else if (timerReaction == 0)
+            {
+                combo = 0;
+                FinishPattern1 = false;
+                currentPattern = 0;
+                currentNote = 0;
+                timerPerNote = 1;
+            }
+        }
+
     }
 
 }
