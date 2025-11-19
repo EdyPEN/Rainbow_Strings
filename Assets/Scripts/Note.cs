@@ -28,8 +28,8 @@ public class Note : MonoBehaviour
     {
         if (color == idle)
         {
-            spCircle.color = Color.black;
-            spSquare.color = Color.black;
+            spCircle.color = Color.white;
+            spSquare.color = Color.white;
         }
         else if (color == yellow)
         {
@@ -43,8 +43,8 @@ public class Note : MonoBehaviour
         }
         else if (color == blue)
         {
-            spCircle.color = Color.blue;
-            spSquare.color = Color.blue;
+            spCircle.color = Color.deepSkyBlue;
+            spSquare.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {

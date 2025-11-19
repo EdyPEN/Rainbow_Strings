@@ -7,6 +7,8 @@ public class SimonSays : MonoBehaviour
     public GameObject Player;
     public GameObject ColorDisplay;
 
+    public GameObject[] Note;
+
     //public Sprite Idle, Blue, Green, Yellow, Red; ---- We will need this for diffrent sprites of our character.
     SpriteRenderer sr;
     public int spriteState = 0;
@@ -53,6 +55,11 @@ public class SimonSays : MonoBehaviour
         pattern2[1] = green;
         pattern2[2] = blue;
         pattern2[3] = green;
+
+        Note[0].SetActive(false);
+        Note[1].SetActive(false);
+        Note[2].SetActive(false);
+        Note[3].SetActive(false);
 
         sr = GetComponent<SpriteRenderer>();
 
