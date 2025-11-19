@@ -6,6 +6,8 @@ public class SkipsBehaviour : MonoBehaviour
     public GameObject AreaInteraction;
     public GameObject ColorDisplay;
 
+    public GameObject[] Note;
+
     [Header("Variables")]
     public int damage = 1;
     public int jump = 3;
@@ -38,6 +40,10 @@ public class SkipsBehaviour : MonoBehaviour
         pattern[1] = red;
         pattern[2] = yellow;
 
+        Note[0].SetActive(false);
+        Note[1].SetActive(false);
+        Note[2].SetActive(false);
+
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
@@ -68,10 +74,11 @@ public class SkipsBehaviour : MonoBehaviour
             timerHit = 0;
         }
 
+
         // COLOR CHANGE ---------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (color == idle)
         {
-            sr.color = Color.black;
+            sr.color = Color.white;
         }
         else if (color == yellow)
         {
@@ -90,27 +97,40 @@ public class SkipsBehaviour : MonoBehaviour
             sr.color = Color.red;
         }
 
+        // Interaction without area dependens
+        if ( combo == 3) //NEED TIME ALSO!!!
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     void Interaction() //Need a randomizer of patterns...
     {
         if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (combo >= 0))
         {
+            Note[0].GetComponent<Note>().color = green;
             combo = 1;
             timerHit = 2;
         }
         else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerHit > 0) && (combo >= 1))
         {
+            Note[1].GetComponent<Note>().color = red;
             combo = 2;
             timerHit = 2;
         }
         else if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (timerHit > 0) && (combo >= 2))
         {
-            Destroy(gameObject);
+            Note[2].GetComponent<Note>().color = yellow;
+            timerHit = 2;
+            combo = 3;
         }
         else
         {
             combo = 0;
+            Note[0].GetComponent<Note>().color = idle;
+            Note[1].GetComponent<Note>().color = idle;
+            Note[2].GetComponent<Note>().color = idle;
         }
     }
 
@@ -198,7 +218,20 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (collider.gameObject.name == "Area")
         {
+            Note[0].SetActive(true);
+            Note[1].SetActive(true);
+            Note[2].SetActive(true);
             Interaction();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.name == "Area")
+        {
+            Note[0].SetActive(false);
+            Note[1].SetActive(false);
+            Note[2].SetActive(false);
         }
     }
 }

@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    public GameObject ColorDisplay;
-
     public GameObject circle;
     public GameObject square;
 
@@ -20,7 +18,7 @@ public class Note : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,8 +26,8 @@ public class Note : MonoBehaviour
     {
         if (color == idle)
         {
-            spCircle.color = Color.black;
-            spSquare.color = Color.black;
+            spCircle.color = Color.white;
+            spSquare.color = Color.white;
         }
         else if (color == yellow)
         {
@@ -43,8 +41,8 @@ public class Note : MonoBehaviour
         }
         else if (color == blue)
         {
-            spCircle.color = Color.blue;
-            spSquare.color = Color.blue;
+            spCircle.color = Color.deepSkyBlue;
+            spSquare.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {
