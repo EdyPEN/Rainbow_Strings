@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     private bool grounded;
 
     public float speed, force, maxFallSpeed, pushDownForce;
+
+    public int playerFacingDirection;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +39,11 @@ public class PlayerMovement : MonoBehaviour
             xInput = 0;
         }
 
+        if (xInput != 0)
+        {
+            playerFacingDirection = xInput;
+        }
+
             jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
 
         jumpInputTap = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
@@ -55,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (resetButton == true)
         {
-            rb.position = Vector2.zero;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 

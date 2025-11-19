@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HiddenPlatformBehaviour : MonoBehaviour
@@ -18,6 +19,8 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     public int currentNote = 0;
     public int playerNote;
 
+    public bool playerInRange;
+
     public int[] pattern = new int[3];
 
     void Start()
@@ -37,22 +40,25 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         // COLOR CHANGE
         playerNote = PlayerColor.GetComponent<MusicPlay>().color;
 
-        if (playerNote == pattern[currentNote])
+        if (playerInRange == true)
         {
-            currentNote++;
-        }
+            if (playerNote == pattern[currentNote])
+            {
+                currentNote++;
+            }
 
-        if (currentNote < 3)
-        {
-            color = pattern[currentNote];
-            Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
-        }
-        else
-        {
-            color = 0;
-            Transform.localScale = Vector2.zero;
-            HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
-            HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
+            if (currentNote < 3)
+            {
+                color = pattern[currentNote];
+                Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
+            }
+            else
+            {
+                color = 0;
+                Transform.localScale = Vector2.zero;
+                HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
+                HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
+            }
         }
 
         if (color == yellow)
@@ -70,6 +76,21 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         else if (color == red)
         {
             sr.color = Color.red;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "MusicRange")
+        {
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "MusicRange")
+        {
+            playerInRange = false;
         }
     }
 }

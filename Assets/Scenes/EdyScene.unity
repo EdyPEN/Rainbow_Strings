@@ -866,8 +866,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57219c2124410cd48a8f615814101bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraBehaviour
-  target: {fileID: 1214945369}
-  speed: 100
+  player: {fileID: 1214945367}
+  target: {x: 0, y: 0}
+  speed: 20
 --- !u!1 &578691950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,6 +2118,7 @@ MonoBehaviour:
   force: 10
   maxFallSpeed: 20
   pushDownForce: 12
+  playerFacingDirection: 0
 --- !u!1 &1515072059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,6 +2580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1959195210}
   - component: {fileID: 1959195212}
+  - component: {fileID: 1959195213}
   - component: {fileID: 1959195211}
   m_Layer: 0
   m_Name: ColorDisplay
@@ -2620,6 +2623,7 @@ MonoBehaviour:
   color: 0
   currentNote: 0
   playerNote: 0
+  playerInRange: 0
   pattern: 000000000000000000000000
 --- !u!212 &1959195212
 SpriteRenderer:
@@ -2679,6 +2683,52 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1959195213
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959195209}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &577315695392278049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2819,6 +2869,10 @@ PrefabInstance:
     - target: {fileID: 8614929587101133050, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
       propertyPath: m_Name
       value: Forby
+      objectReference: {fileID: 0}
+    - target: {fileID: 8614929587101133050, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
