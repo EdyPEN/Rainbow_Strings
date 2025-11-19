@@ -99,9 +99,9 @@ public class SimonSays : MonoBehaviour
         //Challenge Bubble!--------------------
 
 
-        if (FinishPattern1 == true && PlayedPattern1 == false)
+        if (FinishPattern1 == true && PlayedPattern1 == false || (FinishPattern2 == true && PlayedPattern2 == false))
         {
-            PlayerLogic(); // check player input every frame
+            PlayerLogic();
         }
 
         if (PlayedPattern2 == true)
@@ -185,7 +185,7 @@ public class SimonSays : MonoBehaviour
             currentPattern++;
             currentNote = 0;
             FinishPattern1 = true;
-        } 
+        }
         else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
@@ -212,27 +212,28 @@ public class SimonSays : MonoBehaviour
     void PlayerLogic()
     {
         // Same code as Skips
-        if (FinishPattern1 == true)
+        if (FinishPattern1 == true && PlayedPattern1 == false)
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (combo >= 0))
+            if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (combo == 0))
             {
                 combo = 1;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 1))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerReaction > 0) && (combo >= 2))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo >= 3))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern1 = true;
                 combo = 0;
+                timerPerNote = 1;
             }
             else if (timerReaction == 0)
             {
@@ -244,31 +245,33 @@ public class SimonSays : MonoBehaviour
             }
         }
 
-        if (FinishPattern2 == true)
+        if (FinishPattern2 == true && PlayedPattern2 == false)
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (combo >= 0))
+            if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (combo == 0))
             {
                 combo = 1;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 1))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo >= 2))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo >= 3))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern2 = true;
+                combo = 0;
+                timerPerNote = 1;
             }
             else if (timerReaction == 0)
             {
                 combo = 0;
-                FinishPattern1 = false;
+                FinishPattern2 = false;
                 currentPattern = 0;
                 currentNote = 0;
                 timerPerNote = 1;
