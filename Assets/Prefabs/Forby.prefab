@@ -141,7 +141,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 0}
-  bulletPool: []
+  bulletPool:
+  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
+  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
+  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
+  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
   dead: 0
   damage: 1
   range: 5

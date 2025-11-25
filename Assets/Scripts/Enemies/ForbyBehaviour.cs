@@ -6,7 +6,7 @@ public class ForbyBehaviour : MonoBehaviour
 {
     public GameObject player;
 
-    public List<GameObject> bulletPool;
+    public GameObject[] bulletArray;
 
     public bool dead;
 
@@ -40,14 +40,14 @@ public class ForbyBehaviour : MonoBehaviour
                 float shootingMagnitude = Mathf.Sqrt(Mathf.Pow(shootingDirectionalForce.x, 2) + Mathf.Pow(shootingDirectionalForce.y, 2));
 
 
-                for (int i = 0; i < bulletPool.Count; i++)
+                for (int i = 0; i < bulletArray.Length; i++)
                 {
-                    if (bulletPool[i].activeSelf == false)
+                    if (bulletArray[i].activeSelf == false)
                     {
-                        bulletPool[i].transform.position = transform.position;
-                        bulletPool[i].SetActive(true);
-                        bulletPool[i].GetComponent<Rigidbody2D>().linearVelocityX = (shootingDirectionalForce.x / shootingMagnitude) * shootingSpeed;
-                        bulletPool[i].GetComponent<Rigidbody2D>().linearVelocityY = (shootingDirectionalForce.y / shootingMagnitude) * shootingSpeed;
+                        bulletArray[i].transform.position = transform.position;
+                        bulletArray[i].SetActive(true);
+                        bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityX = (shootingDirectionalForce.x / shootingMagnitude) * shootingSpeed;
+                        bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityY = (shootingDirectionalForce.y / shootingMagnitude) * shootingSpeed;
                         return;
                     }
                 }

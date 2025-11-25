@@ -1,4 +1,0 @@
-repository "Rainbow Strings Project/Rainbow Strings Project@6872124598954@cloud"
-  path "/"
-    br "/main"
-    co "/main"
