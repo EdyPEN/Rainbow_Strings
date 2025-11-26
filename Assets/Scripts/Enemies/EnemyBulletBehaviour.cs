@@ -7,6 +7,8 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     public int damage;
 
+    public bool wasShot;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,7 +23,7 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "EnemyBullet" && collision.gameObject.tag != "MusicRange")
+        if (wasShot == true && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "EnemyBullet" && collision.gameObject.tag != "MusicRange")
         {
             gameObject.SetActive(false);
         }
