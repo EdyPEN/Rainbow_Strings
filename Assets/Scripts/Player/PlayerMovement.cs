@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
             jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
 
-        jumpInputTap = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
+        jumpInputTap = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
 
         resetButton = Input.GetKeyDown(KeyCode.R);
 

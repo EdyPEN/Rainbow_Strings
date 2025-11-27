@@ -20,6 +20,7 @@ public class ForbyBehaviour : MonoBehaviour
 
     public Vector2 shootingPositionOffset;
     public Vector2 shootingPosition;
+    public Vector2 lastPlayerPositionInRange;
 
     public int maxNumberOfShots = 4;
     public int currentNumberOfShots;
@@ -28,11 +29,15 @@ public class ForbyBehaviour : MonoBehaviour
     public int numberOfRotationsPerShot;
     public int rotationState;
 
+    public bool playerInRange;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         shootingPosition = new Vector2(transform.position.x + shootingPositionOffset.x, transform.position.y + shootingPositionOffset.y);
+        shootingCooldown = (360 / rotationSpeed) * (1 / 4f);
         shootingCooldownTimer = shootingCooldown;
+
     }
 
     // Update is called once per frame
@@ -43,42 +48,29 @@ public class ForbyBehaviour : MonoBehaviour
 
 
         //Shooting
-        if (currentNumberOfShots < maxNumberOfShots && rotationState == 4 && dead == false)
+        ShootingBullets();
+
+        //Reseting Bullets After Shooting
+        if (shootingCooldownTimer <= -shootingCooldown && rotationState == 4)
         {
-            //if (Vector2.Distance(player.transform.position, transform.position) <= range)
-            //{
-                shootingCooldownTimer -= Time.fixedDeltaTime;
+            rotationState = 0;
+            shootingCooldownTimer = shootingCooldown;
+        }
 
-                if (shootingCooldownTimer <= 0)
-                {
-                    shootingCooldownTimer = shootingCooldown;
-
-                    Vector2 shootingDirectionalForce = new Vector2(player.transform.position.x - shootingPosition.x, player.transform.position.y - shootingPosition.y);
-
-                    float shootingMagnitude = Mathf.Sqrt(Mathf.Pow(shootingDirectionalForce.x, 2) + Mathf.Pow(shootingDirectionalForce.y, 2));
-
-
-                    for (int i = 0; i < bulletArray.Length; i++)
-                    {
-                        if (bulletArray[i].activeSelf == false)
-                        {
-                            bulletArray[i].transform.position = shootingPosition;
-                            //bulletArray[i].SetActive(true);
-                            bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityX = (shootingDirectionalForce.x / shootingMagnitude) * shootingSpeed;
-                            bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityY = (shootingDirectionalForce.y / shootingMagnitude) * shootingSpeed;
-                            currentNumberOfShots++;
-                            return;
-                        }
-                    }
-                }
-            //}
+        //Destroying Bullets Upon Death
+        if (dead == true)
+        {
+            for (int i = 0; i < bulletArray.Length; i++)
+            {
+                bulletArray[rotationState].SetActive(false);
+            }
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().hp -= damage;
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
     }
 
@@ -86,53 +78,89 @@ public class ForbyBehaviour : MonoBehaviour
     {
         if (rotationState == 0)
         {
-            bulletArray[0].GetComponent<EnemyBulletBehaviour>().wasShot = false;
-            bulletArray[0].SetActive(true);
-            bulletArray[0].transform.position = shootingPosition;
-            rotationState = 1;
+            SpawnRotatingBullet();
         }
         else if (rotationState == 1)
         {
-            bulletArray[0].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
             if (bulletArray[0].transform.rotation.eulerAngles.z <= 270 && bulletArray[0].transform.rotation.eulerAngles.z > 180)
             {
-                bulletArray[1].GetComponent<EnemyBulletBehaviour>().wasShot = false;
-                bulletArray[1].SetActive(true);
-                bulletArray[1].transform.position = shootingPosition;
-                rotationState = 2;
+                SpawnRotatingBullet();
             }
         }
         else if (rotationState == 2)
         {
-            bulletArray[0].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[1].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
             if (bulletArray[0].transform.rotation.eulerAngles.z <= 180 && bulletArray[0].transform.rotation.eulerAngles.z > 90)
             {
-                bulletArray[2].GetComponent<EnemyBulletBehaviour>().wasShot = false;
-                bulletArray[2].SetActive(true);
-                bulletArray[2].transform.position = shootingPosition;
-                rotationState = 3;
+                SpawnRotatingBullet();
             }
         }
         else if (rotationState == 3)
         {
-            bulletArray[0].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[1].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[2].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
             if (bulletArray[0].transform.rotation.eulerAngles.z <= 90 && bulletArray[0].transform.rotation.eulerAngles.z > 0)
             {
-                bulletArray[3].GetComponent<EnemyBulletBehaviour>().wasShot = false;
-                bulletArray[3].SetActive(true);
-                bulletArray[3].transform.position = shootingPosition;
-                rotationState = 4;
+                SpawnRotatingBullet();
             }
         }
-        else if (rotationState == 4)
+        if (rotationState != 0)
         {
-            bulletArray[0].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[1].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[2].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
-            bulletArray[3].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
+            for (int i = 0; i < rotationState; i++)
+            {
+                if (bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == false)
+                {
+                    bulletArray[i].transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.fixedDeltaTime);
+                }
+            }
+        }
+
+    }
+
+    void SpawnRotatingBullet()
+    {
+        bulletArray[rotationState].SetActive(true);
+        bulletArray[rotationState].transform.eulerAngles = new Vector3(0, 0, 0);
+        bulletArray[rotationState].GetComponent<Rigidbody2D>().linearVelocityX = 0;
+        bulletArray[rotationState].GetComponent<Rigidbody2D>().linearVelocityY = 0;
+        bulletArray[rotationState].GetComponent<EnemyBulletBehaviour>().wasShot = false;
+        bulletArray[rotationState].transform.position = shootingPosition;
+        rotationState++;
+    }
+
+    void ShootingBullets()
+    {
+        if (Vector2.Distance(player.transform.position, transform.position) <= range)
+        {
+            lastPlayerPositionInRange = player.transform.position;
+            playerInRange = true;
+        }
+        else
+        {
+            playerInRange = false;
+        }
+        if (rotationState == 4 && (playerInRange == true || bulletArray[0].GetComponent<EnemyBulletBehaviour>().wasShot == true))
+        {
+            shootingCooldownTimer -= Time.fixedDeltaTime;
+
+            if (shootingCooldownTimer <= 0)
+            {
+
+                Vector2 shootingDirectionalForce = new Vector2(lastPlayerPositionInRange.x - shootingPosition.x, lastPlayerPositionInRange.y - shootingPosition.y);
+
+                float shootingMagnitude = Mathf.Sqrt(Mathf.Pow(shootingDirectionalForce.x, 2) + Mathf.Pow(shootingDirectionalForce.y, 2));
+
+                for (int i = 0; i < bulletArray.Length; i++)
+                {
+                    if (bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == false)
+                    {
+                        bulletArray[i].transform.position = shootingPosition;
+                        bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityX = (shootingDirectionalForce.x / shootingMagnitude) * shootingSpeed;
+                        bulletArray[i].GetComponent<Rigidbody2D>().linearVelocityY = (shootingDirectionalForce.y / shootingMagnitude) * shootingSpeed;
+                        bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot = true;
+                        currentNumberOfShots++;
+                        shootingCooldownTimer = shootingCooldown;
+                        return;
+                    }
+                }
+            }
         }
     }
 }

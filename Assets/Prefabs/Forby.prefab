@@ -141,21 +141,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 0}
-  bulletArray:
-  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
-  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
-  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
-  - {fileID: 3423949276863706413, guid: ef39a0a7e6b698c4d8bae312f0f4902b, type: 3}
+  bulletArray: []
   dead: 0
   damage: 1
   range: 10
-  shootingCooldown: 2
+  shootingCooldown: 0
   shootingCooldownTimer: 0
-  shootingSpeed: 2
+  shootingSpeed: 3
   shootingPositionOffset: {x: 3, y: 0}
   shootingPosition: {x: 0, y: 0}
   maxNumberOfShots: 4
   currentNumberOfShots: 0
-  rotationSpeed: 180
+  rotationSpeed: 45
   numberOfRotationsPerShot: 4
   rotationState: 0

@@ -23,13 +23,13 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (wasShot == true && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "EnemyBullet" && collision.gameObject.tag != "MusicRange")
+        if (wasShot == true && (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Gate"))
         {
             gameObject.SetActive(false);
         }
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().hp -= damage;
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
     }
 }

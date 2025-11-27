@@ -12,6 +12,8 @@ public class PlayerInteractions : MonoBehaviour
     public bool inChallengeArea;
     public bool interactButton;
 
+    public bool isInvincible;
+
     void Start()
     {
 
@@ -24,6 +26,11 @@ public class PlayerInteractions : MonoBehaviour
         if (interactButton == true && inChallengeArea == true)
         {
             //keyCollected = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            isInvincible = !isInvincible;
         }
     }
 
@@ -67,4 +74,12 @@ public class PlayerInteractions : MonoBehaviour
             }
         }
     }
-}
+
+    public void TakeDamage(int damage)
+    {
+        if (isInvincible == false)
+        {
+            hp -= damage;
+        }
+    }
+} 

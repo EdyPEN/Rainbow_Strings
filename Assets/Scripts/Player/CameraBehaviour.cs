@@ -19,7 +19,7 @@ public class CameraBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Vector3 currentPosition2D = new Vector3(transform.position.x, transform.position.y, -10);
         Vector3 targetPosition2D = new Vector3(player.transform.position.x, player.transform.position.y, -10);

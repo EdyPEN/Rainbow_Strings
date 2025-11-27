@@ -3506,7 +3506,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1214945371
 BoxCollider2D:
@@ -3571,6 +3571,7 @@ MonoBehaviour:
   gateOpened: 0
   inChallengeArea: 0
   interactButton: 0
+  isInvincible: 1
 --- !u!114 &1214945373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3587,8 +3588,8 @@ MonoBehaviour:
   jumpInputTap: 0
   speed: 240
   force: 10
-  maxFallSpeed: 20
-  pushDownForce: 12
+  maxFallSpeed: 16
+  pushDownForce: 6
   playerFacingDirection: 0
 --- !u!114 &1214945374
 MonoBehaviour:
@@ -4920,22 +4921,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1902966133314012793, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902966133314012793, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902966133314012793, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902966133314012793, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902966133314012793, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -4953,7 +4938,7 @@ PrefabInstance:
       objectReference: {fileID: 1214945367}
     - target: {fileID: 7999167312129374174, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
       propertyPath: rotationSpeed
-      value: 120
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 7999167312129374174, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
       propertyPath: bulletPool.Array.size

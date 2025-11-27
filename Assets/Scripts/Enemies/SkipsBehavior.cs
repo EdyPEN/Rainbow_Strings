@@ -206,7 +206,7 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().hp -= damage;
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
         if (collision.gameObject.tag == "Ground")
         {
