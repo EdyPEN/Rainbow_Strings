@@ -1196,7 +1196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57219c2124410cd48a8f615814101bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraBehaviour
-  target: {fileID: 993817226}
+  player: {fileID: 993817220}
+  target: {x: 0, y: 0}
   speed: 100
 --- !u!114 &466129063
 MonoBehaviour:
@@ -1310,7 +1311,7 @@ Transform:
   m_GameObject: {fileID: 466129061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.48, y: -1.39, z: -10}
+  m_LocalPosition: {x: -9.07, y: 14.23, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1447,7 +1448,7 @@ Transform:
   m_GameObject: {fileID: 500208513}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.2600007, y: -1.4199992, z: 0}
+  m_LocalPosition: {x: -8.85, y: 14.200001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2544,6 +2545,7 @@ MonoBehaviour:
   force: 10
   maxFallSpeed: 20
   pushDownForce: 12
+  playerFacingDirection: 0
 --- !u!114 &993817222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3715,10 +3717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d291ceeb5b9505a428d4bcbcdcfa4004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AreaInteraction
-  musicPlay: {fileID: 38424587}
-  maxScale: 9
-  startScale: 0.2
-  growSpeed: 6
+  ColorDisplay: {fileID: 0}
   circleAlpha: 0.4
 --- !u!212 &1366861476
 SpriteRenderer:
@@ -4784,7 +4783,7 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   currentPosition: 0
-  AreaInteraction: {fileID: 1504458857}
+  Area: {fileID: 0}
   ColorDisplay: {fileID: 38424585}
   pattern: 000000000000000000000000
   currentPattern: 0
@@ -5210,6 +5209,7 @@ MonoBehaviour:
   color: 0
   currentNote: 0
   playerNote: 0
+  playerInRange: 0
   pattern: 000000000000000000000000
 --- !u!212 &1916655800
 SpriteRenderer:

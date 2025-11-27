@@ -177,7 +177,8 @@ public class SimonSays : MonoBehaviour
         {
             spriteState = pattern2[currentNote];
         }
-
+        
+        // Pattern 1 start
         if (currentNote == 0 && currentPattern == 0 && timerPerNote == 0)
         {
             timerPerNote = 1;
@@ -203,6 +204,7 @@ public class SimonSays : MonoBehaviour
             currentNote = 0;
             FinishPattern1 = true;
         }
+        // Pattern 2 start
         else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
@@ -267,6 +269,10 @@ public class SimonSays : MonoBehaviour
                 currentPattern = 0;
                 currentNote = 0;
                 timerPerNote = 1;
+                Note[0].GetComponent<Note>().color = idle;
+                Note[1].GetComponent<Note>().color = idle;
+                Note[2].GetComponent<Note>().color = idle;
+                Note[3].GetComponent<Note>().color = idle;
             }
         }
 
@@ -301,9 +307,13 @@ public class SimonSays : MonoBehaviour
             {
                 combo = 0;
                 FinishPattern2 = false;
-                currentPattern = 0;
+                currentPattern = 1;
                 currentNote = 0;
                 timerPerNote = 1;
+                Note[0].GetComponent<Note>().color = idle;
+                Note[1].GetComponent<Note>().color = idle;
+                Note[2].GetComponent<Note>().color = idle;
+                Note[3].GetComponent<Note>().color = idle;
             }
         }
 
