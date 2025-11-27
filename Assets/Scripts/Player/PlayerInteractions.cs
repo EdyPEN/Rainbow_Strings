@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class PlayerInteractions : MonoBehaviour
 {
+    Rigidbody2D rb;
+
     public int hp;
     public bool keyCollected;
     public bool gateOpened;
@@ -12,9 +14,11 @@ public class PlayerInteractions : MonoBehaviour
     public bool inChallengeArea;
     public bool interactButton;
 
+    public float horizontalDamageKnockback, verticalDamageKnockback;
+
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -67,4 +71,14 @@ public class PlayerInteractions : MonoBehaviour
             }
         }
     }
-}
+
+    public void TakeDamage(int damage)
+    {
+        if (GetComponent<Cheats>().isInvincible == false)
+        {
+            hp -= damage;
+            GetComponent<PlayerMovement>().ignorePlayerMovement = true;
+            rb.linearVelocity = new Vector2(-GetComponent<PlayerMovement>().playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
+        }
+    }
+} 

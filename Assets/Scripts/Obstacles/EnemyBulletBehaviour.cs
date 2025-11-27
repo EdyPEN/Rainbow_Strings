@@ -7,6 +7,10 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     public int damage;
 
+    public bool wasShot;
+
+    public bool playerMusicAreaInRange;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,13 +25,24 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "EnemyBullet" && collision.gameObject.tag != "MusicRange")
+        if (wasShot == true && (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Gate"))
         {
             gameObject.SetActive(false);
         }
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().hp -= damage;
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
+        }
+        if (collision.gameObject.CompareTag("MusicRange"))
+        {
+            playerMusicAreaInRange = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("MusicRange"))
+        {
+            playerMusicAreaInRange = false;
         }
     }
 }
