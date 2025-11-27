@@ -4937,9 +4937,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1214945367}
     - target: {fileID: 7999167312129374174, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
-      propertyPath: rotationSpeed
-      value: 180
-      objectReference: {fileID: 0}
+      propertyPath: playerColor
+      value: 
+      objectReference: {fileID: 578691950}
     - target: {fileID: 7999167312129374174, guid: d519dfad763c68e4fb90a317bab4556c, type: 3}
       propertyPath: bulletPool.Array.size
       value: 4

@@ -9,6 +9,8 @@ public class EnemyBulletBehaviour : MonoBehaviour
 
     public bool wasShot;
 
+    public bool playerMusicAreaInRange;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +32,17 @@ public class EnemyBulletBehaviour : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
+        }
+        if (collision.gameObject.CompareTag("MusicRange"))
+        {
+            playerMusicAreaInRange = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("MusicRange"))
+        {
+            playerMusicAreaInRange = false;
         }
     }
 }

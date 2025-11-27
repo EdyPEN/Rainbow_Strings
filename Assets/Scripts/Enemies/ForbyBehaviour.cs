@@ -1,12 +1,18 @@
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 public class ForbyBehaviour : MonoBehaviour
 {
     public GameObject player;
 
+    public GameObject playerColor;
+
     public GameObject[] bulletArray;
+
+    public SpriteRenderer[] bulletColors;
 
     public bool dead;
 
@@ -17,6 +23,7 @@ public class ForbyBehaviour : MonoBehaviour
     public float shootingCooldown;
     public float shootingCooldownTimer;
     public float shootingSpeed;
+    public float bulletRespawnCooldownMultiplier;
 
     public Vector2 shootingPositionOffset;
     public Vector2 shootingPosition;
@@ -31,13 +38,64 @@ public class ForbyBehaviour : MonoBehaviour
 
     public bool playerInRange;
 
+    public int[] pattern = new int[4];
+
+    public int fireballsDefeated;
+
+    private int blue = 1;
+    private int green = 2;
+    private int yellow = 3;
+    private int red = 4;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bulletColors = new SpriteRenderer[4];
+
         shootingPosition = new Vector2(transform.position.x + shootingPositionOffset.x, transform.position.y + shootingPositionOffset.y);
         shootingCooldown = (360 / rotationSpeed) * (1 / 4f);
         shootingCooldownTimer = shootingCooldown;
 
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            pattern[i] = Random.Range(1, 5);
+            if (i != 0)
+            {
+                if (pattern[i] == pattern[i - 1])
+                {
+                    pattern[i] = pattern[i - 1] + 1;
+                    if (pattern[i] > pattern.Length - 1)
+                    {
+                        pattern[i] = 1;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < bulletArray.Length; i++)
+        {
+            bulletColors[i] = bulletArray[i].GetComponent<SpriteRenderer>();
+        }
+
+        for (int i = 0; i < bulletArray.Length; i++)
+        {
+            if (pattern[i] == yellow)
+            {
+                bulletColors[i].color = Color.yellow;
+            }
+            else if (pattern[i] == green)
+            {
+                bulletColors[i].color = Color.green;
+            }
+            else if (pattern[i] == blue)
+            {
+                bulletColors[i].color = Color.blue;
+            }
+            else if (pattern[i] == red)
+            {
+                bulletColors[i].color = Color.red;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -51,33 +109,45 @@ public class ForbyBehaviour : MonoBehaviour
         ShootingBullets();
 
         //Reseting Bullets After Shooting
-        if (shootingCooldownTimer <= -shootingCooldown && rotationState == 4)
+        if (shootingCooldownTimer <= -bulletRespawnCooldownMultiplier * shootingCooldown && rotationState == 4)
         {
             rotationState = 0;
             shootingCooldownTimer = shootingCooldown;
         }
 
+        //Color
+        ColorInteraction();
+
         //Destroying Bullets Upon Death
+        if (fireballsDefeated == 4)
+        {
+            dead = true;
+        }
+
         if (dead == true)
         {
             for (int i = 0; i < bulletArray.Length; i++)
             {
-                bulletArray[rotationState].SetActive(false);
+                bulletArray[i].SetActive(false);
             }
+            gameObject.SetActive(false);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
     }
 
+
+    //Shooting Functions
     void BulletRotation()
     {
         if (rotationState == 0)
         {
+            fireballsDefeated = 0;
             SpawnRotatingBullet();
         }
         else if (rotationState == 1)
@@ -158,6 +228,25 @@ public class ForbyBehaviour : MonoBehaviour
                         currentNumberOfShots++;
                         shootingCooldownTimer = shootingCooldown;
                         return;
+                    }
+                }
+            }
+        }
+    }
+
+    //Color Functions
+    void ColorInteraction()
+    {
+        for (int i = 0; i < bulletArray.Length; i++)
+        {
+            if (bulletArray[i].GetComponent<EnemyBulletBehaviour>().playerMusicAreaInRange == true)
+            {
+                if (bulletArray[i].activeSelf == true && bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == true)
+                {
+                    if ((playerColor.GetComponent<MusicPlay>().color == pattern[i]) && (fireballsDefeated == i))
+                    {
+                        bulletArray[i].SetActive(false);
+                        fireballsDefeated++;
                     }
                 }
             }
