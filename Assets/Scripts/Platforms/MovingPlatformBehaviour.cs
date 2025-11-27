@@ -16,16 +16,15 @@ public class MovingPlatform : MonoBehaviour
     public int currentPosition = 0;
 
     // Player interaction with a platform
-    public GameObject Area;
     public GameObject ColorDisplay;
 
     // Pattern & Colors
     public int[] pattern = new int[3];
-    public int currentPattern = 0;
+    //public int currentPattern = 0;
     public int color = 1;
 
-    public float timerIdle;
-    public float timerHit;
+    //public float timerIdle;
+    //public float timerHit;
 
     private int idle = 0;
     private int blue = 1;
@@ -57,14 +56,14 @@ public class MovingPlatform : MonoBehaviour
             MovePlatform();
         }
 
-        if (timerHit > 0)
-        {
-            timerHit -= Time.deltaTime;
-        }
-        else
-        {
-            timerHit = 0;
-        }
+        //if (timerHit > 0)
+        //{
+        //    timerHit -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    timerHit = 0;
+        //}
 
         // Color Stuff
         if (color == idle)
@@ -118,6 +117,7 @@ public class MovingPlatform : MonoBehaviour
         {
             isMoving = true;
             currentPosition = 3;
+            color = idle;
         }
     }
 
@@ -139,14 +139,9 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.gameObject == Area)
+        if (collider.gameObject.CompareTag("MusicRange"))
         {
             Interaction();
         }
     }
-
-    //private void OnTriggerExit2D(Collider2D collider)
-    //{
-        
-    //}
 }

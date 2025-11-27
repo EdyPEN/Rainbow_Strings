@@ -10,8 +10,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool jumpInputHold, jumpInputTap;
 
-    private bool resetButton;
+    public bool ignorePlayerMovement;
 
+    public float invincibilityTime;
+    public float invincibilityTimer;
     // Variables
     private bool grounded;
 
@@ -23,32 +25,46 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerFacingDirection = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (ignorePlayerMovement == false)
         {
-            xInput = -1;
-        } else if (Input.GetKey(KeyCode.D))
+            invincibilityTimer = invincibilityTime;
+            if (Input.GetKey(KeyCode.A))
+            {
+                xInput = -1;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                xInput = 1;
+            }
+            else
+            {
+                xInput = 0;
+            }
+
+            if (xInput != 0)
+            {
+                playerFacingDirection = xInput;
+            }
+        }
+        else
         {
-            xInput = 1;
-        } else
-        {
-            xInput = 0;
+            invincibilityTimer -= Time.deltaTime;
+            if (invincibilityTimer < 0)
+            {
+                ignorePlayerMovement = false;
+            }
         }
 
-        if (xInput != 0)
-        {
-            playerFacingDirection = xInput;
-        }
 
             jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
 
         jumpInputTap = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
-
-        resetButton = Input.GetKeyDown(KeyCode.R);
 
 
         if (jumpInputTap == true && grounded)
@@ -59,17 +75,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForceY(-pushDownForce);
         }
-
-
-        if (resetButton == true)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocityX = xInput * speed * Time.fixedDeltaTime;
+        if (ignorePlayerMovement == false)
+        {
+            rb.linearVelocityX = xInput * speed * Time.fixedDeltaTime;
+        }
 
         rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
 

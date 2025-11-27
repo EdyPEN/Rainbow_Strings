@@ -146,7 +146,7 @@ MonoBehaviour:
   bulletColors: []
   dead: 0
   damage: 1
-  range: 10
+  range: 5
   shootingCooldown: 0
   shootingCooldownTimer: 0
   shootingSpeed: 3
