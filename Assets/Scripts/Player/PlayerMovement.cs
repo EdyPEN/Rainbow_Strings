@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb;
+    Animator animator;
 
     public GameObject player;
 
@@ -36,17 +39,28 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = player.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
         jumpBufferingTimer = jumpBufferingTime;
-
+        
         playerInvincibilityTimer = playerInvincibilityTime;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         playerVelocity = rb.linearVelocity;
+        if (playerFacingDirection == -1)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
         if (!playerIsStunned)
         {
             if (Input.GetKey(KeyCode.A))
@@ -135,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
         if (!playerIsStunned)
         {
             rb.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
+            animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
         }
     }
     void Jumping()

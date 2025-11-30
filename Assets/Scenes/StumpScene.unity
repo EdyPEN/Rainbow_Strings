@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &38424586
 Transform:
   m_ObjectHideFlags: 0
@@ -284,7 +284,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.86698747, y: 0.43349373, z: 0.69359}
+  m_LocalScale: {x: 1, y: 1, z: 0.69359}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1504458858}
@@ -354,7 +354,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.08627451}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1198,7 +1198,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraBehaviour
   player: {fileID: 993817220}
   target: {x: 0, y: 0}
-  speed: 100
+  offsetX: 0
+  offsetYLimit: 0
+  speedDefault: 0
+  speedModifierDistance: 0
 --- !u!114 &466129063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1311,7 +1314,7 @@ Transform:
   m_GameObject: {fileID: 466129061}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.07, y: 14.23, z: -10}
+  m_LocalPosition: {x: -12, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1448,7 +1451,7 @@ Transform:
   m_GameObject: {fileID: 500208513}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.85, y: 14.200001, z: 0}
+  m_LocalPosition: {x: -15.356, y: -0.979, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2520,6 +2523,7 @@ GameObject:
   - component: {fileID: 993817222}
   - component: {fileID: 993817221}
   - component: {fileID: 993817227}
+  - component: {fileID: 993817228}
   m_Layer: 0
   m_Name: Body
   m_TagString: Player
@@ -2541,6 +2545,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   jumpInputHold: 0
   jumpInputTap: 0
+  ignorePlayerMovement: 0
+  invincibilityTime: 0
+  invincibilityTimer: 0
   speed: 240
   force: 10
   maxFallSpeed: 20
@@ -2563,6 +2570,8 @@ MonoBehaviour:
   gateOpened: 0
   inChallengeArea: 0
   interactButton: 0
+  horizontalDamageKnockback: 0
+  verticalDamageKnockback: 0
 --- !u!50 &993817223
 Rigidbody2D:
   serializedVersion: 5
@@ -2628,13 +2637,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.046875, y: 2.1875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 2}
   m_EdgeRadius: 0
 --- !u!212 &993817225
 SpriteRenderer:
@@ -2682,9 +2691,9 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.48742133, g: 0.8713528, b: 1, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -1120885682431710756, guid: 48d51b476a897c449af03c3e5eafbe18, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2704,7 +2713,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 1.6, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 38424586}
@@ -2733,6 +2742,28 @@ MonoBehaviour:
   ColorDisplay: {fileID: 38424585}
   musicPlay: {fileID: 38424587}
   color: 0
+--- !u!95 &993817228
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993817220}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 908b8bd62ba5d7044866a81663fa5066, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1029028523 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8798152007047237173, guid: 35fd6f443a025b34e8576b5656a607ba, type: 3}
@@ -4113,7 +4144,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.4765625, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -4783,13 +4814,9 @@ MonoBehaviour:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   currentPosition: 0
-  Area: {fileID: 0}
   ColorDisplay: {fileID: 38424585}
   pattern: 000000000000000000000000
-  currentPattern: 0
   color: 4
-  timerIdle: 0
-  timerHit: 0
 --- !u!251 &1752344229
 PlatformEffector2D:
   m_ObjectHideFlags: 0
