@@ -29,8 +29,20 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
         for (int i = 0; i < pattern.Length; i++)
         {
-            pattern[i] = i + 1;
+            pattern[i] = Random.Range(1, 5);
+            if (i != 0)
+            {
+                if (pattern[i] == pattern[i - 1])
+                {
+                    pattern[i] = pattern[i - 1] + 1;
+                    if (pattern[i] > pattern.Length - 1)
+                    {
+                        pattern[i] = 1;
+                    }
+                }
+            }
         }
+
         color = pattern[0];
         Transform.localScale = new Vector2(0.25f, 0.25f);
     }
@@ -71,7 +83,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         }
         else if (color == blue)
         {
-            sr.color = Color.blue;
+            sr.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {

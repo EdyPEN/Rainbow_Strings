@@ -89,7 +89,7 @@ public class ForbyBehaviour : MonoBehaviour
             }
             else if (pattern[i] == blue)
             {
-                bulletColors[i].color = Color.blue;
+                bulletColors[i].color = Color.deepSkyBlue;
             }
             else if (pattern[i] == red)
             {
@@ -133,9 +133,9 @@ public class ForbyBehaviour : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
@@ -243,7 +243,7 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 if (bulletArray[i].activeSelf == true && bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == true)
                 {
-                    if ((playerColor.GetComponent<MusicPlay>().color == pattern[i]) && (fireballsDefeated == i))
+                    if ((playerColor.GetComponent<MusicPlay>().color == pattern[i]))
                     {
                         bulletArray[i].SetActive(false);
                         fireballsDefeated++;
