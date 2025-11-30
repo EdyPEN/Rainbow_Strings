@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - EnemyBullet
   - MusicRange
+  - Feet
   layers:
   - Default
   - TransparentFX

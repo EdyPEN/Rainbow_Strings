@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Cheats : MonoBehaviour
 {
-    public bool isInvincible;
+    public bool invincibleCheatActive;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,7 +21,7 @@ public class Cheats : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            isInvincible = !isInvincible;
+            invincibleCheatActive = !invincibleCheatActive;
         }
     }
 }

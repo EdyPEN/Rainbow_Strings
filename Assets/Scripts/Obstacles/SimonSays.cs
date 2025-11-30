@@ -133,7 +133,7 @@ public class SimonSays : MonoBehaviour
     {
         if (spriteState == idle)
         {
-            sr.color = Color.blue;
+            sr.color = Color.white;
         }
         else if (spriteState == yellow)
         {
@@ -260,7 +260,7 @@ public class SimonSays : MonoBehaviour
                 combo = 0;
                 timerPerNote = 1;
                 Note[3].GetComponent<Note>().color = blue;
-                Note[0].GetComponent<Note>().color = idle;
+                Note[0].GetComponent<Note>().color = idle; // This just cancels the previous line D:
             }
             else if (timerReaction == 0)
             {

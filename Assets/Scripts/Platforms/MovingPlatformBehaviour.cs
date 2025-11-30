@@ -18,6 +18,8 @@ public class MovingPlatform : MonoBehaviour
     // Player interaction with a platform
     public GameObject ColorDisplay;
 
+    public bool playerIsInRange;
+
     // Pattern & Colors
     public int[] pattern = new int[3];
     //public int currentPattern = 0;
@@ -55,6 +57,10 @@ public class MovingPlatform : MonoBehaviour
         {
             MovePlatform();
         }
+        if (playerIsInRange)
+        {
+            Interaction();
+        }
 
         //if (timerHit > 0)
         //{
@@ -80,7 +86,7 @@ public class MovingPlatform : MonoBehaviour
         }
         else if (color == blue)
         {
-            sr.color = Color.blue;
+            sr.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {
@@ -91,7 +97,7 @@ public class MovingPlatform : MonoBehaviour
 
     void MovePlatform()
     {
-        transform.position = Vector2.MoveTowards(transform.position, nextPos[currentPosition], speed * Time.fixedDeltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, nextPos[currentPosition], speed * Time.deltaTime);
 
         if (transform.position.x == nextPos[currentPosition].x && transform.position.y == nextPos[currentPosition].y)
         {
@@ -141,7 +147,14 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("MusicRange"))
         {
-            Interaction();
+            playerIsInRange = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("MusicRange"))
+        {
+            playerIsInRange = false;
         }
     }
 }

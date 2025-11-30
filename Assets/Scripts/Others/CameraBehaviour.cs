@@ -21,7 +21,7 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target.x = player.transform.position.x + (offsetX * player.GetComponent<PlayerMovement>().playerFacingDirection);
+        target.x = player.transform.position.x + (offsetX * player.GetComponentInChildren<PlayerMovement>().playerFacingDirection);
 
         if (Mathf.Abs(target.y - player.transform.position.y) > offsetYLimit)
         {

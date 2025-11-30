@@ -90,7 +90,7 @@ public class SkipsBehaviour : MonoBehaviour
         }
         else if (color == blue)
         {
-            sr.color = Color.blue;
+            sr.color = Color.deepSkyBlue;
         }
         else if (color == red)
         {
@@ -204,13 +204,17 @@ public class SkipsBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
-        }
         if (collision.gameObject.tag == "Ground")
         {
             CheckOnGround();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
         }
     }
 

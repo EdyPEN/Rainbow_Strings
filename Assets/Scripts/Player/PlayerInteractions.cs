@@ -74,11 +74,11 @@ public class PlayerInteractions : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (GetComponent<Cheats>().isInvincible == false)
+        if (!GetComponent<Cheats>().invincibleCheatActive && !GetComponentInChildren<PlayerMovement>().playerIsInvincible)
         {
             hp -= damage;
-            GetComponent<PlayerMovement>().ignorePlayerMovement = true;
-            rb.linearVelocity = new Vector2(-GetComponent<PlayerMovement>().playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
+            GetComponentInChildren<PlayerMovement>().playerIsStunned = true;
+            rb.linearVelocity = new Vector2(-GetComponentInChildren<PlayerMovement>().playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
         }
     }
 } 
