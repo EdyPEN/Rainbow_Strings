@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb;
+    Animator animator;
 
     // Inputs
     private int xInput;
@@ -26,11 +29,22 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerFacingDirection = 1;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerFacingDirection == -1)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
         if (ignorePlayerMovement == false)
         {
             invincibilityTimer = invincibilityTime;
@@ -82,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         if (ignorePlayerMovement == false)
         {
             rb.linearVelocityX = xInput * speed * Time.fixedDeltaTime;
+            animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
         }
 
         rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
