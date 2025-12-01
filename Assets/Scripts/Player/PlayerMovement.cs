@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = player.GetComponent<Rigidbody2D>();
 
         jumpBufferingTimer = jumpBufferingTime;
         
@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
         if (!playerIsStunned)
         {
             rb.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
-            animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
+            //animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
         }
     }
     void Jumping()
