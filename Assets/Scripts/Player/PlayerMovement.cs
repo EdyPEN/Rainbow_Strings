@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         
         playerInvincibilityTimer = playerInvincibilityTime;
 
-        animator = GetComponent<Animator>();
+        animator = player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -54,11 +54,11 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity = rb.linearVelocity;
         if (playerFacingDirection == -1)
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            player.GetComponent<SpriteRenderer>().flipX = true;
         }
         else
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            player.GetComponent<SpriteRenderer>().flipX = false;
         }
 
         if (!playerIsStunned)
@@ -100,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        PlayerAnimation();
+
         Walking();
 
         Jumping();
@@ -111,6 +113,12 @@ public class PlayerMovement : MonoBehaviour
         InvincibilityTime();
 
         FallingSpeedCap();
+    }
+
+    void PlayerAnimation()
+    {
+        animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
+        animator.SetFloat("yVelocity", Math.Abs(rb.linearVelocityY));
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -126,30 +134,46 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collider)
     {
-        ContactPoint2D collisionPoint = collision.GetContact(0);
-
-        Vector2 collisionNormal = collisionPoint.normal;
-
-        if (collision.gameObject.CompareTag("Ground") && collisionNormal.x < 0.2 && collisionNormal.y > 0.8)
+        if (collider.CompareTag("Ground"))
         {
             grounded = true;
+            animator.SetBool("isJumping", !grounded);
         }
     }
-    private void OnCollisionExit2D(Collision2D collision)
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    ContactPoint2D collisionPoint = collision.GetContact(0);
+
+    //    Vector2 collisionNormal = collisionPoint.normal;
+
+    //    if (collision.gameObject.CompareTag("Ground") && collisionNormal.x < 0.2 && collisionNormal.y > 0.8)
+    //    {
+    //        grounded = true;
+    //    }
+    //}
+
+    private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collider.gameObject.CompareTag("Ground"))
         {
             grounded = false;
+            animator.SetBool("isJumping", !grounded);
         }
     }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        grounded = false;
+    //    }
+    //}
     void Walking()
     {
         if (!playerIsStunned)
         {
             rb.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
-            //animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
         }
     }
     void Jumping()
