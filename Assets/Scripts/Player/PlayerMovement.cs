@@ -14,21 +14,28 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 playerVelocity;
 
     // Inputs
-    private int xInput;
-    public bool jumpInputHold, jumpInputTap;
+    public int xInput;
+    public bool jumpInputTap, jumpInputHold, jumpInputRelease;
 
     // Walking
     public int playerFacingDirection;
     public float walkingSpeed;
 
     // Jump
-    private bool grounded;
+    public bool grounded;
     public float jumpForce, maxFallSpeed, pushDownForce;
 
     //Jump Buffering
     public float jumpBufferingTime;
     public float jumpBufferingTimer;
     public bool playerWantsToJump;
+
+    // Jump Coyote Time
+    public float coyoteTime;
+    public float coyoteTimer;
+
+    // Jump Fix
+    public bool playerJumped;
 
     // Taking Damage
     public bool playerIsStunned;
@@ -51,9 +58,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("isJumping", !grounded); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         playerVelocity = rb.linearVelocity;
+
+        // Flip Player
         if (playerFacingDirection == -1)
         {
             player.GetComponent<SpriteRenderer>().flipX = true;
@@ -63,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
             player.GetComponent<SpriteRenderer>().flipX = false;
         }
 
+        // Detect Walking Input
         if (!playerIsStunned)
         {
             if (Input.GetKey(KeyCode.A))
@@ -84,31 +92,34 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
-
+        // Detect Jumping Inputs
         jumpInputTap = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
-
+        jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
+        jumpInputRelease = Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W);
 
         if (jumpInputTap)
         {
             playerWantsToJump = true;
             jumpBufferingTimer = jumpBufferingTime;
         }
-        if (!jumpInputHold)
+        if (jumpInputRelease)
         {
             playerWantsToJump = false;
+            playerJumped = false;
         }
     }
 
     private void FixedUpdate()
     {
-        PlayerAnimation();
+        //PlayerAnimation();
 
         Walking();
 
         Jumping();
 
         JumpBuffering();
+
+        JumpCoyoteTime();
 
         ApplyPushDownForce();
 
@@ -117,12 +128,20 @@ public class PlayerMovement : MonoBehaviour
         FallingSpeedCap();
     }
 
-    void PlayerAnimation()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
-        animator.SetFloat("yVelocity", (rb.linearVelocityY));
-    }
+        ContactPoint2D collisionPoint = collision.GetContact(0);
 
+        Vector2 collisionNormal = collisionPoint.normal;
+
+        if (collision.gameObject.CompareTag("Ground") && collisionNormal.x < 0.2 && collisionNormal.y > 0.8)
+        {
+            if (playerIsStunned)
+            {
+                playerIsStunned = false;
+            }
+        }
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -135,6 +154,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = true;
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -142,6 +162,14 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
         }
     }
+
+    void PlayerAnimation()
+    {
+        animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
+        animator.SetFloat("yVelocity", (rb.linearVelocityY));
+        animator.SetBool("isJumping", !grounded);
+    }
+
     void Walking()
     {
         if (!playerIsStunned)
@@ -149,14 +177,18 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
         }
     }
+
     void Jumping()
     {
-        if (playerWantsToJump && grounded)
+        if (playerWantsToJump && coyoteTimer > 0)
         {
             rb.linearVelocityY = jumpForce;
             playerWantsToJump = false;
+            playerJumped = true;
+            coyoteTimer = 0;
         }
     }
+
     void JumpBuffering()
     {
         if (playerWantsToJump)
@@ -172,6 +204,33 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferingTimer = 0;
         }
     }
+
+    void JumpCoyoteTime()
+    {
+        if (playerVelocity.y < 0)
+        {
+            playerJumped = false;
+        }
+        if (playerJumped)
+        {
+            grounded = false;
+            coyoteTimer = 0;
+        }
+
+        if (grounded)
+        {
+            coyoteTimer = coyoteTime;
+        }
+        else if (coyoteTimer > 0)
+        {
+            coyoteTimer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            coyoteTimer = 0;
+        }
+    }
+
     void ApplyPushDownForce()
     {
         if (!grounded && (rb.linearVelocityY < 0) && rb.linearVelocityY > -maxFallSpeed)

@@ -1580,16 +1580,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   player: {fileID: 1214945367}
   playerVelocity: {x: 0, y: 0}
-  jumpInputHold: 0
+  xInput: 0
   jumpInputTap: 0
+  jumpInputHold: 0
+  jumpInputRelease: 0
   playerFacingDirection: 1
   walkingSpeed: 2.2
+  grounded: 0
   jumpForce: 12
   maxFallSpeed: 20
   pushDownForce: 32
-  jumpBufferingTime: 0.2
+  jumpBufferingTime: 0.15
   jumpBufferingTimer: 0
   playerWantsToJump: 0
+  coyoteTime: 0.5
+  coyoteTimer: 0
+  playerJumped: 0
   playerIsStunned: 0
   playerIsInvincible: 0
   playerInvincibilityTime: 1.2
