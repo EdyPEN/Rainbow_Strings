@@ -12,6 +12,8 @@ public class ForbyBehaviour : MonoBehaviour
 
     public GameObject[] bulletArray;
 
+    public GameObject[] noteArray;
+
     public SpriteRenderer[] bulletColors;
 
     public bool dead;
@@ -42,6 +44,7 @@ public class ForbyBehaviour : MonoBehaviour
 
     public int fireballsDefeated;
 
+    private int idle = 0;
     private int blue = 1;
     private int green = 2;
     private int yellow = 3;
@@ -50,6 +53,11 @@ public class ForbyBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        for (int i = 0; i < noteArray.Length; i++)
+        {
+            noteArray[i].SetActive(false);
+        }
+
         bulletColors = new SpriteRenderer[4];
 
         shootingPosition = new Vector2(transform.position.x + shootingPositionOffset.x, transform.position.y + shootingPositionOffset.y);
@@ -131,6 +139,15 @@ public class ForbyBehaviour : MonoBehaviour
                 bulletArray[i].SetActive(false);
             }
             gameObject.SetActive(false);
+        }
+
+        // Note Resetting
+        if (fireballsDefeated == 0)
+        {
+            for (int i = 0; i < noteArray.Length; i++)
+            {
+                noteArray[i].GetComponent<Note>().color = idle;
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -243,10 +260,15 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 if (bulletArray[i].activeSelf == true && bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == true)
                 {
-                    if ((playerColor.GetComponent<MusicPlay>().color == pattern[i]))
+                    if (playerColor.GetComponent<MusicPlay>().color == pattern[i])
                     {
-                        bulletArray[i].SetActive(false);
+                        bulletArray[i].SetActive(true);
+                        noteArray[i].GetComponent<Note>().color = playerColor.GetComponent<MusicPlay>().color;
                         fireballsDefeated++;
+                    }
+                    else if (playerColor.GetComponent<MusicPlay>().color != idle)
+                    {
+                        fireballsDefeated = 0;
                     }
                 }
             }

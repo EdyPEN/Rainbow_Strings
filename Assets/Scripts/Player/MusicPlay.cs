@@ -39,22 +39,22 @@ public class MusicPlay : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 color = 1;
-                timer = 1;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 color = 2;
-                timer = 1;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 color = 3;
-                timer = 1;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 color = 4;
-                timer = 1;
+                timer = 0.1f;
             }
             else if (timer == 0)
             {
