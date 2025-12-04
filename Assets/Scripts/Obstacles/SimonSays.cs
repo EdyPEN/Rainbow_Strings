@@ -1,6 +1,9 @@
+using System;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static MusicPlay;
 
 public class SimonSays : MonoBehaviour
 {
@@ -11,13 +14,6 @@ public class SimonSays : MonoBehaviour
 
     //public Sprite Idle, Blue, Green, Yellow, Red; ---- We will need this for diffrent sprites of our character.
     SpriteRenderer sr;
-    public int spriteState = 0;
-
-    private int idle = 0;
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
 
     public bool ChallengeInProcess = false;
 
@@ -38,23 +34,17 @@ public class SimonSays : MonoBehaviour
 
     public int playerNote;
 
-    public int[] pattern1 = new int[4];
-    public int[] pattern2 = new int[4];
+    public MusicPlay.MusicKey[] pattern1 = new MusicPlay.MusicKey[4];
+    public MusicPlay.MusicKey[] pattern2 = new MusicPlay.MusicKey[4];
+    public MusicKey key;
+
     public int currentNote = 0;
     public int currentPattern = 0;
 
-
     void Start()
     {
-        pattern1[0] = yellow;
-        pattern1[1] = green;
-        pattern1[2] = red;
-        pattern1[3] = blue;
-
-        pattern2[0] = red;
-        pattern2[1] = green;
-        pattern2[2] = blue;
-        pattern2[3] = green;
+        PatternRandomizer(pattern1);
+        PatternRandomizer(pattern2);
 
         Note[0].SetActive(false);
         Note[1].SetActive(false);
@@ -65,36 +55,32 @@ public class SimonSays : MonoBehaviour
 
         ChallengeBeaten = false;
     }
+    void PatternRandomizer(MusicPlay.MusicKey[] pattern)
+    {
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            int[] keys = (int[])Enum.GetValues(typeof(MusicPlay.MusicKey));
+            int minKey = Mathf.Min(keys) + 1;
+            int maxKey = Mathf.Max(keys);
 
+            int newKey = UnityEngine.Random.Range(minKey, maxKey + 1);
+
+            if (i != 0)
+            {
+                if (newKey == (int)pattern[i - 1])
+                {
+                    ++newKey;
+                    if (newKey > maxKey)
+                        newKey = minKey;
+                }
+            }
+            pattern[i] = (MusicPlay.MusicKey)newKey;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        //if (Note[].SetActive(false))
-        //{
-        //    Note[].GetComponent<MusicPlay>.color = idle;
-        //}
-
-        // TIMER------------------
-        if (timerPerNote > 0)
-        {
-            timerPerNote -= Time.deltaTime;
-        }
-        else
-        {
-            timerPerNote = 0;
-        }
-
-        if (timerReaction > 0)
-        {
-            timerReaction -= Time.deltaTime;
-        }
-        else
-        {
-            timerReaction = 0;
-        }
-        // TIMER------------------
-
-
+        TimerLogic();
         ColorLogic();
 
         //Challenge Bubble!--------------------
@@ -128,42 +114,60 @@ public class SimonSays : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void TimerLogic()
+    {
+        if (timerPerNote > 0)
+        {
+            timerPerNote -= Time.deltaTime;
+        }
+        else
+        {
+            timerPerNote = 0;
+        }
 
+        if (timerReaction > 0)
+        {
+            timerReaction -= Time.deltaTime;
+        }
+        else
+        {
+            timerReaction = 0;
+        }
+    }
     void ColorLogic()
     {
-        if (spriteState == idle)
+        if (key == MusicKey.Idle)
         {
             sr.color = Color.white;
         }
-        else if (spriteState == yellow)
+        else if (key == MusicKey.Yellow)
         {
             sr.color = Color.yellow;
         }
-        else if (spriteState == green)
+        else if (key == MusicKey.Green)
         {
             sr.color = Color.green;
         }
-        else if (spriteState == blue)
+        else if (key == MusicKey.Blue)
         {
             sr.color = Color.deepSkyBlue;
         }
-        else if (spriteState == red)
+        else if (key == MusicKey.Red)
         {
             sr.color = Color.red;
         }
     }
-
     void SimonSaysLogic()
     {
         if (FinishPattern1 == true && PlayedPattern1 == false)
         {
-            spriteState = idle;
+            key = MusicKey.Idle;
             return;
         }
 
         if (FinishPattern2 == true && PlayedPattern2 == false)
         {
-            spriteState = idle;
+            key = MusicKey.Idle;
 
             return;
         }
@@ -171,11 +175,11 @@ public class SimonSays : MonoBehaviour
         // missing check of the player INSIDE the area
         if (currentPattern == 0)
         {
-            spriteState = pattern1[currentNote];
+            key = pattern1[currentNote];
         } 
         else if (currentPattern == 1)
         {
-            spriteState = pattern2[currentNote];
+            key = pattern2[currentNote];
         }
         
         // Pattern 1 start
@@ -208,19 +212,19 @@ public class SimonSays : MonoBehaviour
         else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
-            Note[1].GetComponent<Note>().color = idle;
+            Note[1].GetComponent<Note>().key = MusicKey.Idle;
             currentNote++;
         }
         else if (currentNote == 1 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
         {
             timerPerNote = 1;
-            Note[2].GetComponent<Note>().color = idle;
+            Note[2].GetComponent<Note>().key = MusicKey.Idle;
             currentNote++;
         }
         else if (currentNote == 2 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
         {
             timerPerNote = 1;
-            Note[3].GetComponent<Note>().color = idle;
+            Note[3].GetComponent<Note>().key = MusicKey.Idle;
             currentNote++;
         }
         else if (currentNote == 3 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
@@ -230,37 +234,35 @@ public class SimonSays : MonoBehaviour
             FinishPattern2 = true;
         }
     }
-
     void PlayerLogic()
     {
-        // Same code as Skips
         if (FinishPattern1 == true && PlayedPattern1 == false)
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (combo == 0))
+            if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Yellow) && (combo == 0))
             {
                 combo = 1;
                 timerReaction = 2;
-                Note[0].GetComponent<Note>().color = yellow;
+                Note[0].GetComponent<Note>().key = MusicKey.Yellow;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
                 timerReaction = 2;
-                Note[1].GetComponent<Note>().color = green;
+                Note[1].GetComponent<Note>().key = MusicKey.Green;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerReaction > 0) && (combo == 2))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Red) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
                 timerReaction = 2;
-                Note[2].GetComponent<Note>().color = red;
+                Note[2].GetComponent<Note>().key = MusicKey.Red;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 3))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Blue) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern1 = true;
                 combo = 0;
                 timerPerNote = 1;
-                Note[3].GetComponent<Note>().color = blue;
-                Note[0].GetComponent<Note>().color = idle; // This just cancels the previous line D:
+                Note[3].GetComponent<Note>().key = MusicKey.Blue;
+                Note[0].GetComponent<Note>().key = MusicKey.Idle; // This just cancels the previous line D:
             }
             else if (timerReaction == 0)
             {
@@ -269,38 +271,37 @@ public class SimonSays : MonoBehaviour
                 currentPattern = 0;
                 currentNote = 0;
                 timerPerNote = 1;
-                Note[0].GetComponent<Note>().color = idle;
-                Note[1].GetComponent<Note>().color = idle;
-                Note[2].GetComponent<Note>().color = idle;
-                Note[3].GetComponent<Note>().color = idle;
+                Note[1].SetActive(false);
+                Note[2].SetActive(false);
+                Note[3].SetActive(false);
             }
         }
-
+        //Pattern2
         if (FinishPattern2 == true && PlayedPattern2 == false)
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (combo == 0))
+            if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Red) && (combo == 0))
             {
                 combo = 1;
-                Note[0].GetComponent<Note>().color = red;
+                Note[0].GetComponent<Note>().key = MusicKey.Red;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 1))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 1))
             {
                 combo = 2;
-                Note[1].GetComponent<Note>().color = green;
+                Note[1].GetComponent<Note>().key = MusicKey.Green;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (timerReaction > 0) && (combo == 2))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Blue) && (timerReaction > 0) && (combo == 2))
             {
                 combo = 3;
-                Note[2].GetComponent<Note>().color = blue;
+                Note[2].GetComponent<Note>().key = MusicKey.Blue;
                 timerReaction = 2;
             }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (timerReaction > 0) && (combo == 3))
+            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 3))
             {
                 PlayedPattern2 = true;
                 combo = 0;
-                Note[3].GetComponent<Note>().color = green;
+                Note[3].GetComponent<Note>().key = MusicKey.Green;
                 timerPerNote = 1;
             }
             else if (timerReaction == 0)
@@ -310,13 +311,11 @@ public class SimonSays : MonoBehaviour
                 currentPattern = 1;
                 currentNote = 0;
                 timerPerNote = 1;
-                Note[0].GetComponent<Note>().color = idle;
-                Note[1].GetComponent<Note>().color = idle;
-                Note[2].GetComponent<Note>().color = idle;
-                Note[3].GetComponent<Note>().color = idle;
+                Note[1].SetActive(false);
+                Note[2].SetActive(false);
+                Note[3].SetActive(false);
             }
         }
 
     }
-
 }

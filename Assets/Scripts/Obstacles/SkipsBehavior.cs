@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static MusicPlay;
 
 public class SkipsBehaviour : MonoBehaviour
 {
@@ -12,14 +15,8 @@ public class SkipsBehaviour : MonoBehaviour
     public int damage = 1;
     public int jump = 3;
     public int direction = 1;
+    public int currentPattern;
     public float speed, force;
-    public int color = 0;
-
-    private int idle = 0;
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
 
     [Header("Skips' death")]
     public int combo = 0;
@@ -30,15 +27,12 @@ public class SkipsBehaviour : MonoBehaviour
     SpriteRenderer sr;
 
     [Header("Pattern")]
-    public int[] pattern = new int[3]; //Need a randomizer for patterns
-    public int currentPattern = 0;
+    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
+    public MusicKey key;
 
     void Start()
     {
-        // pattern 3, 1, 2
-        pattern[0] = green;
-        pattern[1] = red;
-        pattern[2] = yellow;
+        PatternRandomizer(pattern);
 
         Note[0].SetActive(false);
         Note[1].SetActive(false);
@@ -47,8 +41,40 @@ public class SkipsBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
+    void PatternRandomizer(MusicPlay.MusicKey[] pattern)
+    {
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            int[] keys = (int[])Enum.GetValues(typeof(MusicPlay.MusicKey));
+            int minKey = Mathf.Min(keys) + 1;
+            int maxKey = Mathf.Max(keys);
 
+            int newKey = UnityEngine.Random.Range(minKey, maxKey + 1);
+
+            if (i != 0)
+            {
+                if (newKey == (int)pattern[i - 1])
+                {
+                    ++newKey;
+                    if (newKey > maxKey)
+                        newKey = minKey;
+                }
+            }
+            pattern[i] = (MusicPlay.MusicKey)newKey;
+        }
+    }
     void Update()
+    {
+        TimerLogic();
+        ColorLogic();
+
+        // Interaction without area dependens
+        if (combo == 3)
+        {
+            Destroy(gameObject);
+        }
+    }
+    void TimerLogic()
     {
         // TIMER IDLE ---------------------
         if (timerIdle > 0)
@@ -73,64 +99,57 @@ public class SkipsBehaviour : MonoBehaviour
         {
             timerHit = 0;
         }
-
-
-        // COLOR CHANGE ---------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (color == idle)
+    }
+    void ColorLogic()
+    {
+        if (key == MusicKey.Idle)
         {
             sr.color = Color.white;
         }
-        else if (color == yellow)
+        else if (key == MusicKey.Yellow)
         {
             sr.color = Color.yellow;
         }
-        else if (color == green)
+        else if (key == MusicKey.Green)
         {
             sr.color = Color.green;
         }
-        else if (color == blue)
+        else if (key == MusicKey.Blue)
         {
             sr.color = Color.deepSkyBlue;
         }
-        else if (color == red)
+        else if (key == MusicKey.Red)
         {
             sr.color = Color.red;
         }
-
-        // Interaction without area dependens
-        if ( combo == 3) //NEED TIME ALSO!!!
-        {
-            Destroy(gameObject);
-        }
-
     }
 
     void Interaction() //Need a randomizer of patterns...
     {
-        if ((ColorDisplay.GetComponent<MusicPlay>().color == green) && (combo >= 0))
+        if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (combo >= 0))
         {
-            Note[0].GetComponent<Note>().color = green;
+            Note[0].GetComponent<Note>().key = pattern[currentPattern];
             combo = 1;
             timerHit = 2;
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().color == red) && (timerHit > 0) && (combo >= 1))
+        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 1))
         {
-            Note[1].GetComponent<Note>().color = red;
+            Note[1].GetComponent<Note>().key = MusicKey.Red;
             combo = 2;
             timerHit = 2;
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow) && (timerHit > 0) && (combo >= 2))
+        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 2))
         {
-            Note[2].GetComponent<Note>().color = yellow;
+            Note[2].GetComponent<Note>().key = MusicKey.Yellow;
             timerHit = 2;
             combo = 3;
         }
         else
         {
             combo = 0;
-            Note[0].GetComponent<Note>().color = idle;
-            Note[1].GetComponent<Note>().color = idle;
-            Note[2].GetComponent<Note>().color = idle;
+            Note[0].GetComponent<Note>().key = MusicKey.Idle;
+            Note[1].GetComponent<Note>().key = MusicKey.Idle;
+            Note[2].GetComponent<Note>().key = MusicKey.Idle;
         }
     }
 
@@ -144,7 +163,7 @@ public class SkipsBehaviour : MonoBehaviour
             ChangeDirection();
             Jump();
             jump = 0;
-            color = 0;
+            key = MusicKey.Idle;
         }
         else if (jump < 3)
         {
@@ -162,7 +181,7 @@ public class SkipsBehaviour : MonoBehaviour
             rb.AddForceY(force);
             jump++;
 
-            color = pattern[currentPattern];
+            key = pattern[currentPattern];
 
             if (currentPattern == 2)
             {
@@ -175,9 +194,9 @@ public class SkipsBehaviour : MonoBehaviour
 
             // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
 
-            if (color == 0 && timerIdle == 0)
+            if (key == MusicKey.Idle && timerIdle == 0)
             {
-                color = 1;
+                key = pattern[currentPattern];
             }
         }
         else if (jump == 3)

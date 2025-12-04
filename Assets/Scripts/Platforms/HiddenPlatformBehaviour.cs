@@ -1,95 +1,102 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using static MusicPlay;
 
 public class HiddenPlatformBehaviour : MonoBehaviour
 {
     public GameObject MusicRange;
-    public GameObject PlayerColor;
+    public GameObject ColorDisplay;
     public GameObject HiddenPlatform;
     public Transform Transform;
     SpriteRenderer sr;
 
-    public int color = 0;
-
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
-
     public int currentNote = 0;
-    public int playerNote;
 
     public bool playerInRange;
 
-    public int[] pattern = new int[3];
-
+    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
+    public MusicKey key;
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
 
+        PatternRandomizer(pattern);
+
+        ColorDisplay.GetComponent<MusicPlay>().key = pattern[0];
+        Transform.localScale = new Vector2(0.25f, 0.25f);
+    }
+    void PatternRandomizer(MusicPlay.MusicKey[] pattern)
+    {
         for (int i = 0; i < pattern.Length; i++)
         {
-            pattern[i] = Random.Range(1, 5);
+            int[] keys = (int[])Enum.GetValues(typeof(MusicPlay.MusicKey));
+            int minKey = Mathf.Min(keys) + 1;
+            int maxKey = Mathf.Max(keys);
+
+            int newKey = UnityEngine.Random.Range(minKey, maxKey + 1);
+
             if (i != 0)
             {
-                if (pattern[i] == pattern[i - 1])
+                if (newKey == (int)pattern[i - 1])
                 {
-                    pattern[i] = pattern[i - 1] + 1;
-                    if (pattern[i] > pattern.Length - 1)
-                    {
-                        pattern[i] = 1;
-                    }
+                    ++newKey;
+                    if (newKey > maxKey)
+                        newKey = minKey;
                 }
             }
+            pattern[i] = (MusicPlay.MusicKey)newKey;
         }
-
-        color = pattern[0];
-        Transform.localScale = new Vector2(0.25f, 0.25f);
     }
 
     void Update()
     {
-        // COLOR CHANGE
-        playerNote = PlayerColor.GetComponent<MusicPlay>().color;
+        ColorLogic();
 
         if (playerInRange == true)
         {
-            if (playerNote == pattern[currentNote])
+            if (ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentNote])
             {
                 currentNote++;
             }
 
             if (currentNote < 3)
             {
-                color = pattern[currentNote];
+                ColorDisplay.GetComponent<MusicPlay>().key = pattern[currentNote];
                 Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
             }
             else
             {
-                color = 0;
+                ColorDisplay.GetComponent<MusicPlay>().key = MusicKey.Idle;
                 Transform.localScale = Vector2.zero;
                 HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
                 HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
             }
         }
-
-        if (color == yellow)
-        {
-            sr.color = Color.yellow;
-        }
-        else if (color == green)
-        {
-            sr.color = Color.green;
-        }
-        else if (color == blue)
-        {
-            sr.color = Color.deepSkyBlue;
-        }
-        else if (color == red)
-        {
-            sr.color = Color.red;
-        }
     }
+    void ColorLogic()
+        {
+            if (key == MusicKey.Idle)
+            {
+                sr.color = Color.white;
+            }
+            else if (key == MusicKey.Yellow)
+            {
+                sr.color = Color.yellow;
+            }
+            else if (key == MusicKey.Green)
+            {
+                sr.color = Color.green;
+            }
+            else if (key == MusicKey.Blue)
+            {
+                sr.color = Color.deepSkyBlue;
+            }
+            else if (key == MusicKey.Red)
+            {
+                sr.color = Color.red;
+            }
+        }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "MusicRange")

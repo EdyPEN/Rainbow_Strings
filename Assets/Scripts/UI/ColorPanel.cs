@@ -1,6 +1,7 @@
 using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
+using static MusicPlay;
 
 public class ColorPanel : MonoBehaviour
 {
@@ -8,9 +9,8 @@ public class ColorPanel : MonoBehaviour
     public Image String1, String2, String3, String4;
 
     public GameObject ColorDisplay;
-    public MusicPlay musicPlay;
-
-    public int color = 0;
+    public MusicPlay.MusicKey key;
+    public MusicKey currentKey;
 
     void Start()
     {
@@ -23,41 +23,39 @@ public class ColorPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (musicPlay == null)
-        {
-            return; // no reference to MusicPlay
-        }
-
-        color = musicPlay.color;
-
-        if (color == 1)
+        ColorLogic(); 
+    }
+    void ColorLogic()
+    {
+        if (key == MusicKey.Blue)
         {
             String1.gameObject.SetActive(true);
             String2.gameObject.SetActive(false);
             String3.gameObject.SetActive(false);
             String4.gameObject.SetActive(false);
         }
-        else if (color == 2)
+        else if (key == MusicKey.Green)
         {
             String1.gameObject.SetActive(false);
             String2.gameObject.SetActive(true);
             String3.gameObject.SetActive(false);
             String4.gameObject.SetActive(false);
         }
-        else if (color == 3)
+        else if (key == MusicKey.Yellow)
         {
             String1.gameObject.SetActive(false);
             String2.gameObject.SetActive(false);
             String3.gameObject.SetActive(true);
             String4.gameObject.SetActive(false);
         }
-        else if (color == 4)
+        else if (key == MusicKey.Red)
         {
             String1.gameObject.SetActive(false);
             String2.gameObject.SetActive(false);
             String3.gameObject.SetActive(false);
             String4.gameObject.SetActive(true);
-        } else
+        }
+        else
         {
             String1.gameObject.SetActive(false);
             String2.gameObject.SetActive(false);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public class MusicPlay : MonoBehaviour
 {
@@ -6,15 +7,11 @@ public class MusicPlay : MonoBehaviour
 
     public float timer;
 
+    public enum MusicKey { Idle, Blue, Green, Yellow, Red }
+
     SpriteRenderer sr;
 
-    public int color = 0;
-
-    private int idle = 0;
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
+    public MusicKey key;
 
     void Start()
     {
@@ -33,55 +30,59 @@ public class MusicPlay : MonoBehaviour
         }
 
         ColorChange();
+        NotePressed();
+    }
 
+    public void NotePressed()
+    {
         if (timer >= 0)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                color = 1;
-                timer = 1;
+                key = MusicKey.Blue;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                color = 2;
-                timer = 1;
+                key = MusicKey.Green;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                color = 3;
-                timer = 1;
+                key = MusicKey.Yellow;
+                timer = 0.1f;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                color = 4;
-                timer = 1;
+                key = MusicKey.Red;
+                timer = 0.1f;
             }
             else if (timer == 0)
             {
-                color = 0;
+                key = MusicKey.Idle;
             }
         }
     }
 
-    void ColorChange()
+    private void ColorChange()
     {
-        if (color == idle)
+        if (key == MusicKey.Idle)
         {
             sr.color = Color.white;
         }
-        else if (color == yellow)
+        else if (key == MusicKey.Yellow)
         {
             sr.color = Color.yellow;
         }
-        else if (color == green)
+        else if (key == MusicKey.Green)
         {
             sr.color = Color.green;
         }
-        else if (color == blue)
+        else if (key == MusicKey.Blue)
         {
             sr.color = Color.deepSkyBlue;
         }
-        else if (color == red)
+        else if (key == MusicKey.Red)
         {
             sr.color = Color.red;
         }

@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using static MusicPlay;
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -21,26 +23,14 @@ public class MovingPlatform : MonoBehaviour
     public bool playerIsInRange;
 
     // Pattern & Colors
-    public int[] pattern = new int[3];
-    //public int currentPattern = 0;
-    public int color = 1;
-
-    //public float timerIdle;
-    //public float timerHit;
-
-    private int idle = 0;
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
+    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[4];
+    public MusicKey key;
 
     SpriteRenderer sr;
 
     void Start()
     {
-        pattern[0] = blue;
-        pattern[1] = red;
-        pattern[2] = yellow;
+        PatternRandomizer(pattern);
 
         nextPos[0] = pointA.position;
         nextPos[1] = pointB.position;
@@ -49,10 +39,34 @@ public class MovingPlatform : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
     }
+    void PatternRandomizer(MusicPlay.MusicKey[] pattern)
+    {
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            int[] keys = (int[])Enum.GetValues(typeof(MusicPlay.MusicKey));
+            int minKey = Mathf.Min(keys) + 1;
+            int maxKey = Mathf.Max(keys);
+
+            int newKey = UnityEngine.Random.Range(minKey, maxKey + 1);
+
+            if (i != 0)
+            {
+                if (newKey == (int)pattern[i - 1])
+                {
+                    ++newKey;
+                    if (newKey > maxKey)
+                        newKey = minKey;
+                }
+            }
+            pattern[i] = (MusicPlay.MusicKey)newKey;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
+        ColorLogic();
+
         if (isMoving)
         {
             MovePlatform();
@@ -61,40 +75,30 @@ public class MovingPlatform : MonoBehaviour
         {
             Interaction();
         }
-
-        //if (timerHit > 0)
-        //{
-        //    timerHit -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    timerHit = 0;
-        //}
-
-        // Color Stuff
-        if (color == idle)
+    }
+    void ColorLogic()
+    {
+        if (key == MusicKey.Idle)
         {
             sr.color = Color.white;
         }
-        else if (color == yellow)
+        else if (key == MusicKey.Yellow)
         {
             sr.color = Color.yellow;
         }
-        else if (color == green)
+        else if (key == MusicKey.Green)
         {
             sr.color = Color.green;
         }
-        else if (color == blue)
+        else if (key == MusicKey.Blue)
         {
             sr.color = Color.deepSkyBlue;
         }
-        else if (color == red)
+        else if (key == MusicKey.Red)
         {
             sr.color = Color.red;
         }
-
     }
-
     void MovePlatform()
     {
         transform.position = Vector2.MoveTowards(transform.position, nextPos[currentPosition], speed * Time.deltaTime);
@@ -104,26 +108,25 @@ public class MovingPlatform : MonoBehaviour
             isMoving = false;
         }
     }
-
     void Interaction()
     {
-        if ((ColorDisplay.GetComponent<MusicPlay>().color == blue) && (currentPosition == 0) && (!isMoving))
+        if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[0]) && (currentPosition == 0) && (!isMoving))
         {
-            isMoving = true; 
+            isMoving = true;
             currentPosition = 1;
-            color = red;
+            key = pattern[1];
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().color == red)/* && (timerHit > 0)*/ && (currentPosition == 1) && (!isMoving))
+        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[1])/* && (timerHit > 0)*/ && (currentPosition == 1) && (!isMoving))
         {
             isMoving = true;
             currentPosition = 2;
-            color = yellow;
+            key = pattern[2];
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().color == yellow)/* && (timerHit > 0)*/ && (currentPosition == 2) && (!isMoving))
+        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[2])/* && (timerHit > 0)*/ && (currentPosition == 2) && (!isMoving))
         {
             isMoving = true;
             currentPosition = 3;
-            color = idle;
+            key = MusicKey.Idle;
         }
     }
 

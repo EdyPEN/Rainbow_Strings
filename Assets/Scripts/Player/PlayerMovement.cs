@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("isJumping", !grounded); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //animator.SetBool("isJumping", !grounded); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         playerVelocity = rb.linearVelocity;
         if (playerFacingDirection == -1)
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayerAnimation();
+        //PlayerAnimation();
 
         Walking();
 
@@ -117,11 +117,11 @@ public class PlayerMovement : MonoBehaviour
         FallingSpeedCap();
     }
 
-    void PlayerAnimation()
-    {
-        animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
-        animator.SetFloat("yVelocity", (rb.linearVelocityY));
-    }
+    //void PlayerAnimation()
+    //{
+    //    animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
+    //    animator.SetFloat("yVelocity", (rb.linearVelocityY));
+    //}
 
 
     private void OnCollisionStay2D(Collision2D collision)

@@ -1,8 +1,12 @@
+using JetBrains.Annotations;
+using NUnit.Framework.Internal;
+using System;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using static MusicPlay;
 
 public class ForbyBehaviour : MonoBehaviour
 {
@@ -38,14 +42,9 @@ public class ForbyBehaviour : MonoBehaviour
 
     public bool playerInRange;
 
-    public int[] pattern = new int[4];
+    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[4];
 
     public int fireballsDefeated;
-
-    private int blue = 1;
-    private int green = 2;
-    private int yellow = 3;
-    private int red = 4;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,22 +55,12 @@ public class ForbyBehaviour : MonoBehaviour
         shootingCooldown = (360 / rotationSpeed) * (1 / 4f);
         shootingCooldownTimer = shootingCooldown;
 
-        for (int i = 0; i < pattern.Length; i++)
-        {
-            pattern[i] = Random.Range(1, 5);
-            if (i != 0)
-            {
-                if (pattern[i] == pattern[i - 1])
-                {
-                    pattern[i] = pattern[i - 1] + 1;
-                    if (pattern[i] > pattern.Length - 1)
-                    {
-                        pattern[i] = 1;
-                    }
-                }
-            }
-        }
+        PatternRandomizer(pattern);
+        BulletColors();
+    }
 
+    void BulletColors()
+    {
         for (int i = 0; i < bulletArray.Length; i++)
         {
             bulletColors[i] = bulletArray[i].GetComponent<SpriteRenderer>();
@@ -79,22 +68,44 @@ public class ForbyBehaviour : MonoBehaviour
 
         for (int i = 0; i < bulletArray.Length; i++)
         {
-            if (pattern[i] == yellow)
+            if (pattern[i] == MusicPlay.MusicKey.Yellow)
             {
                 bulletColors[i].color = Color.yellow;
             }
-            else if (pattern[i] == green)
+            else if (pattern[i] == MusicPlay.MusicKey.Green)
             {
                 bulletColors[i].color = Color.green;
             }
-            else if (pattern[i] == blue)
+            else if (pattern[i] == MusicPlay.MusicKey.Blue)
             {
                 bulletColors[i].color = Color.deepSkyBlue;
             }
-            else if (pattern[i] == red)
+            else if (pattern[i] == MusicPlay.MusicKey.Red)
             {
                 bulletColors[i].color = Color.red;
             }
+        }
+    }
+    void PatternRandomizer(MusicPlay.MusicKey[] pattern)
+    {
+        for (int i = 0; i < pattern.Length; i++)
+        {
+            int[] keys = (int[])Enum.GetValues(typeof(MusicPlay.MusicKey));
+            int minKey = Mathf.Min(keys) + 1;
+            int maxKey = Mathf.Max(keys);
+
+            int newKey = UnityEngine.Random.Range(minKey, maxKey + 1);
+
+            if (i != 0)
+            {
+                if (newKey == (int)pattern[i - 1])
+                {
+                    ++newKey;
+                    if (newKey > maxKey)
+                        newKey = minKey;
+                }
+            }
+            pattern[i] = (MusicPlay.MusicKey)newKey;
         }
     }
 
@@ -243,7 +254,7 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 if (bulletArray[i].activeSelf == true && bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == true)
                 {
-                    if ((playerColor.GetComponent<MusicPlay>().color == pattern[i]))
+                    if ((playerColor.GetComponent<MusicPlay>().key == pattern[i]))
                     {
                         bulletArray[i].SetActive(false);
                         fireballsDefeated++;
