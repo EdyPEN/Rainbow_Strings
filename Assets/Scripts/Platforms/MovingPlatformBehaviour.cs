@@ -32,6 +32,8 @@ public class MovingPlatform : MonoBehaviour
     {
         PatternRandomizer(pattern);
 
+        key = pattern[0];
+
         nextPos[0] = pointA.position;
         nextPos[1] = pointB.position;
         nextPos[2] = pointC.position;
