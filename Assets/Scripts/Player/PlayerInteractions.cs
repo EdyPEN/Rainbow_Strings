@@ -16,9 +16,13 @@ public class PlayerInteractions : MonoBehaviour
 
     public float horizontalDamageKnockback, verticalDamageKnockback;
 
+    public static Vector3 respawnPosition = Vector3.zero;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        transform.position = respawnPosition;
     }
 
     private void Update()
@@ -50,6 +54,10 @@ public class PlayerInteractions : MonoBehaviour
         if (collision.gameObject.CompareTag("Challenge"))
         {
             inChallengeArea = true;
+        }
+        if (collision.gameObject.CompareTag("Ripple"))
+        {
+            respawnPosition = collision.gameObject.transform.position;
         }
     }
 
