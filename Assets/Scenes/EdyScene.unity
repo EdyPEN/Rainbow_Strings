@@ -1989,7 +1989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicPlay
   AreaInteraction: {fileID: 322517988}
   timer: 0
-  color: 0
+  key: 0
 --- !u!212 &578691952
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3549,7 +3549,6 @@ MonoBehaviour:
   - {fileID: 275612732}
   - {fileID: 1606257558}
   - {fileID: 1709301356}
-  spriteState: 0
   ChallengeInProcess: 0
   FinishPattern1: 0
   PlayedPattern1: 0
@@ -3562,6 +3561,7 @@ MonoBehaviour:
   playerNote: 0
   pattern1: 00000000000000000000000000000000
   pattern2: 00000000000000000000000000000000
+  key: 0
   currentNote: 0
   currentPattern: 0
 --- !u!212 &1046348841
@@ -4347,14 +4347,14 @@ MonoBehaviour:
   damage: 1
   jump: 3
   direction: 1
+  currentPattern: 0
   speed: 1.5
   force: 300
-  color: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
   pattern: 000000000000000000000000
-  currentPattern: 0
+  key: 0
 --- !u!50 &1205555552
 Rigidbody2D:
   serializedVersion: 5
@@ -4704,8 +4704,8 @@ MonoBehaviour:
   String3: {fileID: 1255377801}
   String4: {fileID: 1542696724}
   ColorDisplay: {fileID: 578691950}
-  musicPlay: {fileID: 578691951}
-  color: 0
+  key: 0
+  currentKey: 0
 --- !u!114 &1214945375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6483,7 +6483,7 @@ MonoBehaviour:
   ColorDisplay: {fileID: 578691950}
   playerIsInRange: 0
   pattern: 000000000000000000000000
-  color: 1
+  key: 0
 --- !u!251 &1724767905
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -6995,14 +6995,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   MusicRange: {fileID: 322517988}
-  PlayerColor: {fileID: 578691950}
+  ColorDisplay: {fileID: 578691950}
   HiddenPlatform: {fileID: 301890078}
   Transform: {fileID: 1959195210}
-  color: 0
   currentNote: 0
-  playerNote: 0
   playerInRange: 0
   pattern: 000000000000000000000000
+  key: 0
 --- !u!212 &1959195212
 SpriteRenderer:
   m_ObjectHideFlags: 0

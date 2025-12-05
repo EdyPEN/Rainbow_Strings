@@ -11,7 +11,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     public Transform Transform;
     SpriteRenderer sr;
 
-    public int currentNote = 0;
+    public int currentNote;
 
     public bool playerInRange;
 

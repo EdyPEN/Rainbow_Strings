@@ -116,6 +116,34 @@ public class ForbyBehaviour : MonoBehaviour
         }
     }
 
+    void NoteColors()
+    {
+        for (int i = 0; i < noteArray.Length; i++)
+        {
+            //noteArray[i] = noteArray[i].GetComponent<SpriteRenderer>();
+        }
+
+        for (int i = 0; i < bulletArray.Length; i++)
+        {
+            if (pattern[i] == MusicPlay.MusicKey.Yellow)
+            {
+                bulletColors[i].color = Color.yellow;
+            }
+            else if (pattern[i] == MusicPlay.MusicKey.Green)
+            {
+                bulletColors[i].color = Color.green;
+            }
+            else if (pattern[i] == MusicPlay.MusicKey.Blue)
+            {
+                bulletColors[i].color = Color.deepSkyBlue;
+            }
+            else if (pattern[i] == MusicPlay.MusicKey.Red)
+            {
+                bulletColors[i].color = Color.red;
+            }
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -156,7 +184,7 @@ public class ForbyBehaviour : MonoBehaviour
         {
             for (int i = 0; i < noteArray.Length; i++)
             {
-                noteArray[i].GetComponent<Note>().color = idle;
+                //noteArray[i].GetComponent<Note>().color = idle;
             }
         }
     }
@@ -272,11 +300,11 @@ public class ForbyBehaviour : MonoBehaviour
                 {
                     if ((playerColor.GetComponent<MusicPlay>().key == pattern[i]))
                     {
-                        bulletArray[i].SetActive(true);
-                        noteArray[i].GetComponent<Note>().color = playerColor.GetComponent<MusicPlay>().color;
+                        bulletArray[i].SetActive(false);
+                        //noteArray[i].GetComponent<Note>().color = playerColor.GetComponent<MusicPlay>().color;
                         fireballsDefeated++;
                     }
-                    else if (playerColor.GetComponent<MusicPlay>().color != idle)
+                    else if (playerColor.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle)
                     {
                         fireballsDefeated = 0;
                     }
