@@ -10,6 +10,8 @@ public class Note : MonoBehaviour
 
     public MusicPlay.MusicKey key;
 
+    public bool hideNotes;
+
     void Start()
     {
 
@@ -42,6 +44,17 @@ public class Note : MonoBehaviour
         {
             spCircle.color = Color.red;
             spSquare.color = Color.red;
+        }
+
+        if (hideNotes)
+        {
+            spCircle.enabled = false;    
+            spSquare.enabled = false;
+        }
+        else
+        {
+            spCircle.enabled = true;
+            spSquare.enabled = true;
         }
     }
 }

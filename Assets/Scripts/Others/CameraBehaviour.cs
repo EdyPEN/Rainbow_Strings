@@ -6,7 +6,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public Vector2 target;
 
-    public float offsetX, offsetYLimit;
+    public float offsetX, offsetYLimit, manualOffsetY;
 
     public float speedDefault, speedModifierDistance;
 
@@ -15,7 +15,7 @@ public class CameraBehaviour : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transform.position = player.transform.position;
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + manualOffsetY, player.transform.position.z);
     }
 
     // Update is called once per frame
@@ -23,15 +23,15 @@ public class CameraBehaviour : MonoBehaviour
     {
         target.x = player.transform.position.x + (offsetX * player.GetComponentInChildren<PlayerMovement>().playerFacingDirection);
 
-        if (Mathf.Abs(target.y - player.transform.position.y) > offsetYLimit)
+        if (Mathf.Abs(target.y - (player.transform.position.y + manualOffsetY)) > offsetYLimit)
         {
-            if (target.y < player.transform.position.y)
+            if (target.y < (player.transform.position.y + manualOffsetY))
             {
-                target.y = player.transform.position.y - offsetYLimit;
+                target.y = (player.transform.position.y + manualOffsetY) - offsetYLimit;
             }
             else
             {
-                target.y = player.transform.position.y + offsetYLimit;
+                target.y = (player.transform.position.y + manualOffsetY) + offsetYLimit;
             }
         }
 

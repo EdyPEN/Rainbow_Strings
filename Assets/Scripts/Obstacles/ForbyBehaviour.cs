@@ -53,7 +53,7 @@ public class ForbyBehaviour : MonoBehaviour
     {
         for (int i = 0; i < noteArray.Length; i++)
         {
-            noteArray[i].SetActive(false);
+            //noteArray[i].SetActive(false);
         }
 
         bulletColors = new SpriteRenderer[4];
@@ -116,42 +116,11 @@ public class ForbyBehaviour : MonoBehaviour
         }
     }
 
-    void NoteColors()
-    {
-        for (int i = 0; i < noteArray.Length; i++)
-        {
-            //noteArray[i] = noteArray[i].GetComponent<SpriteRenderer>();
-        }
-
-        for (int i = 0; i < bulletArray.Length; i++)
-        {
-            if (pattern[i] == MusicPlay.MusicKey.Yellow)
-            {
-                bulletColors[i].color = Color.yellow;
-            }
-            else if (pattern[i] == MusicPlay.MusicKey.Green)
-            {
-                bulletColors[i].color = Color.green;
-            }
-            else if (pattern[i] == MusicPlay.MusicKey.Blue)
-            {
-                bulletColors[i].color = Color.deepSkyBlue;
-            }
-            else if (pattern[i] == MusicPlay.MusicKey.Red)
-            {
-                bulletColors[i].color = Color.red;
-            }
-        }
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Rotating
         BulletRotation();
 
-
-        //Shooting
         ShootingBullets();
 
         //Reseting Bullets After Shooting
@@ -161,7 +130,6 @@ public class ForbyBehaviour : MonoBehaviour
             shootingCooldownTimer = shootingCooldown;
         }
 
-        //Color
         ColorInteraction();
 
         //Destroying Bullets Upon Death
@@ -179,14 +147,7 @@ public class ForbyBehaviour : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        // Note Resetting
-        if (fireballsDefeated == 0)
-        {
-            for (int i = 0; i < noteArray.Length; i++)
-            {
-                //noteArray[i].GetComponent<Note>().color = idle;
-            }
-        }
+        NoteColors();
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -247,6 +208,7 @@ public class ForbyBehaviour : MonoBehaviour
         bulletArray[rotationState].GetComponent<Rigidbody2D>().linearVelocityY = 0;
         bulletArray[rotationState].GetComponent<EnemyBulletBehaviour>().wasShot = false;
         bulletArray[rotationState].transform.position = shootingPosition;
+        noteArray[rotationState].SetActive(true);
         rotationState++;
     }
 
@@ -298,16 +260,60 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 if (bulletArray[i].activeSelf == true && bulletArray[i].GetComponent<EnemyBulletBehaviour>().wasShot == true)
                 {
+                    for (int j = 0; j < noteArray.Length; j++)
+                    {
+                        noteArray[j].SetActive(true);
+                    }
                     if ((playerColor.GetComponent<MusicPlay>().key == pattern[i]))
                     {
                         bulletArray[i].SetActive(false);
-                        //noteArray[i].GetComponent<Note>().color = playerColor.GetComponent<MusicPlay>().color;
-                        fireballsDefeated++;
+                        if (i == fireballsDefeated)
+                        {
+                            fireballsDefeated++;
+                        }
                     }
                     else if (playerColor.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle)
                     {
                         fireballsDefeated = 0;
                     }
+                }
+            }
+        }
+    }
+
+    void NoteColors()
+    {
+        if (fireballsDefeated == 0)
+        {
+            for (int i = 0; i < noteArray.Length; i++)
+            {
+                noteArray[i].GetComponent<Note>().key = MusicPlay.MusicKey.Idle;
+            }
+        }
+
+        for (int i = 0; i < noteArray.Length; i++)
+        {
+            if (i + 1 == fireballsDefeated)
+            {
+                noteArray[i].GetComponent<Note>().key = pattern[i];
+            }
+        }
+
+        for (int i = 0; i < bulletArray.Length; i++)
+        {
+            if (bulletArray[i].GetComponent<EnemyBulletBehaviour>().playerMusicAreaInRange)
+            {
+                for (int j = 0; j < noteArray.Length; j++)
+                {
+                    noteArray[j].GetComponent<Note>().hideNotes = false;
+                }
+            }
+            else
+            {
+                for (int j = 0; j < noteArray.Length; j++)
+                {
+                    noteArray[j].GetComponent<Note>().hideNotes = true;
+                    return;
                 }
             }
         }

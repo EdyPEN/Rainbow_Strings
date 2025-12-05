@@ -143,15 +143,16 @@ MonoBehaviour:
   player: {fileID: 0}
   playerColor: {fileID: 0}
   bulletArray: []
+  noteArray: []
   bulletColors: []
   dead: 0
   damage: 1
-  range: 6
+  range: 8
   shootingCooldown: 0
   shootingCooldownTimer: 0
   shootingSpeed: 3
   bulletRespawnCooldownMultiplier: 1.5
-  shootingPositionOffset: {x: 3, y: 0}
+  shootingPositionOffset: {x: 1, y: 0}
   shootingPosition: {x: 0, y: 0}
   lastPlayerPositionInRange: {x: 0, y: 0}
   maxNumberOfShots: 4
