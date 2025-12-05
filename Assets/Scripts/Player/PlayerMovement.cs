@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D playerRigidBody;
+    SpriteRenderer playerSpriteRenderer;
     Animator animator;
 
     public GameObject player;
@@ -48,53 +49,59 @@ public class PlayerMovement : MonoBehaviour
     {
         playerRigidBody = player.GetComponent<Rigidbody2D>();
 
+        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+
+        animator = player.GetComponent<Animator>();
+
         jumpBufferingTimer = jumpBufferingTime;
         
         playerInvincibilityTimer = playerInvincibilityTime;
-
-        animator = player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //animator.SetBool("isJumping", !grounded); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        FlipPlayer();
 
-        playerVelocity = playerRigidBody.linearVelocity;
+        DetectWalkingInputsIfNotStunned();
 
-        // Flip Player
+        DetectJumpingInputs();
+    }
+
+    void FlipPlayer()
+    {
+        if (xInput == 0)
+            return;
+        playerFacingDirection = xInput;
+
         if (playerFacingDirection == -1)
+            playerSpriteRenderer.flipX = true;
+        else
+            playerSpriteRenderer.flipX = false;
+    }
+
+    void DetectWalkingInputsIfNotStunned()
+    {
+        if (playerIsStunned)
         {
-            player.GetComponent<SpriteRenderer>().flipX = true;
+            return;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            xInput = -1;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            xInput = 1;
         }
         else
         {
-            player.GetComponent<SpriteRenderer>().flipX = false;
+            xInput = 0;
         }
+    }
 
-        // Detect Walking Input
-        if (!playerIsStunned)
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                xInput = -1;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                xInput = 1;
-            }
-            else
-            {
-                xInput = 0;
-            }
-
-            if (xInput != 0)
-            {
-                playerFacingDirection = xInput;
-            }
-        }
-
-        // Detect Jumping Inputs
+    void DetectJumpingInputs()
+    {
         jumpInputTap = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W);
         jumpInputHold = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
         jumpInputRelease = Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W);
@@ -128,46 +135,6 @@ public class PlayerMovement : MonoBehaviour
         InvincibilityTime();
 
         FallingSpeedCap();
-    }
-
-    //void PlayerAnimation()
-    //{
-    //    animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
-    //    animator.SetFloat("yVelocity", (rb.linearVelocityY));
-    //}
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        ContactPoint2D collisionPoint = collision.GetContact(0);
-
-        Vector2 collisionNormal = collisionPoint.normal;
-
-        if (collision.gameObject.CompareTag("Ground") && collisionNormal.x < 0.2 && collisionNormal.y > 0.8)
-        {
-            if (playerIsStunned)
-            {
-                playerIsStunned = false;
-            }
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        ContactPoint2D collisionPoint = collision.GetContact(0);
-
-        Vector2 collisionNormal = collisionPoint.normal;
-
-        if (collision.gameObject.CompareTag("Ground") && collisionNormal.x < 0.2 && collisionNormal.y > 0.8)
-        {
-            grounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            grounded = false;
-        }
     }
 
     void PlayerAnimation()
@@ -249,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
             playerRigidBody.AddForceY(-pushDownForce);
         }
     }
+
     void InvincibilityTime()
     {
         if (playerIsStunned)
@@ -278,8 +246,57 @@ public class PlayerMovement : MonoBehaviour
             player.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
+
     void FallingSpeedCap()
     {
         playerRigidBody.linearVelocityY = Mathf.Clamp(playerRigidBody.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        RecoverControlOnGroundContact(collision);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        SetGroundedStateOn(collision);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        SetGroundedStateOff(collision);
+    }
+
+    void RecoverControlOnGroundContact(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") && GetCollisionNormal(collision).x < 0.2 && GetCollisionNormal(collision).y > 0.8)
+        {
+            if (playerIsStunned)
+            {
+                playerIsStunned = false;
+            }
+        }
+    }
+
+    void SetGroundedStateOn(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") && GetCollisionNormal(collision).x < 0.2 && GetCollisionNormal(collision).y > 0.8)
+        {
+            grounded = true;
+        }
+    }
+
+    void SetGroundedStateOff(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            grounded = false;
+        }
+    }
+
+    Vector2 GetCollisionNormal(Collision2D collision)
+    {
+        ContactPoint2D collisionPoint = collision.GetContact(0);
+        return collisionPoint.normal;
     }
 }
