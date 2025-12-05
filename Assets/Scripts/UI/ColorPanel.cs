@@ -9,8 +9,7 @@ public class ColorPanel : MonoBehaviour
     public Image String1, String2, String3, String4;
 
     public GameObject ColorDisplay;
-    public MusicPlay.MusicKey key;
-    public MusicKey currentKey;
+    public MusicKey key;
 
     void Start()
     {
@@ -23,6 +22,8 @@ public class ColorPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        key = ColorDisplay.GetComponent<MusicPlay>().key;
+
         ColorLogic(); 
     }
     void ColorLogic()
