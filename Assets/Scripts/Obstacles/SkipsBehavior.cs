@@ -124,7 +124,7 @@ public class SkipsBehaviour : MonoBehaviour
         }
     }
 
-    void Interaction() //Need a randomizer of patterns...
+    void Interaction()
     {
         if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (combo >= 0))
         {
@@ -134,17 +134,17 @@ public class SkipsBehaviour : MonoBehaviour
         }
         else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 1))
         {
-            Note[1].GetComponent<Note>().key = MusicKey.Red;
+            Note[1].GetComponent<Note>().key = pattern[currentPattern];
             combo = 2;
             timerHit = 2;
         }
         else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 2))
         {
-            Note[2].GetComponent<Note>().key = MusicKey.Yellow;
+            Note[2].GetComponent<Note>().key = pattern[currentPattern];
             timerHit = 2;
             combo = 3;
         }
-        else
+        else if (ColorDisplay.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle)
         {
             combo = 0;
             Note[0].GetComponent<Note>().key = MusicKey.Idle;
