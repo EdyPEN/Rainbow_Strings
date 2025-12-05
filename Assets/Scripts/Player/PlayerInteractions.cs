@@ -22,11 +22,9 @@ public class PlayerInteractions : MonoBehaviour
 
     void Start()
     {
-        playerRigidBody = GetComponent<Rigidbody2D>();
-
-        playerMovement = GetComponentInChildren<PlayerMovement>();
-
         cheats = GetComponent<Cheats>();
+        playerRigidBody = GetComponent<Rigidbody2D>();
+        playerMovement = GetComponentInChildren<PlayerMovement>();
 
         transform.position = respawnPosition;
     }

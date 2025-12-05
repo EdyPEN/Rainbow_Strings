@@ -47,11 +47,9 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerRigidBody = player.GetComponent<Rigidbody2D>();
-
-        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
-
         animator = player.GetComponent<Animator>();
+        playerRigidBody = player.GetComponent<Rigidbody2D>();
+        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
 
         jumpBufferingTimer = jumpBufferingTime;
         
