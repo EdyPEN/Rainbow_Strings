@@ -2,37 +2,48 @@ using UnityEngine;
 
 public class KeyMovement : MonoBehaviour
 {
-    public Transform Target;
-    public GameObject Player;
+    public GameObject player;
 
-    public float speed;
-    public float distance;
+    private Rigidbody2D keyRigidBody;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Rigidbody2D playerRigidBody;
+    private PlayerInteractions playerInteractions;
+    private PlayerMovement playerMovement;
+
+    public Vector2 offset;
+    public Vector2 target;
+    public Vector2 predictionMultiplier;
+    public Vector2 acceleration;
+    public Vector2 speedModifierDistance;
+
+    public float speedDefault;
+
+    public float precision;
+
     void Start()
     {
-
+        keyRigidBody = GetComponent<Rigidbody2D>();
+        playerRigidBody = player.GetComponent<Rigidbody2D>();
+        playerInteractions = player.GetComponent<PlayerInteractions>();
+        playerMovement = player.GetComponentInChildren<PlayerMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-    }
-
-    private void FixedUpdate()
-    {
-        if (Player.GetComponent<PlayerInteractions>().keyCollected == true)
+        if (playerInteractions.keyCollected)
         {
-            float currentDistance = Vector3.Distance(transform.transform.position, Target.transform.position);
+            target.x = player.transform.position.x + playerRigidBody.linearVelocityX * predictionMultiplier.x + (offset.x * playerMovement.playerFacingDirection);
 
-            Vector2 currentPosition2D = new Vector3(transform.position.x, transform.position.y);
-            Vector2 targetPosition2D = new Vector3(Target.position.x, Target.position.y);
+            target.y = player.transform.position.y + playerRigidBody.linearVelocityY * predictionMultiplier.y + offset.y;
 
-            if (currentDistance > distance)
-                transform.position = Vector2.MoveTowards(currentPosition2D, targetPosition2D, speed * Time.fixedDeltaTime);
+            speedModifierDistance = target - (Vector2)transform.position;
+
+            acceleration = speedModifierDistance * speedDefault - keyRigidBody.linearVelocity * precision;
+
+            keyRigidBody.linearVelocity += acceleration * Time.fixedDeltaTime;
         }
 
-        if (Player.GetComponent<PlayerInteractions>().gateOpened == true)
+        if (playerInteractions.gateOpened)
         {
             gameObject.SetActive(false);
         }

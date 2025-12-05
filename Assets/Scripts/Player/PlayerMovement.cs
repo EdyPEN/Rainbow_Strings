@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody2D rb;
+    Rigidbody2D playerRigidBody;
     Animator animator;
 
     public GameObject player;
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = player.GetComponent<Rigidbody2D>();
+        playerRigidBody = player.GetComponent<Rigidbody2D>();
 
         jumpBufferingTimer = jumpBufferingTime;
         
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //animator.SetBool("isJumping", !grounded); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        playerVelocity = rb.linearVelocity;
+        playerVelocity = playerRigidBody.linearVelocity;
 
         // Flip Player
         if (playerFacingDirection == -1)
@@ -172,8 +172,8 @@ public class PlayerMovement : MonoBehaviour
 
     void PlayerAnimation()
     {
-        animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocityX));
-        animator.SetFloat("yVelocity", (rb.linearVelocityY));
+        animator.SetFloat("xVelocity", Math.Abs(playerRigidBody.linearVelocityX));
+        animator.SetFloat("yVelocity", (playerRigidBody.linearVelocityY));
         animator.SetBool("isJumping", !grounded);
     }
 
@@ -181,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!playerIsStunned)
         {
-            rb.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
+            playerRigidBody.linearVelocityX = xInput * walkingSpeed * 100 * Time.fixedDeltaTime;
         }
     }
 
@@ -189,7 +189,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerWantsToJump && coyoteTimer > 0)
         {
-            rb.linearVelocityY = jumpForce;
+            playerRigidBody.linearVelocityY = jumpForce;
             playerWantsToJump = false;
             playerJumped = true;
             coyoteTimer = 0;
@@ -240,13 +240,13 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyPushDownForce()
     {
-        if (!grounded && (rb.linearVelocityY < 0) && rb.linearVelocityY > -maxFallSpeed)
+        if (!grounded && (playerRigidBody.linearVelocityY < 0) && playerRigidBody.linearVelocityY > -maxFallSpeed)
         {
-            rb.AddForceY(-pushDownForce / 2.5f);
+            playerRigidBody.AddForceY(-pushDownForce / 2.5f);
         }
-        else if (!grounded && (!jumpInputHold) && rb.linearVelocityY > -maxFallSpeed)
+        else if (!grounded && (!jumpInputHold) && playerRigidBody.linearVelocityY > -maxFallSpeed)
         {
-            rb.AddForceY(-pushDownForce);
+            playerRigidBody.AddForceY(-pushDownForce);
         }
     }
     void InvincibilityTime()
@@ -280,6 +280,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void FallingSpeedCap()
     {
-        rb.linearVelocityY = Mathf.Clamp(rb.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
+        playerRigidBody.linearVelocityY = Mathf.Clamp(playerRigidBody.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
     }
 }
