@@ -5,7 +5,9 @@ using UnityEngine.UIElements;
 
 public class PlayerInteractions : MonoBehaviour
 {
-    Rigidbody2D rb;
+    private Rigidbody2D playerRigidBody;
+    private PlayerMovement playerMovement;
+    private Cheats cheats;
 
     public int hp;
     public bool keyCollected;
@@ -20,7 +22,11 @@ public class PlayerInteractions : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        playerRigidBody = GetComponent<Rigidbody2D>();
+
+        playerMovement = GetComponentInChildren<PlayerMovement>();
+
+        cheats = GetComponent<Cheats>();
 
         transform.position = respawnPosition;
     }
@@ -28,21 +34,16 @@ public class PlayerInteractions : MonoBehaviour
     private void Update()
     {
         interactButton = Input.GetKeyDown(KeyCode.E);
-
-        if (interactButton == true && inChallengeArea == true)
-        {
-            //keyCollected = true;
-        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (keyCollected == true)
-        {
-            //Destroy(GameObject.FindGameObjectWithTag("Key"));
-        }
+        Respawn();
+    }
 
+    void Respawn()
+    {
         if (hp <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -51,42 +52,66 @@ public class PlayerInteractions : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        InsideBubbleChallengeRange(collision);
+
+        MetRipple(collision);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        OutsideBubbleChallengeRange(collision);
+    }
+
+    void InsideBubbleChallengeRange(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Challenge"))
         {
             inChallengeArea = true;
         }
+    }
+
+    void MetRipple(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("Ripple"))
         {
             respawnPosition = collision.gameObject.transform.position;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    void OutsideBubbleChallengeRange(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Challenge"))
         {
             inChallengeArea = false;
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
+    {
+        UnlockingGate(collision);
+    }
+
+    void UnlockingGate(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Gate"))
         {
-            if (keyCollected == true)
+            if (!keyCollected)
             {
-                gateOpened = true;
-                Destroy(collision.gameObject);
+                return;
             }
+            gateOpened = true;
+            collision.gameObject.SetActive(false);
         }
     }
 
+    // Other Functions
     public void TakeDamage(int damage)
     {
-        if (!GetComponent<Cheats>().invincibleCheatActive && !GetComponentInChildren<PlayerMovement>().playerIsInvincible)
+        if (!cheats.invincibleCheatActive && !playerMovement.playerIsInvincible)
         {
             hp -= damage;
-            GetComponentInChildren<PlayerMovement>().playerIsStunned = true;
-            rb.linearVelocity = new Vector2(-GetComponentInChildren<PlayerMovement>().playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
+            playerMovement.playerIsStunned = true;
+            playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
         }
     }
 } 
