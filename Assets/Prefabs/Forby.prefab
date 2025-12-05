@@ -157,7 +157,7 @@ MonoBehaviour:
   lastPlayerPositionInRange: {x: 0, y: 0}
   maxNumberOfShots: 4
   currentNumberOfShots: 0
-  rotationSpeed: 120
+  rotationSpeed: 100
   numberOfRotationsPerShot: 4
   rotationState: 0
   playerInRange: 0
