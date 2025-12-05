@@ -62,12 +62,12 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
             if (currentNote < 3)
             {
-                ColorDisplay.GetComponent<MusicPlay>().key = pattern[currentNote];
+                key = pattern[currentNote];
                 Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
             }
             else
             {
-                ColorDisplay.GetComponent<MusicPlay>().key = MusicKey.Idle;
+                key = MusicKey.Idle;
                 Transform.localScale = Vector2.zero;
                 HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
                 HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
