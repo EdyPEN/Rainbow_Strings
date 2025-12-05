@@ -262,7 +262,7 @@ public class SimonSays : MonoBehaviour
                 combo = 0;
                 timerPerNote = 1;
                 Note[3].GetComponent<Note>().key = MusicKey.Blue;
-                Note[0].GetComponent<Note>().key = MusicKey.Idle; // This just cancels the previous line D:
+                Note[0].GetComponent<Note>().key = MusicKey.Idle;
             }
             else if (timerReaction == 0)
             {
