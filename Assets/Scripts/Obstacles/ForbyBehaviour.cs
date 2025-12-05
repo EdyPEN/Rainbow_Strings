@@ -299,22 +299,18 @@ public class ForbyBehaviour : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < bulletArray.Length; i++)
+        if (playerInRange)
         {
-            if (bulletArray[i].GetComponent<EnemyBulletBehaviour>().playerMusicAreaInRange)
+            for (int i = 0; i < noteArray.Length; i++)
             {
-                for (int j = 0; j < noteArray.Length; j++)
-                {
-                    noteArray[j].GetComponent<Note>().hideNotes = false;
-                }
+                noteArray[i].GetComponent<Note>().hideNotes = false;
             }
-            else
+        }
+        else
+        {
+            for (int i = 0; i < noteArray.Length; i++)
             {
-                for (int j = 0; j < noteArray.Length; j++)
-                {
-                    noteArray[j].GetComponent<Note>().hideNotes = true;
-                    return;
-                }
+                noteArray[i].GetComponent<Note>().hideNotes = true;
             }
         }
     }
