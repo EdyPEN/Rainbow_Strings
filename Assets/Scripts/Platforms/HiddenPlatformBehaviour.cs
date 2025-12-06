@@ -5,26 +5,33 @@ using static MusicPlay;
 
 public class HiddenPlatformBehaviour : MonoBehaviour
 {
-    public GameObject MusicRange;
-    public GameObject ColorDisplay;
-    public GameObject HiddenPlatform;
-    public Transform Transform;
     SpriteRenderer sr;
+    MusicPlay playerKey;
+    Collider2D collider2D;
+
+    public GameObject ColorDisplay;
 
     public int currentNote;
 
     public bool playerInRange;
 
-    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
+    public Vector2 platformScale;
+
+    public float platformResetTime;
+    public float platformResetTimer;
+
+    public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[4];
     public MusicKey key;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
+        playerKey = ColorDisplay.GetComponent<MusicPlay>();
 
         PatternRandomizer(pattern);
 
-        ColorDisplay.GetComponent<MusicPlay>().key = pattern[0];
-        Transform.localScale = new Vector2(0.25f, 0.25f);
+        key = pattern[0];
     }
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
@@ -51,30 +58,55 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     void Update()
     {
+        ChangeNoteBasedOnPlayerInput();
+
+        ChangePlatformState();
+
         ColorLogic();
 
+        UpdateScale();
+    }
+
+    void ChangeNoteBasedOnPlayerInput()
+    {
+        if (currentNote == 3)
+        {
+            return;
+        }
         if (playerInRange == true)
         {
-            if (ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentNote])
+            if (playerKey.key == MusicKey.Idle)
+            {
+                return;
+            }
+            if (playerKey.key == pattern[currentNote])
             {
                 currentNote++;
             }
-
-            if (currentNote < 3)
-            {
-                key = pattern[currentNote];
-                Transform.localScale = new Vector2(0.25f * (currentNote + 1), 0.25f * (currentNote + 1));
-            }
             else
             {
-                key = MusicKey.Idle;
-                Transform.localScale = Vector2.zero;
-                HiddenPlatform.GetComponent<Collider2D>().isTrigger = false;
-                HiddenPlatform.GetComponent<SpriteRenderer>().enabled = true;
+                currentNote = 0;
             }
         }
     }
+
+    void ChangePlatformState()
+    {
+        if (currentNote < 3)
+        {
+            key = pattern[currentNote];
+            collider2D.isTrigger = true;
+        }
+        else
+        {
+            key = MusicKey.Idle;
+            collider2D.isTrigger = false;
+        }
+    }
+
     void ColorLogic()
+    {
+        if (currentNote < 3)
         {
             if (key == MusicKey.Idle)
             {
@@ -97,9 +129,20 @@ public class HiddenPlatformBehaviour : MonoBehaviour
                 sr.color = Color.red;
             }
         }
+        else
+        {
+            sr.color = new Color32(100, 50, 0, 255);
+        }
+    }
+
+    void UpdateScale()
+    {
+        transform.localScale = platformScale * (0.25f * (currentNote + 1));
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MusicRange")
+        if (collision.gameObject.CompareTag("MusicRange"))
         {
             playerInRange = true;
         }
@@ -107,7 +150,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MusicRange")
+        if (collision.gameObject.CompareTag("MusicRange"))
         {
             playerInRange = false;
         }

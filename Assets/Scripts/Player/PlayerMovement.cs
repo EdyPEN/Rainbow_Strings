@@ -5,9 +5,9 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Animator animator;
     Rigidbody2D playerRigidBody;
     SpriteRenderer playerSpriteRenderer;
-    Animator animator;
 
     public GameObject player;
 
@@ -16,20 +16,24 @@ public class PlayerMovement : MonoBehaviour
 
     // Inputs
     public int xInput;
-    public bool jumpInputTap, jumpInputHold, jumpInputRelease;
+    public bool jumpInputTap;
+    public bool jumpInputHold;
+    public bool jumpInputRelease;
 
     // Walking
-    public int playerFacingDirection;
     public float walkingSpeed;
+    public int playerFacingDirection;
 
     // Jump
     public bool grounded;
-    public float jumpForce, maxFallSpeed, pushDownForce;
+    public float jumpForce;
+    public float maxFallSpeed;
+    public float pushDownForce;
 
     //Jump Buffering
+    public bool playerWantsToJump;
     public float jumpBufferingTime;
     public float jumpBufferingTimer;
-    public bool playerWantsToJump;
 
     // Jump Coyote Time
     public float coyoteTime;
@@ -50,10 +54,6 @@ public class PlayerMovement : MonoBehaviour
         animator = player.GetComponent<Animator>();
         playerRigidBody = player.GetComponent<Rigidbody2D>();
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
-
-        jumpBufferingTimer = jumpBufferingTime;
-        
-        playerInvincibilityTimer = playerInvincibilityTime;
     }
 
     // Update is called once per frame

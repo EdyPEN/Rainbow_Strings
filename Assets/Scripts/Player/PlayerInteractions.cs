@@ -5,20 +5,20 @@ using UnityEngine.UIElements;
 
 public class PlayerInteractions : MonoBehaviour
 {
+    private Cheats cheats;
     private Rigidbody2D playerRigidBody;
     private PlayerMovement playerMovement;
-    private Cheats cheats;
 
     public int hp;
-    public bool keyCollected;
     public bool gateOpened;
+    public bool keyCollected;
 
-    public bool inChallengeArea;
     public bool interactButton;
+    public bool inChallengeArea;
 
     public float horizontalDamageKnockback, verticalDamageKnockback;
 
-    public static Vector3 respawnPosition = Vector3.zero;
+    public static Vector3 respawnPosition = new Vector3(0, 0, 0);
 
     void Start()
     {

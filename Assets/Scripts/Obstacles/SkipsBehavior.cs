@@ -5,6 +5,9 @@ using static MusicPlay;
 
 public class SkipsBehaviour : MonoBehaviour
 {
+    Rigidbody2D rb;
+    SpriteRenderer sr;
+
     [Header("About Player")]
     public GameObject AreaInteraction;
     public GameObject ColorDisplay;
@@ -15,16 +18,14 @@ public class SkipsBehaviour : MonoBehaviour
     public int damage = 1;
     public int jump = 3;
     public int direction = 1;
-    public int currentPattern;
+    public int currentNote;
     public float speed, force;
+    public bool playerInRange;
 
     [Header("Skips' death")]
     public int combo = 0;
     public float timerIdle;
     public float timerHit;
-
-    Rigidbody2D rb;
-    SpriteRenderer sr;
 
     [Header("Pattern")]
     public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
@@ -32,14 +33,10 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
-        PatternRandomizer(pattern);
-
-        Note[0].SetActive(false);
-        Note[1].SetActive(false);
-        Note[2].SetActive(false);
-
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+
+        PatternRandomizer(pattern);
     }
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
@@ -66,13 +63,12 @@ public class SkipsBehaviour : MonoBehaviour
     void Update()
     {
         TimerLogic();
+
         ColorLogic();
 
-        // Interaction without area dependens
-        if (combo == 3)
-        {
-            Destroy(gameObject);
-        }
+        Interaction();
+
+        Death();
     }
     void TimerLogic()
     {
@@ -91,15 +87,19 @@ public class SkipsBehaviour : MonoBehaviour
         }
 
         // TIMER HIT ---------------------
-        if (timerHit > 0)
+        if (combo > 0)
         {
-            timerHit -= Time.deltaTime;
-        }
-        else
-        {
-            timerHit = 0;
+            if (timerHit > 0)
+            {
+                timerHit -= Time.deltaTime;
+            }
+            else
+            {
+                timerHit = 0;
+            }
         }
     }
+
     void ColorLogic()
     {
         if (key == MusicKey.Idle)
@@ -126,54 +126,37 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Interaction()
     {
-        if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (combo >= 0))
+        if (!playerInRange)
         {
-            Note[0].GetComponent<Note>().key = pattern[currentPattern];
-            combo = 1;
+            return;
+        }
+        if (ColorDisplay.GetComponent<MusicPlay>().key == pattern[combo])
+        {
+            Note[combo].GetComponent<Note>().key = pattern[combo];
+            combo++;
             timerHit = 2;
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 1))
-        {
-            Note[1].GetComponent<Note>().key = pattern[currentPattern];
-            combo = 2;
-            timerHit = 2;
-        }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[currentPattern]) && (timerHit > 0) && (combo >= 2))
-        {
-            Note[2].GetComponent<Note>().key = pattern[currentPattern];
-            timerHit = 2;
-            combo = 3;
-        }
-        else if (ColorDisplay.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle)
+        else if (ColorDisplay.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle || timerHit <= 0)
         {
             combo = 0;
-            Note[0].GetComponent<Note>().key = MusicKey.Idle;
-            Note[1].GetComponent<Note>().key = MusicKey.Idle;
-            Note[2].GetComponent<Note>().key = MusicKey.Idle;
+            timerHit = 0;
+            for (int i = 0; i < Note.Length; i++)
+            {
+                Note[i].GetComponent<Note>().key = MusicKey.Idle;
+            }
         }
     }
 
-    void CheckOnGround()
+    void Death()
     {
-        //print("GROUND check");
-        if (jump == 3)
+        if (combo == 3)
         {
-            //print("GROUND call !!!!!");
-            timerIdle = 2;
-            ChangeDirection();
-            Jump();
-            jump = 0;
-            key = MusicKey.Idle;
-        }
-        else if (jump < 3)
-        {
-            Jump();
+            gameObject.SetActive(false);
         }
     }
 
     void Jump()
     {
-        //print("Jump: " + jump);
         if (timerIdle == 0)
         {
             rb.linearVelocityY = 0;
@@ -181,35 +164,33 @@ public class SkipsBehaviour : MonoBehaviour
             rb.AddForceY(force);
             jump++;
 
-            key = pattern[currentPattern];
+            key = pattern[currentNote];
 
-            if (currentPattern == 2)
+            if (currentNote == 2)
             {
-                currentPattern = 0;
+                currentNote = 0;
             }
             else
             {
-                currentPattern++;
+                currentNote++;
             }
 
             // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
 
             if (key == MusicKey.Idle && timerIdle == 0)
             {
-                key = pattern[currentPattern];
+                key = pattern[currentNote];
             }
         }
         else if (jump == 3)
         {
             rb.AddForceY(-1 * force);
-            rb.linearVelocityY = 0;
-            rb.linearVelocityX = 0;
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
     void ChangeDirection()
     {
-        //print("DIRECTION called");
         if (direction == 1)
         {
             direction = -1;
@@ -220,12 +201,27 @@ public class SkipsBehaviour : MonoBehaviour
         }
     }
 
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
             CheckOnGround();
+        }
+    }
+
+    void CheckOnGround()
+    {
+        if (jump == 3)
+        {
+            timerIdle = 2;
+            ChangeDirection();
+            Jump();
+            jump = 0;
+            key = MusicKey.Idle;
+        }
+        else if (jump < 3)
+        {
+            Jump();
         }
     }
 
@@ -241,10 +237,11 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (collider.gameObject.name == "Area")
         {
-            Note[0].SetActive(true);
-            Note[1].SetActive(true);
-            Note[2].SetActive(true);
-            Interaction();
+            for (int i = 0; i < Note.Length; i++)
+            {
+                Note[i].SetActive(true);
+            }
+            playerInRange = true;
         }
     }
 
@@ -252,9 +249,11 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (collider.gameObject.name == "Area")
         {
-            Note[0].SetActive(false);
-            Note[1].SetActive(false);
-            Note[2].SetActive(false);
+            for (int i = 0; i < Note.Length; i++)
+            {
+                Note[i].SetActive(false);
+            }
+            playerInRange = false;
         }
     }
 }
