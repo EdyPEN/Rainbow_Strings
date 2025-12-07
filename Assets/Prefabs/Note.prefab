@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 8798152007047237173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.23012, y: -0.32582, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c54a71d61ad244cab1df84e2cd697e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Note
-  ColorDisplay: {fileID: 0}
   circle: {fileID: 100859830372986359}
   square: {fileID: 4118250568096754680}
   spCircle: {fileID: 6569544575485405243}
   spSquare: {fileID: 5004235390975886382}
-  color: 0
+  key: 0
+  hideNotes: 0

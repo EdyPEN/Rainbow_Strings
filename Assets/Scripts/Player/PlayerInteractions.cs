@@ -16,7 +16,8 @@ public class PlayerInteractions : MonoBehaviour
     public bool interactButton;
     public bool inChallengeArea;
 
-    public float horizontalDamageKnockback, verticalDamageKnockback;
+    public float horizontalDamageKnockback;
+    public float verticalDamageKnockback;
 
     public static Vector3 respawnPosition = new Vector3(11, 0, 0);
 

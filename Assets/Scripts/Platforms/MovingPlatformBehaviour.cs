@@ -18,6 +18,8 @@ public class MovingPlatform : MonoBehaviour
     public int currentPosition = 0;
 
     // Player interaction with a platform
+    MusicPlay playerKey;
+
     public GameObject ColorDisplay;
 
     public bool playerIsInRange;
@@ -40,6 +42,7 @@ public class MovingPlatform : MonoBehaviour
         nextPos[3] = pointD.position;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerKey = ColorDisplay.GetComponent<MusicPlay>();
     }
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
@@ -112,19 +115,19 @@ public class MovingPlatform : MonoBehaviour
     }
     void Interaction()
     {
-        if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[0]) && (currentPosition == 0) && (!isMoving))
+        if ((playerKey.key == pattern[0]) && (currentPosition == 0) && (!isMoving))
         {
             isMoving = true;
             currentPosition = 1;
             key = pattern[1];
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[1])/* && (timerHit > 0)*/ && (currentPosition == 1) && (!isMoving))
+        else if ((playerKey.key == pattern[1])/* && (timerHit > 0)*/ && (currentPosition == 1) && (!isMoving))
         {
             isMoving = true;
             currentPosition = 2;
             key = pattern[2];
         }
-        else if ((ColorDisplay.GetComponent<MusicPlay>().key == pattern[2])/* && (timerHit > 0)*/ && (currentPosition == 2) && (!isMoving))
+        else if ((playerKey.key == pattern[2])/* && (timerHit > 0)*/ && (currentPosition == 2) && (!isMoving))
         {
             isMoving = true;
             currentPosition = 3;

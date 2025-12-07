@@ -227,11 +227,11 @@ public class PlayerMovement : MonoBehaviour
             playerInvincibilityTimer -= Time.fixedDeltaTime;
             if (Mathf.CeilToInt(playerInvincibilityTimer * 10) % 2 == 1)
             {
-                player.GetComponent<SpriteRenderer>().enabled = false;
+                playerSpriteRenderer.enabled = false;
             }
             else
             {
-                player.GetComponent<SpriteRenderer>().enabled = true;
+                playerSpriteRenderer.enabled = true;
             }
             if (playerInvincibilityTimer < 0)
             {
@@ -241,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             playerInvincibilityTimer = playerInvincibilityTime;
-            player.GetComponent<SpriteRenderer>().enabled = true;
+            playerSpriteRenderer.enabled = true;
         }
     }
 

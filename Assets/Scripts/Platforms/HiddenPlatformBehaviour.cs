@@ -11,6 +11,10 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     public GameObject ColorDisplay;
 
+    public GameObject[] note;
+
+    public Vector2[] noteStartingPosition;
+
     public int currentNote;
 
     public bool playerInRange;
@@ -30,6 +34,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         collider2D = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
+
 
         PatternRandomizer(pattern);
 
@@ -69,6 +74,11 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         UpdateScale();
 
         TimerReset();
+
+        for (int i = 0; i < note.Length; i++)
+        {
+            note[i].transform.localScale = new Vector2(1, 1) / transform.localScale;
+        }
     }
 
     void ChangeNoteBasedOnPlayerInput()
