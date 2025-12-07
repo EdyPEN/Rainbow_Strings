@@ -47,6 +47,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
         GetNoteStartingPositions();
     }
+
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
         for (int i = 0; i < pattern.Length; i++)
@@ -99,20 +100,26 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     void ChangeNoteBasedOnPlayerInput()
     {
-        if (currentNote == 3)
-        {
-            return;
-        }
         if (!playerInRange)
         {
             for (int i = 0; i < Note.Length; i++)
             {
+                Note[i].SetActive(false);
+            }
+            return;
+        }
+        if (currentNote == 3)
+        {
+            for (int i = 0; i < Note.Length; i++)
+            {
                 Note[i].GetComponent<Note>().hideNotes = true;
+                Note[i].GetComponent<Note>().key = MusicKey.Idle;
             }
             return;
         }
         for (int i = 0; i < Note.Length; i++)
         {
+            Note[i].SetActive(true);
             Note[i].GetComponent<Note>().hideNotes = false;
         }
         if (playerKey.key == MusicKey.Idle)
@@ -142,11 +149,6 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         {
             key = MusicKey.Idle;
             platformCollider.isTrigger = false;
-            for (int i = 0; i < Note.Length; i++)
-            {
-                Note[i].GetComponent<Note>().hideNotes = true;
-                Note[i].GetComponent<Note>().key = MusicKey.Idle;
-            }
         }
     }
 

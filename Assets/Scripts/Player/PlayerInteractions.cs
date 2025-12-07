@@ -11,6 +11,7 @@ public class PlayerInteractions : MonoBehaviour
     private PlayerMovement playerMovement;
 
     public int hp;
+    public int maxHp;
     public bool gateOpened;
     public bool keyCollected;
 
@@ -20,13 +21,15 @@ public class PlayerInteractions : MonoBehaviour
     public float horizontalDamageKnockback;
     public float verticalDamageKnockback;
 
-    public static Vector3 respawnPosition = new Vector3(11, 0, 0);
+    public static Vector3 respawnPosition = new Vector3(6, 8, 0);
 
     void Start()
     {
         cheats = GetComponent<Cheats>();
         playerRigidBody = GetComponent<Rigidbody2D>();
         playerMovement = GetComponentInChildren<PlayerMovement>();
+
+        hp = maxHp;
 
         transform.position = respawnPosition;
     }
@@ -47,6 +50,24 @@ public class PlayerInteractions : MonoBehaviour
         if (hp <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        UnlockingGate(collision);
+    }
+
+    void UnlockingGate(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Gate"))
+        {
+            if (!keyCollected)
+            {
+                return;
+            }
+            gateOpened = true;
+            collision.gameObject.SetActive(false);
         }
     }
 
@@ -74,6 +95,8 @@ public class PlayerInteractions : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ripple"))
         {
+            hp = maxHp;
+
             respawnPosition = collision.gameObject.transform.position;
         }
     }
@@ -83,24 +106,6 @@ public class PlayerInteractions : MonoBehaviour
         if (collision.gameObject.CompareTag("Challenge"))
         {
             inChallengeArea = false;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        UnlockingGate(collision);
-    }
-
-    void UnlockingGate(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Gate"))
-        {
-            if (!keyCollected)
-            {
-                return;
-            }
-            gateOpened = true;
-            collision.gameObject.SetActive(false);
         }
     }
 
