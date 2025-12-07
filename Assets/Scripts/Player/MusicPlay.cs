@@ -9,13 +9,13 @@ public class MusicPlay : MonoBehaviour
 
     public enum MusicKey { Idle, Blue, Green, Yellow, Red }
 
-    SpriteRenderer sr;
+    SpriteRenderer spriteRenderer;
 
     public MusicKey key;
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -69,23 +69,23 @@ public class MusicPlay : MonoBehaviour
     {
         if (key == MusicKey.Idle)
         {
-            sr.color = Color.white;
+            spriteRenderer.color = Color.white;
         }
         else if (key == MusicKey.Yellow)
         {
-            sr.color = Color.yellow;
+            spriteRenderer.color = Color.yellow;
         }
         else if (key == MusicKey.Green)
         {
-            sr.color = Color.green;
+            spriteRenderer.color = Color.green;
         }
         else if (key == MusicKey.Blue)
         {
-            sr.color = Color.deepSkyBlue;
+            spriteRenderer.color = Color.deepSkyBlue;
         }
         else if (key == MusicKey.Red)
         {
-            sr.color = Color.red;
+            spriteRenderer.color = Color.red;
         }
     }
 }

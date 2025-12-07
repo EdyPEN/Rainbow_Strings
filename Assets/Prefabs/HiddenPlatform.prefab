@@ -174,7 +174,9 @@ MonoBehaviour:
   currentNote: 0
   playerInRange: 0
   platformScale: {x: 3, y: 1}
-  platformResetTime: 0
+  platformResetTime: 3
   platformResetTimer: 0
+  platformResetAfterCompletionTime: 6
+  platformResetAfterCompletionTimer: 0
   pattern: 000000000000000000000000
   key: 0

@@ -5,12 +5,13 @@ using static MusicPlay;
 
 public class SkipsBehaviour : MonoBehaviour
 {
-    Rigidbody2D rb;
-    SpriteRenderer sr;
+    MusicPlay playerKey;
+    Rigidbody2D rigidBody;
+    SpriteRenderer spriteRenderer;
 
     [Header("About Player")]
-    public GameObject AreaInteraction;
     public GameObject ColorDisplay;
+    public GameObject AreaInteraction;
 
     public GameObject[] Note;
 
@@ -33,11 +34,13 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        playerKey = ColorDisplay.GetComponent<MusicPlay>();
 
         PatternRandomizer(pattern);
     }
+
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
         for (int i = 0; i < pattern.Length; i++)
@@ -60,6 +63,7 @@ public class SkipsBehaviour : MonoBehaviour
             pattern[i] = (MusicPlay.MusicKey)newKey;
         }
     }
+
     void Update()
     {
         TimerLogic();
@@ -70,6 +74,7 @@ public class SkipsBehaviour : MonoBehaviour
 
         Death();
     }
+
     void TimerLogic()
     {
         // TIMER IDLE ---------------------
@@ -104,23 +109,23 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (key == MusicKey.Idle)
         {
-            sr.color = Color.white;
+            spriteRenderer.color = Color.white;
         }
         else if (key == MusicKey.Yellow)
         {
-            sr.color = Color.yellow;
+            spriteRenderer.color = Color.yellow;
         }
         else if (key == MusicKey.Green)
         {
-            sr.color = Color.green;
+            spriteRenderer.color = Color.green;
         }
         else if (key == MusicKey.Blue)
         {
-            sr.color = Color.deepSkyBlue;
+            spriteRenderer.color = Color.deepSkyBlue;
         }
         else if (key == MusicKey.Red)
         {
-            sr.color = Color.red;
+            spriteRenderer.color = Color.red;
         }
     }
 
@@ -130,13 +135,13 @@ public class SkipsBehaviour : MonoBehaviour
         {
             return;
         }
-        if (ColorDisplay.GetComponent<MusicPlay>().key == pattern[combo])
+        if (playerKey.key == pattern[combo])
         {
             Note[combo].GetComponent<Note>().key = pattern[combo];
             combo++;
             timerHit = 2;
         }
-        else if (ColorDisplay.GetComponent<MusicPlay>().key != MusicPlay.MusicKey.Idle || timerHit <= 0)
+        else if (playerKey.key != MusicPlay.MusicKey.Idle || timerHit <= 0)
         {
             combo = 0;
             timerHit = 0;
@@ -159,9 +164,9 @@ public class SkipsBehaviour : MonoBehaviour
     {
         if (timerIdle == 0)
         {
-            rb.linearVelocityY = 0;
-            rb.linearVelocityX = direction * speed;
-            rb.AddForceY(force);
+            rigidBody.linearVelocityY = 0;
+            rigidBody.linearVelocityX = direction * speed;
+            rigidBody.AddForceY(force);
             jump++;
 
             key = pattern[currentNote];
@@ -184,8 +189,8 @@ public class SkipsBehaviour : MonoBehaviour
         }
         else if (jump == 3)
         {
-            rb.AddForceY(-1 * force);
-            rb.linearVelocity = Vector2.zero;
+            rigidBody.AddForceY(-1 * force);
+            rigidBody.linearVelocity = Vector2.zero;
         }
     }
 

@@ -5,9 +5,9 @@ using static MusicPlay;
 
 public class HiddenPlatformBehaviour : MonoBehaviour
 {
-    SpriteRenderer sr;
     MusicPlay playerKey;
     Collider2D collider2D;
+    SpriteRenderer spriteRenderer;
 
     public GameObject ColorDisplay;
 
@@ -19,14 +19,16 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     public float platformResetTime;
     public float platformResetTimer;
+    public float platformResetAfterCompletionTime;
+    public float platformResetAfterCompletionTimer;
 
     public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[4];
     public MusicKey key;
 
     void Start()
     {
-        sr = GetComponent<SpriteRenderer>();
         collider2D = GetComponent<Collider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
 
         PatternRandomizer(pattern);
@@ -65,6 +67,8 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         ColorLogic();
 
         UpdateScale();
+
+        TimerReset();
     }
 
     void ChangeNoteBasedOnPlayerInput()
@@ -81,6 +85,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
             }
             if (playerKey.key == pattern[currentNote])
             {
+                platformResetTimer = platformResetTime;
                 currentNote++;
             }
             else
@@ -110,34 +115,99 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         {
             if (key == MusicKey.Idle)
             {
-                sr.color = Color.white;
+                spriteRenderer.color = Color.white;
             }
             else if (key == MusicKey.Yellow)
             {
-                sr.color = Color.yellow;
+                spriteRenderer.color = Color.yellow;
             }
             else if (key == MusicKey.Green)
             {
-                sr.color = Color.green;
+                spriteRenderer.color = Color.green;
             }
             else if (key == MusicKey.Blue)
             {
-                sr.color = Color.deepSkyBlue;
+                spriteRenderer.color = Color.deepSkyBlue;
             }
             else if (key == MusicKey.Red)
             {
-                sr.color = Color.red;
+                spriteRenderer.color = Color.red;
             }
         }
         else
         {
-            sr.color = new Color32(100, 50, 0, 255);
+            spriteRenderer.color = new Color32(100, 50, 0, 255);
         }
     }
 
     void UpdateScale()
     {
         transform.localScale = platformScale * (0.25f * (currentNote + 1));
+    }
+
+    void TimerReset()
+    {
+        if (currentNote == 0)
+        {
+            platformResetTimer = platformResetTime;
+        }
+        else
+        {
+            if (currentNote < 3)
+            {
+                platformResetAfterCompletionTimer = platformResetAfterCompletionTime;
+                if (platformResetTimer > 0)
+                {
+                    platformResetTimer -= Time.deltaTime;
+                    BlinkingAnimation(platformResetTime, platformResetTimer);
+                }
+                else
+                {
+                    currentNote = 0;
+                    platformResetTimer = 0;
+                }
+            }
+            else
+            {
+                if (platformResetAfterCompletionTimer > 0)
+                {
+                    platformResetAfterCompletionTimer -= Time.deltaTime;
+                    BlinkingAnimation(platformResetAfterCompletionTime, platformResetAfterCompletionTimer);
+                }
+                else
+                {
+                    currentNote = 0;
+                    platformResetAfterCompletionTimer = 0;
+                }
+            }
+
+        }
+    }
+
+    void BlinkingAnimation(float time, float timer)
+    {
+        if (timer < (time / 4))
+        {
+            if (Mathf.CeilToInt(timer * 10) % 2 == 1)
+            {
+                spriteRenderer.enabled = false;
+            }
+            else
+            {
+                spriteRenderer.enabled = true;
+            }
+        }
+        else if (timer < (time / 2))
+        {
+            if (Mathf.CeilToInt(timer * 10) % 4 == 1)
+            {
+                spriteRenderer.enabled = false;
+            }
+            else
+            {
+                spriteRenderer.enabled = true;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -1,7 +1,10 @@
 using UnityEngine;
+using static PlayerInteractions;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    PlayerMovement playerMovement;
+
     public GameObject player;
 
     public Vector2 target;
@@ -10,18 +13,18 @@ public class CameraBehaviour : MonoBehaviour
 
     public float speedDefault, speedModifierDistance;
 
-    //public float speed;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + manualOffsetY, player.transform.position.z);
+        playerMovement = player.GetComponentInChildren<PlayerMovement>();
+
+        transform.position = new Vector3(respawnPosition.x, respawnPosition.y + manualOffsetY, respawnPosition.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        target.x = player.transform.position.x + (offsetX * player.GetComponentInChildren<PlayerMovement>().playerFacingDirection);
+        target.x = player.transform.position.x + (offsetX * playerMovement.playerFacingDirection);
 
         if (Mathf.Abs(target.y - (player.transform.position.y + manualOffsetY)) > offsetYLimit)
         {

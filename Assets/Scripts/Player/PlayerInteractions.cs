@@ -18,7 +18,7 @@ public class PlayerInteractions : MonoBehaviour
 
     public float horizontalDamageKnockback, verticalDamageKnockback;
 
-    public static Vector3 respawnPosition = new Vector3(0, 0, 0);
+    public static Vector3 respawnPosition = new Vector3(11, 0, 0);
 
     void Start()
     {
