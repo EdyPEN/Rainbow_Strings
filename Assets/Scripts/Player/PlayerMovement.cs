@@ -292,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    Vector2 GetCollisionNormal(Collision2D collision)
+    public static Vector2 GetCollisionNormal(Collision2D collision)
     {
         ContactPoint2D collisionPoint = collision.GetContact(0);
         return collisionPoint.normal;

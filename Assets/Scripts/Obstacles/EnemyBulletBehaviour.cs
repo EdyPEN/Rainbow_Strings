@@ -23,21 +23,26 @@ public class EnemyBulletBehaviour : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (wasShot == true && (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ground" || collision.gameObject.tag == "Gate"))
         {
             gameObject.SetActive(false);
         }
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage);
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage, true, collision);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("MusicRange"))
         {
             playerMusicAreaInRange = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("MusicRange"))

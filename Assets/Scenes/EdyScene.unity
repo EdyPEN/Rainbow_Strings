@@ -7737,13 +7737,33 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1214945367}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
       propertyPath: ColorDisplay
       value: 
       objectReference: {fileID: 578691950}
     - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: Note.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
       propertyPath: note.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: 'Note.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1959870650}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: 'Note.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1456039099}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: 'Note.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1057208174}
     - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
       propertyPath: 'note.Array.data[0]'
       value: 
@@ -7772,6 +7792,10 @@ PrefabInstance:
       propertyPath: 'noteArray.Array.data[2]'
       value: 
       objectReference: {fileID: 1057208174}
+    - target: {fileID: 6211875011232661731, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
+      propertyPath: noteStartingPosition.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7465840650259147472, guid: 397038b356bf89f4ca100dafc7f0ee23, type: 3}
       propertyPath: m_Name
       value: HiddenPlatform

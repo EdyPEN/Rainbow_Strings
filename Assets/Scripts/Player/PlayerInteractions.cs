@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static PlayerMovement;
 
 public class PlayerInteractions : MonoBehaviour
 {
@@ -104,13 +105,30 @@ public class PlayerInteractions : MonoBehaviour
     }
 
     // Other Functions
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool useContactDirection, Collision2D collision)
     {
         if (!cheats.invincibleCheatActive && !playerMovement.playerIsInvincible)
         {
             hp -= damage;
             playerMovement.playerIsStunned = true;
-            playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection *  horizontalDamageKnockback, verticalDamageKnockback);
+            if (useContactDirection && GetCollisionNormal(collision).x != 0)
+            {
+                int pushDirection;
+                if (GetCollisionNormal(collision).x > 0)
+                {
+                    pushDirection = Mathf.CeilToInt(GetCollisionNormal(collision).x);
+                }
+                else
+                {
+                    pushDirection = Mathf.FloorToInt(GetCollisionNormal(collision).x);
+                }
+
+                    playerRigidBody.linearVelocity = new Vector2(-pushDirection * horizontalDamageKnockback, verticalDamageKnockback);
+            }
+            else
+            {
+                playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection * horizontalDamageKnockback, verticalDamageKnockback);
+            }
         }
     }
 } 

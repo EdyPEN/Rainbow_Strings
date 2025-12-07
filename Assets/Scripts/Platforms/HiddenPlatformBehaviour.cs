@@ -1,17 +1,20 @@
 using System;
+using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static MusicPlay;
 
 public class HiddenPlatformBehaviour : MonoBehaviour
 {
     MusicPlay playerKey;
-    Collider2D collider2D;
+    Collider2D platformCollider;
     SpriteRenderer spriteRenderer;
 
+    public GameObject Player;
     public GameObject ColorDisplay;
 
-    public GameObject[] note;
+    public GameObject[] Note;
 
     public Vector2[] noteStartingPosition;
 
@@ -20,6 +23,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     public bool playerInRange;
 
     public Vector2 platformScale;
+    public Vector2 initialPlatformScale;
 
     public float platformResetTime;
     public float platformResetTimer;
@@ -31,14 +35,17 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     void Start()
     {
-        collider2D = GetComponent<Collider2D>();
+        platformCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
 
-
         PatternRandomizer(pattern);
+        
+        initialPlatformScale = transform.localScale;
 
         key = pattern[0];
+
+        GetNoteStartingPositions();
     }
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
@@ -63,6 +70,14 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         }
     }
 
+    void GetNoteStartingPositions()
+    {
+        for (int i = 0; i < Note.Length; i++)
+        {
+            noteStartingPosition[i] = Note[i].transform.localPosition;
+        }
+    }
+
     void Update()
     {
         ChangeNoteBasedOnPlayerInput();
@@ -75,10 +90,11 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
         TimerReset();
 
-        for (int i = 0; i < note.Length; i++)
-        {
-            note[i].transform.localScale = new Vector2(1, 1) / transform.localScale;
-        }
+        UpdateNoteScales();
+
+        UpdateNotePositions();
+
+        UpdateNoteColors();
     }
 
     void ChangeNoteBasedOnPlayerInput()
@@ -87,21 +103,31 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         {
             return;
         }
-        if (playerInRange == true)
+        if (!playerInRange)
         {
-            if (playerKey.key == MusicKey.Idle)
+            for (int i = 0; i < Note.Length; i++)
             {
-                return;
+                Note[i].GetComponent<Note>().hideNotes = true;
             }
-            if (playerKey.key == pattern[currentNote])
-            {
-                platformResetTimer = platformResetTime;
-                currentNote++;
-            }
-            else
-            {
-                currentNote = 0;
-            }
+            return;
+        }
+        for (int i = 0; i < Note.Length; i++)
+        {
+            Note[i].GetComponent<Note>().hideNotes = false;
+        }
+        if (playerKey.key == MusicKey.Idle)
+        {
+            return;
+        }
+        if (playerKey.key == pattern[currentNote])
+        {
+            Note[currentNote].GetComponent<Note>().key = pattern[currentNote];
+            platformResetTimer = platformResetTime;
+            currentNote++;
+        }
+        else
+        {
+            currentNote = 0;
         }
     }
 
@@ -110,12 +136,17 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         if (currentNote < 3)
         {
             key = pattern[currentNote];
-            collider2D.isTrigger = true;
+            platformCollider.isTrigger = true;
         }
         else
         {
             key = MusicKey.Idle;
-            collider2D.isTrigger = false;
+            platformCollider.isTrigger = false;
+            for (int i = 0; i < Note.Length; i++)
+            {
+                Note[i].GetComponent<Note>().hideNotes = true;
+                Note[i].GetComponent<Note>().key = MusicKey.Idle;
+            }
         }
     }
 
@@ -160,6 +191,10 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         if (currentNote == 0)
         {
             platformResetTimer = platformResetTime;
+            for (int i = 0; i < Note.Length; i++)
+            {
+                Note[i].GetComponent<Note>().key = MusicKey.Idle;
+            }
         }
         else
         {
@@ -190,7 +225,6 @@ public class HiddenPlatformBehaviour : MonoBehaviour
                     platformResetAfterCompletionTimer = 0;
                 }
             }
-
         }
     }
 
@@ -217,6 +251,41 @@ public class HiddenPlatformBehaviour : MonoBehaviour
             {
                 spriteRenderer.enabled = true;
             }
+        }
+        else
+        {
+            spriteRenderer.enabled = true;
+        }
+    }
+
+    void UpdateNoteScales()
+    {
+        for (int i = 0; i < Note.Length; i++)
+        {
+            Note[i].transform.localScale = new Vector2(1, 1) / transform.localScale;
+        }
+    }
+
+    void UpdateNotePositions()
+    {
+        for (int i = 0; i < Note.Length; i++)
+        {
+            if (Player.transform.position.y > transform.position.y)
+            {
+                Note[i].transform.localPosition = new Vector2(noteStartingPosition[i].x, -noteStartingPosition[i].y) / (transform.localScale / initialPlatformScale);
+            }
+            else
+            {
+                Note[i].transform.localPosition = noteStartingPosition[i] / (transform.localScale / initialPlatformScale);
+            }
+        }
+    }
+
+    void UpdateNoteColors()
+    {
+        for (int i = 0; i < Note.Length; i++)
+        {
+            Note[i].transform.localScale = new Vector2(1, 1) / transform.localScale;
         }
     }
 
