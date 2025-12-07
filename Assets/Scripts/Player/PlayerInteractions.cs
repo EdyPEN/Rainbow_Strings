@@ -21,7 +21,7 @@ public class PlayerInteractions : MonoBehaviour
     public float horizontalDamageKnockback;
     public float verticalDamageKnockback;
 
-    public static Vector3 respawnPosition = new Vector3(6, 8, 0);
+    public static Vector3 respawnPosition = new Vector3(-3, 8, 0);
 
     void Start()
     {
@@ -116,23 +116,24 @@ public class PlayerInteractions : MonoBehaviour
         {
             hp -= damage;
             playerMovement.playerIsStunned = true;
-            if (useContactDirection && GetCollisionNormal(collision).x != 0)
+            if (!useContactDirection)
             {
-                int pushDirection;
+                playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection * horizontalDamageKnockback, verticalDamageKnockback);
+            }
+            else
+            {
+                int pushDirection = playerMovement.playerFacingDirection;
+
                 if (GetCollisionNormal(collision).x > 0)
                 {
                     pushDirection = Mathf.CeilToInt(GetCollisionNormal(collision).x);
                 }
-                else
+                else if (GetCollisionNormal(collision).x < 0)
                 {
                     pushDirection = Mathf.FloorToInt(GetCollisionNormal(collision).x);
                 }
 
-                    playerRigidBody.linearVelocity = new Vector2(-pushDirection * horizontalDamageKnockback, verticalDamageKnockback);
-            }
-            else
-            {
-                playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection * horizontalDamageKnockback, verticalDamageKnockback);
+                playerRigidBody.linearVelocity = new Vector2(-pushDirection * horizontalDamageKnockback, verticalDamageKnockback);
             }
         }
     }
