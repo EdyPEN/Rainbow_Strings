@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EdyScene.unity
     guid: 3c14cb2b4e4fb5c4581f3ef4f734142c
+  - enabled: 1
+    path: Assets/Scenes/EdyScene2.unity
+    guid: 6a3a4ce5f404bb049be9bfae68132b0b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -21,7 +21,7 @@ public class PlayerInteractions : MonoBehaviour
     public float horizontalDamageKnockback;
     public float verticalDamageKnockback;
 
-    public static Vector3 respawnPosition = new Vector3(-3, 8, 0);
+    public static Vector3 respawnPosition = new Vector3(0, 0, 0);
 
     void Start()
     {
@@ -76,6 +76,8 @@ public class PlayerInteractions : MonoBehaviour
         InsideBubbleChallengeRange(collision);
 
         MetRipple(collision);
+
+        MoveToNextLevel(collision);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -98,6 +100,16 @@ public class PlayerInteractions : MonoBehaviour
             hp = maxHp;
 
             respawnPosition = collision.gameObject.transform.position;
+        }
+    }
+
+    void MoveToNextLevel(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("NextScene"))
+        {
+            respawnPosition = Vector3.zero;
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

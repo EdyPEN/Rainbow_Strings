@@ -12,6 +12,7 @@ TagManager:
   - MusicRange
   - Feet
   - Ripple
+  - NextScene
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Challenge
+  - Triggers
   - 
   - 
   - 

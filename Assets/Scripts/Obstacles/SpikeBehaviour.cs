@@ -16,11 +16,11 @@ public class SpikeBehaviour : MonoBehaviour
         
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage, false, null);
+            collision.gameObject.GetComponent<PlayerInteractions>().TakeDamage(damage, true, collision);
         }
     }
 }

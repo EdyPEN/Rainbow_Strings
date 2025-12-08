@@ -278,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
 
     void SetGroundedStateOn(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && GetCollisionNormal(collision).x < 0.2 && GetCollisionNormal(collision).y > 0.8)
+        if (collision.gameObject.CompareTag("Ground"))
         {
             grounded = true;
         }
