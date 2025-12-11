@@ -29,6 +29,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     // Jump
     public bool grounded;
+    bool wasGrounded; //---------------------------ehg....
+
     public float jumpForce;
     public float maxFallSpeed;
     public float pushDownForce;
@@ -123,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void FixedUpdate()
     {
         PlayerAnimation();
@@ -140,6 +143,8 @@ public class PlayerMovement : MonoBehaviour
         InvincibilityTime();
 
         FallingSpeedCap();
+
+        wasGrounded = grounded;
     }
 
     void PlayerAnimation()
@@ -147,6 +152,19 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("xVelocity", Math.Abs(playerRigidBody.linearVelocityX));
         animator.SetFloat("yVelocity", (playerRigidBody.linearVelocityY));
         animator.SetBool("isJumping", !grounded);
+
+        if (grounded && !wasGrounded)
+        {
+            // We have just landed this frame
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            // If we are still in Jumping state, force switch to Movement
+            if (stateInfo.IsName("Jumping"))
+            {
+                // Play Movement from the beginning
+                animator.Play("Movement", 0, 0f);
+            }
+        }
     }
 
     void Walking()
