@@ -14,34 +14,41 @@ public class PlayerMovement : MonoBehaviour
     // Info
     public Vector2 playerVelocity;
 
+    [Header("Inputs")]
     // Inputs
     public int xInput;
     public bool jumpInputTap;
     public bool jumpInputHold;
     public bool jumpInputRelease;
 
+    [Header("Walking")]
     // Walking
     public float walkingSpeed;
     public int playerFacingDirection;
 
+    [Header("Jump")]
     // Jump
     public bool grounded;
     public float jumpForce;
     public float maxFallSpeed;
     public float pushDownForce;
 
+    [Header("Jump Buffering")]
     //Jump Buffering
     public bool playerWantsToJump;
     public float jumpBufferingTime;
     public float jumpBufferingTimer;
 
+    [Header("Jump Coyote Time")]
     // Jump Coyote Time
     public float coyoteTime;
     public float coyoteTimer;
 
+    [Header("Jump Fix")]
     // Jump Fix
     public bool playerJumped;
 
+    [Header("Taking Damage")]
     // Taking Damage
     public bool playerIsStunned;
     public bool playerIsInvincible;
@@ -118,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //PlayerAnimation();
+        PlayerAnimation();
 
         Walking();
 
