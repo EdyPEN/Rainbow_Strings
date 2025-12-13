@@ -13,7 +13,7 @@ public class SimonSays : MonoBehaviour
     public GameObject[] Note;
 
     //public Sprite Idle, Blue, Green, Yellow, Red; ---- We will need this for diffrent sprites of our character.
-    SpriteRenderer sr;
+    SpriteRenderer spriteRenderer;
 
     public bool ChallengeInProcess = false;
 
@@ -26,10 +26,14 @@ public class SimonSays : MonoBehaviour
     public bool ChallengeBeaten;
 
     [Header("SimonSaysLogic")]
-    // in what time bubble/fubble shows each color of pattern they play;
+    // in what time bubble shows each color of pattern they play;
     public float timerPerNote;
     // After each pattern player will have some time to play their strings(AFTER EACH RIGHT NOTE TIMER SHOULD UPDATE);
     public float timerReaction;
+    public float failDuration = 3f;
+    public float failTimer;
+    public float successDuration = 3f;
+    private float successTimer;
     public int combo = 0;
 
     public int playerNote;
@@ -51,7 +55,7 @@ public class SimonSays : MonoBehaviour
         Note[2].SetActive(false);
         Note[3].SetActive(false);
 
-        sr = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         ChallengeBeaten = false;
     }
@@ -77,14 +81,15 @@ public class SimonSays : MonoBehaviour
             pattern[i] = (MusicPlay.MusicKey)newKey;
         }
     }
-    // Update is called once per frame
+
     void Update()
     {
+        SuccessTimerLogic();
         TimerLogic();
         ColorLogic();
 
         //Challenge Bubble!--------------------
-        if (Player.GetComponent<PlayerInteractions>().interactButton == true)
+        if (Player.GetComponent<PlayerInteractions>().interactButton == true && ChallengeInProcess == false)
         {
             timerPerNote = 1;
             Note[0].SetActive(true);
@@ -114,8 +119,53 @@ public class SimonSays : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void SuccessTimerLogic()
+    {
+        if (successTimer > 0)
+        {
+            successTimer -= Time.deltaTime;
+            if (successTimer <= 0)
+            {
+                successTimer = 0;
+
+                // Start showing Pattern 2 AFTER the pink feedback
+                combo = 0;
+                timerReaction = 0;
+                currentPattern = 1;
+                currentNote = 0;
+
+                ClearNotesUI();
+                timerPerNote = 1f;
+                key = MusicKey.Idle;
+
+                Note[0].SetActive(true);
+                Note[1].SetActive(false);
+                Note[2].SetActive(false);
+                Note[3].SetActive(false);
+            }
+        }
+    }
     void TimerLogic()
     {
+        // if player fails
+        if (failTimer > 0)
+        {
+            failTimer -= Time.deltaTime;
+            if (failTimer <= 0)
+            {
+                failTimer = 0;
+
+                timerPerNote = 1f;
+                currentNote = 0;
+                key = MusicKey.Idle;
+
+                Note[0].SetActive(true);
+                Note[1].SetActive(false);
+                Note[2].SetActive(false);
+                Note[3].SetActive(false);
+            }
+        }
+        // Bubble's timer
         if (timerPerNote > 0)
         {
             timerPerNote -= Time.deltaTime;
@@ -125,6 +175,7 @@ public class SimonSays : MonoBehaviour
             timerPerNote = 0;
         }
 
+        // Player's timer
         if (timerReaction > 0)
         {
             timerReaction -= Time.deltaTime;
@@ -136,52 +187,109 @@ public class SimonSays : MonoBehaviour
     }
     void ColorLogic()
     {
+        if (failTimer > 0)
+        {
+            spriteRenderer.color = Color.black;
+            return;
+        }
+
+        if (successTimer > 0)
+        {
+            spriteRenderer.color = Color.magenta;
+            return;
+        }
+
         if (key == MusicKey.Idle)
         {
-            sr.color = Color.white;
+            spriteRenderer.color = Color.white;
         }
         else if (key == MusicKey.Yellow)
         {
-            sr.color = Color.yellow;
+            spriteRenderer.color = Color.yellow;
         }
         else if (key == MusicKey.Green)
         {
-            sr.color = Color.green;
+            spriteRenderer.color = Color.green;
         }
         else if (key == MusicKey.Blue)
         {
-            sr.color = Color.deepSkyBlue;
+            spriteRenderer.color = Color.deepSkyBlue;
         }
         else if (key == MusicKey.Red)
         {
-            sr.color = Color.red;
+            spriteRenderer.color = Color.red;
         }
+    }
+
+    //Make each note IDLE
+    void ClearNotesUI()
+    {
+        for (int i = 0; i < Note.Length; i++)
+        {
+            Note[i].GetComponent<Note>().key = MusicKey.Idle;
+        }
+    }
+    void FailRestartCurrentPattern()
+    {
+        // 3 seconds fail feedback
+        failTimer = failDuration;
+
+        combo = 0;
+        timerReaction = 0;
+
+        ClearNotesUI();
+
+        Note[0].SetActive(false);
+        Note[1].SetActive(false);
+        Note[2].SetActive(false);
+        Note[3].SetActive(false);
+
+        if (FinishPattern1 == true && PlayedPattern1 == false)
+        {
+            FinishPattern1 = false;
+            currentPattern = 0;
+            currentNote = 0;
+        }
+        else if (FinishPattern2 == true && PlayedPattern2 == false)
+        {
+            // If player fails on 2 pattern -> reload 2ND PATTERN again
+            FinishPattern2 = false;
+            currentPattern = 1;
+            currentNote = 0;
+        }
+
+        // Force bubble to neutral during restart
+        key = MusicKey.Idle;
     }
     void SimonSaysLogic()
     {
+        if (failTimer > 0 || successTimer > 0)
+        {
+            return;
+        }
+
         if (FinishPattern1 == true && PlayedPattern1 == false)
         {
-            key = MusicKey.Idle;
-            return;
+            timerPerNote = 1f;
+            Note[0].SetActive(true);
+            spriteRenderer.color = Color.white;
         }
-
-        if (FinishPattern2 == true && PlayedPattern2 == false)
+        else if (FinishPattern2 == true && PlayedPattern2 == false)
         {
-            key = MusicKey.Idle;
-
-            return;
+            timerPerNote = 1f;
+            Note[0].SetActive(true);
+            spriteRenderer.color = Color.white;
         }
-
         // missing check of the player INSIDE the area
         if (currentPattern == 0)
         {
             key = pattern1[currentNote];
-        } 
+        }
         else if (currentPattern == 1)
         {
             key = pattern2[currentNote];
         }
-        
+
         // Pattern 1 start
         if (currentNote == 0 && currentPattern == 0 && timerPerNote == 0)
         {
@@ -204,30 +312,29 @@ public class SimonSays : MonoBehaviour
         else if (currentNote == 3 && currentPattern == 0 && timerPerNote == 0)
         {
             timerReaction = 2;
-            currentPattern++;
             currentNote = 0;
             FinishPattern1 = true;
         }
         // Pattern 2 start
-        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true && FinishPattern2 == false)
+        else if (currentNote == 0 && currentPattern == 1 && timerPerNote == 0 && PlayedPattern1 == true && FinishPattern2 == false)
         {
             timerPerNote = 1;
-            Note[1].GetComponent<Note>().key = MusicKey.Idle;
+            Note[1].SetActive(true);
             currentNote++;
         }
-        else if (currentNote == 1 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        else if (currentNote == 1 && currentPattern == 1 && timerPerNote == 0 && PlayedPattern1 == true)
         {
             timerPerNote = 1;
-            Note[2].GetComponent<Note>().key = MusicKey.Idle;
+            Note[2].SetActive(true);
             currentNote++;
         }
-        else if (currentNote == 2 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        else if (currentNote == 2 && currentPattern == 1 && timerPerNote == 0 && PlayedPattern1 == true)
         {
             timerPerNote = 1;
-            Note[3].GetComponent<Note>().key = MusicKey.Idle;
+            Note[3].SetActive(true);
             currentNote++;
         }
-        else if (currentNote == 3 && currentPattern == 1 && timerPerNote == 0 && FinishPattern1 == true && PlayedPattern1 == true)
+        else if (currentNote == 3 && currentPattern == 1 && timerPerNote == 0 && PlayedPattern1 == true)
         {
             timerReaction = 2;
             currentNote = 0;
@@ -236,86 +343,112 @@ public class SimonSays : MonoBehaviour
     }
     void PlayerLogic()
     {
+        if (failTimer > 0 || successTimer > 0)
+        {
+            key = MusicKey.Idle;
+            return;
+        }
+        if (timerReaction < 0)
+        {
+            FailRestartCurrentPattern();
+            return;
+        }
+
+        MusicKey inputKey = ColorDisplay.GetComponent<MusicPlay>().key;
+
+        // Same as HiddenPlatform: ignore when Idle
+        if (inputKey == MusicKey.Idle)
+        {
+            return;
+        }
+
+        // Decide which pattern is currently being played by the player
+        MusicPlay.MusicKey[] activePattern;
+
         if (FinishPattern1 == true && PlayedPattern1 == false)
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Yellow) && (combo == 0))
+            activePattern = pattern1;
+        }
+        else if (FinishPattern2 == true && PlayedPattern2 == false)
+        {
+            activePattern = pattern2;
+        }
+        else
+        {
+            // Not in a "player input" phase
+            return;
+        }
+
+        // Safety clamp
+        if (combo < 0)
+        {
+            combo = 0;
+        }
+        if (combo > 3)
+        {
+            combo = 3;
+        }
+
+        MusicKey expectedKey = activePattern[combo];
+
+        // like in HiddenPlatform -> any wrong key immediately resets progress
+        bool isCorrect = false;
+
+        if (combo == 0)
+        {
+            if (inputKey == expectedKey)
             {
-                combo = 1;
-                timerReaction = 2;
-                Note[0].GetComponent<Note>().key = MusicKey.Yellow;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 1))
-            {
-                combo = 2;
-                timerReaction = 2;
-                Note[1].GetComponent<Note>().key = MusicKey.Green;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Red) && (timerReaction > 0) && (combo == 2))
-            {
-                combo = 3;
-                timerReaction = 2;
-                Note[2].GetComponent<Note>().key = MusicKey.Red;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Blue) && (timerReaction > 0) && (combo == 3))
-            {
-                PlayedPattern1 = true;
-                combo = 0;
-                timerPerNote = 1;
-                Note[3].GetComponent<Note>().key = MusicKey.Blue;
-                Note[0].GetComponent<Note>().key = MusicKey.Idle;
-            }
-            else if (timerReaction == 0)
-            {
-                combo = 0;
-                FinishPattern1 = false;
-                currentPattern = 0;
-                currentNote = 0;
-                timerPerNote = 1;
-                Note[1].SetActive(false);
-                Note[2].SetActive(false);
-                Note[3].SetActive(false);
+                isCorrect = true;
             }
         }
-        //Pattern2
-        if (FinishPattern2 == true && PlayedPattern2 == false)
+        else
         {
-            if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Red) && (combo == 0))
+            // After first correct note, player must continue within reaction time
+            if (timerReaction > 0 && inputKey == expectedKey)
             {
-                combo = 1;
-                Note[0].GetComponent<Note>().key = MusicKey.Red;
-                timerReaction = 2;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 1))
-            {
-                combo = 2;
-                Note[1].GetComponent<Note>().key = MusicKey.Green;
-                timerReaction = 2;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Blue) && (timerReaction > 0) && (combo == 2))
-            {
-                combo = 3;
-                Note[2].GetComponent<Note>().key = MusicKey.Blue;
-                timerReaction = 2;
-            }
-            else if ((ColorDisplay.GetComponent<MusicPlay>().key == MusicKey.Green) && (timerReaction > 0) && (combo == 3))
-            {
-                PlayedPattern2 = true;
-                combo = 0;
-                Note[3].GetComponent<Note>().key = MusicKey.Green;
-                timerPerNote = 1;
-            }
-            else if (timerReaction == 0)
-            {
-                combo = 0;
-                FinishPattern2 = false;
-                currentPattern = 1;
-                currentNote = 0;
-                timerPerNote = 1;
-                Note[1].SetActive(false);
-                Note[2].SetActive(false);
-                Note[3].SetActive(false);
+                isCorrect = true;
             }
         }
 
+        if (isCorrect)
+        {
+            // show the correct note on UI
+            Note[combo].GetComponent<Note>().key = expectedKey;
+
+            // refresh reaction timer
+            timerReaction = 2;
+
+            combo++;
+
+            // Completed 4 notes
+            if (combo >= 4)
+            {
+                combo = 0;
+
+                if (FinishPattern1 == true && PlayedPattern1 == false)
+                {
+                    PlayedPattern1 = true;
+                    successTimer = successDuration;
+                    ClearNotesUI();
+                    Note[0].SetActive(false);
+                    Note[1].SetActive(false);
+                    Note[2].SetActive(false);
+                    Note[3].SetActive(false);
+
+                    currentPattern++;
+                    timerPerNote = 1;
+                    key = MusicKey.Idle;
+                }
+                else if (FinishPattern2 == true && PlayedPattern2 == false)
+                {
+                    PlayedPattern2 = true;
+                    timerPerNote = 1;
+                }
+            }
+
+            return;
+        }
+
+        FailRestartCurrentPattern();
     }
 }
