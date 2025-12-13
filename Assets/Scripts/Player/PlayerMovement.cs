@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
             // We have just landed this frame
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-            // If we are still in Jumping state, force switch to Movement
+            // If still in Jumping state -> force switch to Movement
             if (stateInfo.IsName("Jumping"))
             {
                 // Play Movement from the beginning
