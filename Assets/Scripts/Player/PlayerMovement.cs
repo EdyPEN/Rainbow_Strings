@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PlayerAnimation();
+        //PlayerAnimation();
 
         Walking();
 
@@ -177,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jumping()
     {
-        if (playerWantsToJump && coyoteTimer > 0)
+        if (playerWantsToJump && coyoteTimer > 0 && !playerIsStunned)
         {
             playerRigidBody.linearVelocityY = jumpForce;
             playerWantsToJump = false;
@@ -230,11 +230,11 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyPushDownForce()
     {
-        if (!grounded && (playerRigidBody.linearVelocityY < 0) && playerRigidBody.linearVelocityY > -maxFallSpeed)
+        if (!grounded && (playerRigidBody.linearVelocityY < 0) && playerRigidBody.linearVelocityY > -maxFallSpeed )
         {
             playerRigidBody.AddForceY(-pushDownForce / 2.5f);
         }
-        else if (!grounded && (!jumpInputHold) && playerRigidBody.linearVelocityY > -maxFallSpeed)
+        else if (!grounded && (!jumpInputHold || playerIsStunned) && playerRigidBody.linearVelocityY > -maxFallSpeed)
         {
             playerRigidBody.AddForceY(-pushDownForce);
         }
