@@ -5,6 +5,8 @@ public class CameraBehaviour : MonoBehaviour
 {
     PlayerMovement playerMovement;
 
+    PlayerInteractions playerInteractions;
+
     public GameObject player;
 
     public Vector2 target;
@@ -13,10 +15,14 @@ public class CameraBehaviour : MonoBehaviour
 
     public float speedDefault, speedModifierDistance;
 
+    public bool playerDead;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerMovement = player.GetComponentInChildren<PlayerMovement>();
+
+        playerInteractions = player.GetComponent<PlayerInteractions>();
 
         transform.position = new Vector3(respawnPosition.x, respawnPosition.y + manualOffsetY, respawnPosition.z);
     }
@@ -24,6 +30,11 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerInteractions.playerDead)
+        {
+            return;
+        }
+
         target.x = player.transform.position.x + (offsetX * playerMovement.playerFacingDirection);
 
         if (Mathf.Abs(target.y - (player.transform.position.y + manualOffsetY)) > offsetYLimit)

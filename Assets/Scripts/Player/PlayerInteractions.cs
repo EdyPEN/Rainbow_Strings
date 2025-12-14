@@ -12,6 +12,7 @@ public class PlayerInteractions : MonoBehaviour
 
     public int hp;
     public int maxHp;
+    public bool playerDead;
     public bool gateOpened;
     public bool keyCollected;
 
@@ -20,6 +21,10 @@ public class PlayerInteractions : MonoBehaviour
 
     public float horizontalDamageKnockback;
     public float verticalDamageKnockback;
+
+    public float deathJumpTime;
+    public float deathJumpTimer;
+    public float deathJumpHeight;
 
     public static Vector3 respawnPosition = new Vector3(0, 0, 0);
 
@@ -32,6 +37,8 @@ public class PlayerInteractions : MonoBehaviour
         hp = maxHp;
 
         transform.position = respawnPosition;
+
+        deathJumpTimer = deathJumpTime;
     }
 
     private void Update()
@@ -47,9 +54,13 @@ public class PlayerInteractions : MonoBehaviour
 
     void Respawn()
     {
-        if (hp <= 0)
+        if (playerDead)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            deathJumpTimer -= Time.fixedDeltaTime;
+            if (deathJumpTimer < 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 
@@ -128,6 +139,13 @@ public class PlayerInteractions : MonoBehaviour
         {
             hp -= damage;
             playerMovement.playerIsStunned = true;
+
+            if (hp <= 0)
+            {
+                Death();
+                return;
+            }
+
             if (!useContactDirection)
             {
                 playerRigidBody.linearVelocity = new Vector2(-playerMovement.playerFacingDirection * horizontalDamageKnockback, verticalDamageKnockback);
@@ -148,5 +166,15 @@ public class PlayerInteractions : MonoBehaviour
                 playerRigidBody.linearVelocity = new Vector2(-pushDirection * horizontalDamageKnockback, verticalDamageKnockback);
             }
         }
+    }
+
+    void Death()
+    {
+        playerDead = true;
+
+        playerRigidBody.linearVelocity = new Vector2(0, deathJumpHeight);
+
+        GetComponent<Collider2D>().enabled = false;
+        playerMovement.GetComponent<Collider2D>().enabled = false;
     }
 } 
