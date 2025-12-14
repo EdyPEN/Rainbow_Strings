@@ -1048,9 +1048,13 @@ MonoBehaviour:
   speed: 2
   force: 300
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &125349622
@@ -11909,9 +11913,13 @@ MonoBehaviour:
   speed: 1.4
   force: 300
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 3
+  deathJumpTimer: 0
+  deathJumpHeight: 10
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &615634070
@@ -79406,9 +79414,13 @@ MonoBehaviour:
   speed: 3
   force: 325
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &717381521
@@ -80118,6 +80130,9 @@ MonoBehaviour:
   pointD: {fileID: 353296483}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 4
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -81082,6 +81097,9 @@ MonoBehaviour:
   pointD: {fileID: 1052564631}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 4
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -82246,6 +82264,9 @@ MonoBehaviour:
   pointD: {fileID: 1824083005}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 10
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -84496,6 +84517,9 @@ MonoBehaviour:
   pointD: {fileID: 1873867425}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 4
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -87127,9 +87151,13 @@ MonoBehaviour:
   speed: 1.8
   force: 325
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &1778032393
@@ -87316,9 +87344,13 @@ MonoBehaviour:
   speed: 2
   force: 325
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &1786564133
@@ -87505,9 +87537,13 @@ MonoBehaviour:
   speed: 1.6
   force: 300
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &1787840939
@@ -88392,9 +88428,13 @@ MonoBehaviour:
   speed: 1.4
   force: 350
   playerInRange: 0
+  dead: 0
   combo: 0
   timerIdle: 0
   timerHit: 0
+  deathJumpTime: 0
+  deathJumpTimer: 0
+  deathJumpHeight: 0
   pattern: 000000000000000000000000
   key: 0
 --- !u!50 &1872985689
@@ -89244,7 +89284,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1924062717

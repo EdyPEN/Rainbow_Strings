@@ -24153,6 +24153,9 @@ MonoBehaviour:
   pointD: {fileID: 1301008169}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 4
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -25264,6 +25267,9 @@ MonoBehaviour:
   pointD: {fileID: 1114700054}
   speed: 10
   isMoving: 0
+  isReturning: 0
+  platformResetTime: 4
+  platformTimer: 0
   nextPos:
   - {x: 0, y: 0}
   - {x: 0, y: 0}

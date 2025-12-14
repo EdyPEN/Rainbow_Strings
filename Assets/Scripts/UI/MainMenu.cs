@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 
     public GameObject[] buttons;
 
-    public bool confirmInput, cancelInput;
+    public bool confirmInput;
 
     public int selectedButton;
 
@@ -33,7 +33,6 @@ public class MainMenu : MonoBehaviour
     void Inputs()
     {
         confirmInput = Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Space);
-        cancelInput = Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace);
     }
 
     void NavigateMenu()

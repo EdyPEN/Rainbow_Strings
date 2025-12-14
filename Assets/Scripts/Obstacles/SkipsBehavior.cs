@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static MusicPlay;
 
 public class SkipsBehaviour : MonoBehaviour
@@ -24,9 +25,13 @@ public class SkipsBehaviour : MonoBehaviour
     public bool playerInRange;
 
     [Header("Skips' death")]
+    public bool dead;
     public int combo = 0;
     public float timerIdle;
     public float timerHit;
+    public float deathJumpTime;
+    public float deathJumpTimer;
+    public float deathJumpHeight;
 
     [Header("Pattern")]
     public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
@@ -37,6 +42,8 @@ public class SkipsBehaviour : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
+
+        deathJumpTimer = deathJumpTime;
 
         PatternRandomizer(pattern);
     }
@@ -73,6 +80,8 @@ public class SkipsBehaviour : MonoBehaviour
         Interaction();
 
         Death();
+
+        RemoveFromScene();
     }
 
     void TimerLogic()
@@ -154,9 +163,27 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Death()
     {
-        if (combo == 3)
+        if (combo == 3 && !dead)
         {
-            gameObject.SetActive(false);
+            dead = true;
+
+            rigidBody.linearVelocity = new Vector2(0, deathJumpHeight);
+
+            rigidBody.gravityScale = 2;
+
+            GetComponent<Collider2D>().enabled = false;
+        }
+    }
+
+    void RemoveFromScene()
+    {
+        if (dead)
+        {
+            deathJumpTimer -= Time.deltaTime;
+            if (deathJumpTimer < 0)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 

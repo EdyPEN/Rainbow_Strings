@@ -23,6 +23,10 @@ public class CheatBehaviour : MonoBehaviour
             {
                 tmp.text = "CHEATING ALREADY?!";
             }
+            else if (SceneManager.GetActiveScene().buildIndex == 3)
+            {
+                tmp.text = "Bet you feel smart huh?";
+            }
             else
             {
                 if (invincibleCheatActive)

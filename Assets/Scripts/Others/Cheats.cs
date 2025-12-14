@@ -42,7 +42,7 @@ public class Cheats : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        if (Input.GetKeyDown(KeyCode.N) && SceneManager.GetActiveScene().buildIndex < 2)
+        if (Input.GetKeyDown(KeyCode.N) && SceneManager.GetActiveScene().buildIndex < 3)
         {
             respawnPosition = Vector3.zero;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
