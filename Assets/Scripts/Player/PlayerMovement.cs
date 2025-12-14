@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static PauseMenu;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -68,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isPaused)
+        {
+            return;
+        }
         FlipPlayer();
 
         DetectWalkingInputsIfNotStunned();
@@ -128,6 +133,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isPaused)
+        {
+            return;
+        }
         //PlayerAnimation();
 
         Walking();

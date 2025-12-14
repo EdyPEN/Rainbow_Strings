@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static PlayerMovement;
+using static PauseMenu;
+using static Cheats;
 
 public class PlayerInteractions : MonoBehaviour
 {
-    private Cheats cheats;
     private Rigidbody2D playerRigidBody;
     private PlayerMovement playerMovement;
 
@@ -30,7 +31,6 @@ public class PlayerInteractions : MonoBehaviour
 
     void Start()
     {
-        cheats = GetComponent<Cheats>();
         playerRigidBody = GetComponent<Rigidbody2D>();
         playerMovement = GetComponentInChildren<PlayerMovement>();
 
@@ -43,6 +43,10 @@ public class PlayerInteractions : MonoBehaviour
 
     private void Update()
     {
+        if (isPaused)
+        {
+            return;
+        }
         interactButton = Input.GetKeyDown(KeyCode.E);
     }
 
@@ -135,7 +139,7 @@ public class PlayerInteractions : MonoBehaviour
     // Other Functions
     public void TakeDamage(int damage, bool useContactDirection, Collision2D collision)
     {
-        if (!cheats.invincibleCheatActive && !playerMovement.playerIsInvincible)
+        if (!invincibleCheatActive && !playerMovement.playerIsInvincible)
         {
             hp -= damage;
             playerMovement.playerIsStunned = true;

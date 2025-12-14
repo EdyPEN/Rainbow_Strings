@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScene.unity
     guid: 2b3e1db1b90f5414aa865e96ec37d6c8
   - enabled: 1
-    path: Assets/Scenes/EdyScene.unity
+    path: Assets/Scenes/EdyScene0.unity
+    guid: c1574ce73e7bd2e4a8f672c780efa688
+  - enabled: 1
+    path: Assets/Scenes/EdyScene1.unity
     guid: 3c14cb2b4e4fb5c4581f3ef4f734142c
   - enabled: 1
     path: Assets/Scenes/EdyScene2.unity

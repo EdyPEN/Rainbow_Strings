@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using static PauseMenu;
 
 public class MusicPlay : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class MusicPlay : MonoBehaviour
         //    timer = 0;
         //}
 
+        if (isPaused)
+        {
+            return;
+        }
         ColorChange();
 
         NotePressed();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using static PlayerInteractions;
+using static PauseMenu;
 
 public class CameraBehaviour : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInteractions.playerDead)
+        if (playerInteractions.playerDead || isPaused)
         {
             return;
         }
