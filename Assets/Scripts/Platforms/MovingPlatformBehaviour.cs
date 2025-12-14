@@ -10,25 +10,30 @@ public class MovingPlatform : MonoBehaviour
     public Transform pointC;
     public Transform pointD;
 
-    [Header("Variables")]
+    [Header("Movement")]
     public float speed = 2;
     public bool isMoving = false;
+    public bool isReturning = false;
 
-    public Vector2[] nextPos = new Vector2[3];
+    [Header("ResetTime")]
+    public float platformResetTime = 2f;
+    public float platformTimer;
+
+    [Header("Positions")]
+    public Vector2[] nextPos = new Vector2[4];
     public int currentPosition = 0;
 
-    // Player interaction with a platform
+    
+    [Header("Player's Interactions")]
     MusicPlay playerKey;
-
     public GameObject ColorDisplay;
-
     public bool playerIsInRange;
 
-    // Pattern & Colors
+    [Header("Pattern & Colors")]
     public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[4];
     public MusicKey key;
 
-    SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
@@ -40,6 +45,10 @@ public class MovingPlatform : MonoBehaviour
         nextPos[1] = pointB.position;
         nextPos[2] = pointC.position;
         nextPos[3] = pointD.position;
+
+        key = pattern[0];
+
+        platformTimer = platformResetTime;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
@@ -75,11 +84,18 @@ public class MovingPlatform : MonoBehaviour
         if (isMoving)
         {
             MovePlatform();
+            return;
         }
-        if (playerIsInRange)
+
+        // 1) Try progress forward if player is in range
+        if (playerIsInRange && !isReturning)
         {
-            Interaction();
+            InteractionForward();
         }
+
+        // 2) Handle rollback when stuck mid-way or after completion
+        HandleResetTime();
+
     }
     void ColorLogic()
     {
@@ -106,33 +122,149 @@ public class MovingPlatform : MonoBehaviour
     }
     void MovePlatform()
     {
-        transform.position = Vector2.MoveTowards(transform.position, nextPos[currentPosition], speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards
+            (transform.position, nextPos[currentPosition], speed * Time.deltaTime);
 
-        if (transform.position.x == nextPos[currentPosition].x && transform.position.y == nextPos[currentPosition].y)
+        if (transform.position.x == nextPos[currentPosition].x 
+            && 
+            transform.position.y == nextPos[currentPosition].y)
         {
             isMoving = false;
         }
-    }
-    void Interaction()
-    {
-        if ((playerKey.key == pattern[0]) && (currentPosition == 0) && (!isMoving))
+
+        float dx = Mathf.Abs(transform.position.x - nextPos[currentPosition].x);
+        float dy = Mathf.Abs(transform.position.y - nextPos[currentPosition].y);
+
+        if (dx < 0.001f && dy < 0.001f)
         {
-            isMoving = true;
-            currentPosition = 1;
+            transform.position = nextPos[currentPosition];
+            isMoving = false;
+
+            // When NOT returning -> update expected key and reset timer
+            if (!isReturning)
+            {
+                UpdateExpectedKeyByPosition();
+
+                if (currentPosition > 0)
+                {
+                    platformTimer = platformResetTime;
+                }
+                return;
+            }
+            // When returning: go back step-by-step
+            if (currentPosition > 0)
+            {
+                platformTimer = platformResetTime;
+
+                int nextBack = currentPosition - 1;
+                if (nextBack < 0)
+                {
+                    nextBack = 0;
+                }
+                GoToPosition(nextBack);
+            }
+            else
+            {
+                isReturning = false;
+                platformTimer = platformResetTime;
+                UpdateExpectedKeyByPosition();
+            }
+            return;
+        }
+    }
+    void GoToPosition(int newPos)
+    {
+        currentPosition = newPos;
+        isMoving = true;
+    }
+    void UpdateExpectedKeyByPosition()
+    {
+        // At A expect pattern[0], at B expect pattern[1], at C expect pattern[2], at D -> Idle
+        if (currentPosition == 0)
+        {
+            key = pattern[0];
+        }
+        else if (currentPosition == 1)
+        {
             key = pattern[1];
         }
-        else if ((playerKey.key == pattern[1])/* && (timerHit > 0)*/ && (currentPosition == 1) && (!isMoving))
+        else if (currentPosition == 2)
         {
-            isMoving = true;
-            currentPosition = 2;
             key = pattern[2];
         }
-        else if ((playerKey.key == pattern[2])/* && (timerHit > 0)*/ && (currentPosition == 2) && (!isMoving))
+        else
         {
-            isMoving = true;
-            currentPosition = 3;
             key = MusicKey.Idle;
         }
+    }
+    void HandleResetTime()
+    {
+        // If we are at start, nothing to go back
+        if (currentPosition == 0)
+        {
+            isReturning = false;
+            platformTimer = platformResetTime;
+            return;
+        }
+
+        // Count down
+        platformTimer -= Time.deltaTime;
+        if (platformTimer > 0f)
+        {
+            return;
+        }
+
+        // Start returning (only once)
+        if (!isReturning)
+        {
+            isReturning = true;
+            key = MusicKey.Idle;
+
+            int nextBack = currentPosition - 1;
+            if (nextBack < 0)
+            {
+                nextBack = 0;
+            }
+
+            GoToPosition(nextBack);
+        }
+    }
+    void InteractionForward()
+    {
+        if (playerKey.key == MusicKey.Idle)
+        {
+            return;
+        }
+
+        // Position A -> needs pattern[0] -> to B
+        if (currentPosition == 0)
+        {
+            if (playerKey.key == pattern[0])
+            {
+                GoToPosition(1);
+                return;
+            }
+        }
+        // Position B -> pattern[1] -> to C
+        else if (currentPosition == 1)
+        {
+            if (playerKey.key == pattern[1])
+            {
+                GoToPosition(2);
+                return;
+            }
+        }
+        // Position C -> needs pattern[2] -> to D
+        else if (currentPosition == 2)
+        {
+            if (playerKey.key == pattern[2])
+            {
+                GoToPosition(3);
+                return;
+            }
+        }
+
+        // Wrong key = no progress. We don't instantly reset, we let rollback timer handle it.
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
