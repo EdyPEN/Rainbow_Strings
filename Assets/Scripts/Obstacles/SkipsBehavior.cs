@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -94,6 +95,11 @@ public class SkipsBehaviour : MonoBehaviour
         RemoveFromScene();
 
         animator.SetBool("isJumping", !isGrounded);
+        if (isGrounded)
+        {
+            animator.SetBool("isJumping", false);
+            animator.Play("SkipsIdle", 0, 0f);
+        }
     }
 
     void TimerLogic()
