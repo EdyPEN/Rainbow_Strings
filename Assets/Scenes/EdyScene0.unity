@@ -416,7 +416,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CHEATING ALREADY?!
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8740229e4f42c459a4e07aa2ed4bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cheats
+  player: {fileID: 0}
 --- !u!114 &355967849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1225,7 +1226,6 @@ MonoBehaviour:
   - {fileID: 524682722}
   - {fileID: 697463746}
   confirmInput: 0
-  cancelInput: 0
   selectedButton: 1
 --- !u!1 &1613747801
 GameObject:

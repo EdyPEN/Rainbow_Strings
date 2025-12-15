@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1902966133314012793}
   - component: {fileID: 3444052162139220874}
   - component: {fileID: -1267273715646346044}
+  - component: {fileID: -3362402656605751782}
   - component: {fileID: 7999167312129374174}
   m_Layer: 0
   m_Name: Forby
@@ -128,6 +129,33 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!50 &-3362402656605751782
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8614929587101133050}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &7999167312129374174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +175,6 @@ MonoBehaviour:
   bulletSpriteRenderer: []
   bulletSpawningPosition: {x: 1, y: 0}
   lastPlayerPositionInRange: {x: 0, y: 0}
-  dead: 0
   damage: 1
   range: 7
   playerInRange: 0
@@ -161,4 +188,8 @@ MonoBehaviour:
   rotationState: 0
   rotationSpeed: 100
   numberOfRotationsPerShot: 4
+  dead: 0
+  deathJumpTime: 3
+  deathJumpTimer: 0
+  deathJumpHeight: 10
   pattern: 00000000000000000000000000000000

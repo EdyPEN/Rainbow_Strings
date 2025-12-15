@@ -10,6 +10,8 @@ using static MusicPlay;
 
 public class ForbyBehaviour : MonoBehaviour
 {
+    Rigidbody2D rigidBody;
+
     public GameObject player;
     public GameObject playerColor;
 
@@ -20,8 +22,6 @@ public class ForbyBehaviour : MonoBehaviour
 
     public Vector2 bulletSpawningPosition;
     public Vector2 lastPlayerPositionInRange;
-
-    public bool dead;
 
     public int damage;
 
@@ -41,11 +41,20 @@ public class ForbyBehaviour : MonoBehaviour
     public float rotationSpeed;
     public int numberOfRotationsPerShot;
 
+    public bool dead;
+    public float deathJumpTime;
+    public float deathJumpTimer;
+    public float deathJumpHeight;
+
     public MusicPlay.MusicKey[] pattern = new MusicPlay.MusicKey[3];
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        rigidBody = GetComponent<Rigidbody2D>();
+
+        deathJumpTimer = deathJumpTime;
+
         bulletSpriteRenderer = new SpriteRenderer[4];
 
         bulletSpawningPosition += (Vector2) transform.position;
@@ -261,14 +270,25 @@ public class ForbyBehaviour : MonoBehaviour
         if (fireballsDefeated == 4)
         {
             dead = true;
-        }
-        if (dead == true)
-        {
+
+            rigidBody.linearVelocity = new Vector2(0, deathJumpHeight);
+
+            rigidBody.gravityScale = 3;
+
+            GetComponent<Collider2D>().enabled = false;
+
             for (int i = 0; i < bullet.Length; i++)
             {
                 bullet[i].SetActive(false);
             }
-            gameObject.SetActive(false);
+        }
+        if (dead == true)
+        {
+            deathJumpTimer -= Time.deltaTime;
+            if (deathJumpTimer < 0)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 

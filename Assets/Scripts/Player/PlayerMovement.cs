@@ -239,13 +239,16 @@ public class PlayerMovement : MonoBehaviour
 
     void ApplyPushDownForce()
     {
-        if (!grounded && (playerRigidBody.linearVelocityY < 0) && playerRigidBody.linearVelocityY > -maxFallSpeed )
+        if (!grounded && playerRigidBody.linearVelocityY > -maxFallSpeed)
         {
-            playerRigidBody.AddForceY(-pushDownForce / 2.5f);
-        }
-        else if (!grounded && (!jumpInputHold || playerIsStunned) && playerRigidBody.linearVelocityY > -maxFallSpeed)
-        {
-            playerRigidBody.AddForceY(-pushDownForce);
+            if ((playerRigidBody.linearVelocityY < 0))
+            {
+                playerRigidBody.AddForceY(-pushDownForce / 2.5f);
+            }
+            else if ((!jumpInputHold || playerIsStunned))
+            {
+                playerRigidBody.AddForceY(-pushDownForce);
+            }
         }
     }
 

@@ -207,8 +207,6 @@ public class SkipsBehaviour : MonoBehaviour
                 currentNote++;
             }
 
-            // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
-
             if (key == MusicKey.Idle && timerIdle == 0)
             {
                 key = pattern[currentNote];
