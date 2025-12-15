@@ -9,10 +9,11 @@ public class SkipsBehaviour : MonoBehaviour
     MusicPlay playerKey;
     Rigidbody2D rigidBody;
     SpriteRenderer spriteRenderer;
+    Animator animator;
+    public bool isGrounded;
 
     [Header("About Player")]
-    public GameObject ColorDisplay;
-    public GameObject AreaInteraction;
+    public MusicPlay ColorDisplay;
 
     public GameObject[] Note;
 
@@ -39,9 +40,18 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
+        isGrounded = true;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        playerKey = ColorDisplay.GetComponent<MusicPlay>();
+        animator = GetComponent<Animator>();
+
+        if (ColorDisplay == null)
+        {
+            ColorDisplay = GetComponent<MusicPlay>();
+        }
+
+        //playerKey = ColorDisplay.GetComponent<MusicPlay>();
+        playerKey = ColorDisplay;
 
         deathJumpTimer = deathJumpTime;
 
@@ -82,6 +92,8 @@ public class SkipsBehaviour : MonoBehaviour
         Death();
 
         RemoveFromScene();
+
+        animator.SetBool("isJumping", !isGrounded);
     }
 
     void TimerLogic()
@@ -189,36 +201,56 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Jump()
     {
-        if (timerIdle == 0)
+        if (timerIdle != 0)
         {
-            rigidBody.linearVelocityY = 0;
-            rigidBody.linearVelocityX = direction * speed;
-            rigidBody.AddForceY(force);
-            jump++;
-
-            key = pattern[currentNote];
-
-            if (currentNote == 2)
-            {
-                currentNote = 0;
-            }
-            else
-            {
-                currentNote++;
-            }
-
-            // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
-
-            if (key == MusicKey.Idle && timerIdle == 0)
-            {
-                key = pattern[currentNote];
-            }
+            return;
         }
-        else if (jump == 3)
+
+        rigidBody.linearVelocityY = 0;
+        rigidBody.linearVelocityX = direction * speed;
+        rigidBody.AddForceY(force);
+
+        // Show current required note color
+        key = pattern[currentNote];
+
+        // Advance index for the next jump
+        currentNote++;
+        if (currentNote >= pattern.Length)
         {
-            rigidBody.AddForceY(-1 * force);
-            rigidBody.linearVelocity = Vector2.zero;
+            currentNote = 0;
         }
+
+        jump++;
+        //if (timerIdle == 0)
+        //{
+        //    rigidBody.linearVelocityY = 0;
+        //    rigidBody.linearVelocityX = direction * speed;
+        //    rigidBody.AddForceY(force);
+        //    jump++;
+
+        //    key = pattern[currentNote];
+
+        //    if (currentNote == 2)
+        //    {
+        //        currentNote = 0;
+        //    }
+        //    else
+        //    {
+        //        currentNote++;
+        //    }
+
+        //    // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
+
+        //    if (key == MusicKey.Idle && timerIdle == 0)
+        //    {
+        //        key = pattern[currentNote];
+        //    }
+        //}
+        //else if (jump == 3)
+        //{
+        //    rigidBody.AddForceY(-1 * force);
+        //    rigidBody.linearVelocity = Vector2.zero;
+        //}
     }
 
     void ChangeDirection()
@@ -243,18 +275,17 @@ public class SkipsBehaviour : MonoBehaviour
 
     void CheckOnGround()
     {
-        if (jump == 3)
+        if (jump >= 3)
         {
             timerIdle = 2;
             ChangeDirection();
-            Jump();
+            //Jump();
             jump = 0;
             key = MusicKey.Idle;
+            return;
         }
-        else if (jump < 3)
-        {
-            Jump();
-        }
+
+        Jump();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -275,6 +306,11 @@ public class SkipsBehaviour : MonoBehaviour
             }
             playerInRange = true;
         }
+
+        if (collider.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -286,6 +322,10 @@ public class SkipsBehaviour : MonoBehaviour
                 Note[i].SetActive(false);
             }
             playerInRange = false;
+        }
+        if (collider.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 }
