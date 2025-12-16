@@ -79777,7 +79777,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &901943532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84060,7 +84060,7 @@ GameObject:
   - component: {fileID: 1533447745}
   m_Layer: 0
   m_Name: ColorDisplay
-  m_TagString: Untagged
+  m_TagString: ColorDisplay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87576,6 +87576,10 @@ PrefabInstance:
     - target: {fileID: 1599295559771642499, guid: 598ea64687b38af4c9b4e074659eb9ce, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599295559771642499, guid: 598ea64687b38af4c9b4e074659eb9ce, type: 3}
+      propertyPath: m_TagString
+      value: AudioSkips
       objectReference: {fileID: 0}
     - target: {fileID: 2380729620886646311, guid: 598ea64687b38af4c9b4e074659eb9ce, type: 3}
       propertyPath: m_LocalPosition.x

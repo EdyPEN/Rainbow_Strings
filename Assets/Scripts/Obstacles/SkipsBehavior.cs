@@ -15,6 +15,7 @@ public class SkipsBehaviour : MonoBehaviour
     public bool isGrounded;
 
     AudioSkips audioSkips;
+    private MusicKey lastPlayedKey = MusicKey.Idle;
 
     [Header("About Player")]
     public MusicPlay ColorDisplay;
@@ -44,7 +45,10 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
-        audioSkips = GameObject.FindWithTag("Audio").GetComponent<AudioSkips>();
+        lastPlayedKey = MusicKey.Idle;
+        audioSkips = AudioSkips.Instance;
+
+        ColorDisplay = GameObject.FindGameObjectWithTag("ColorDisplay").GetComponent<MusicPlay>();
 
         isGrounded = true;
         rigidBody = GetComponent<Rigidbody2D>();
@@ -63,7 +67,6 @@ public class SkipsBehaviour : MonoBehaviour
 
         PatternRandomizer(pattern);
     }
-
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
         for (int i = 0; i < pattern.Length; i++)
@@ -86,7 +89,6 @@ public class SkipsBehaviour : MonoBehaviour
             pattern[i] = (MusicPlay.MusicKey)newKey;
         }
     }
-
     void Update()
     {
         TimerLogic();
@@ -98,15 +100,7 @@ public class SkipsBehaviour : MonoBehaviour
         Death();
 
         RemoveFromScene();
-
-        animator.SetBool("isJumping", !isGrounded);
-        if (isGrounded)
-        {
-            animator.SetBool("isJumping", false);
-            animator.Play("SkipsIdle", 0, 0f);
-        }
     }
-
     void TimerLogic()
     {
         // TIMER IDLE ---------------------
@@ -136,38 +130,70 @@ public class SkipsBehaviour : MonoBehaviour
             }
         }
     }
-
     void ColorLogic()
     {
-        if (isGrounded)
+        if (!isGrounded)
         {
-            if (key == MusicKey.Idle)
-            {
-                spriteRenderer.color = Color.white;
-            }
-            else if (key == MusicKey.Yellow)
-            {
-                audioSkips.PlaySFX(audioSkips.SkipsNoteYellow);
-                spriteRenderer.color = Color.yellow;
-            }
-            else if (key == MusicKey.Green)
-            {
-                audioSkips.PlaySFX(audioSkips.SkipsNoteGreen);
-                spriteRenderer.color = Color.green;
-            }
-            else if (key == MusicKey.Blue)
-            {
-                audioSkips.PlaySFX(audioSkips.SkipsNoteBlue);
-                spriteRenderer.color = Color.deepSkyBlue;
-            }
-            else if (key == MusicKey.Red)
-            {
-                audioSkips.PlaySFX(audioSkips.SkipsNoteRed);
-                spriteRenderer.color = Color.red;
-            }
+            return;
+        }
+
+        // Play SFX only when the key actually changes
+        if (key != lastPlayedKey)
+        {
+            PlayKeySfxOnce(key);
+            lastPlayedKey = key;
+        }
+
+        if (key == MusicKey.Idle)
+        {
+            spriteRenderer.color = Color.white;
+        }
+        else if (key == MusicKey.Yellow)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteYellow);
+            spriteRenderer.color = Color.yellow;
+        }
+        else if (key == MusicKey.Green)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteGreen);
+            spriteRenderer.color = Color.green;
+        }
+        else if (key == MusicKey.Blue)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteBlue);
+            spriteRenderer.color = Color.deepSkyBlue;
+        }
+        else if (key == MusicKey.Red)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteRed);
+            spriteRenderer.color = Color.red;
         }
     }
+    void PlayKeySfxOnce(MusicKey newKey)
+    {
+        if (audioSkips == null)
+        {
+            return;
+        }
 
+        if (newKey == MusicKey.Yellow)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteYellow);
+        }
+        else if (newKey == MusicKey.Green)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteGreen);
+        }
+        else if (newKey == MusicKey.Blue)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteBlue);
+        }
+        else if (newKey == MusicKey.Red)
+        {
+            audioSkips.PlaySFX(audioSkips.SkipsNoteRed);
+        }
+        // Idle - no sound
+    }
     void Interaction()
     {
         if (!playerInRange)

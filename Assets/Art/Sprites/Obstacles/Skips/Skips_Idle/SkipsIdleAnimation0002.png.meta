@@ -125,10 +125,10 @@ TextureImporter:
       name: SkipsIdleAnimation0002_0
       rect:
         serializedVersion: 2
-        x: 35
-        y: 125
-        width: 200
-        height: 230
+        x: 40
+        y: 140
+        width: 195
+        height: 200
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1c797fa22b6591841aa08062b1859619
+    spriteID: 58ddb9aa5df25b44a993bfc6a19801fa
     internalID: 0
     vertices: []
     indices: 
