@@ -13,6 +13,7 @@ TagManager:
   - Feet
   - Ripple
   - NextScene
+  - Audio
   layers:
   - Default
   - TransparentFX
