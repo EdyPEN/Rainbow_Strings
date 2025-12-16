@@ -11,6 +11,7 @@ using static MusicPlay;
 public class ForbyBehaviour : MonoBehaviour
 {
     Rigidbody2D rigidBody;
+    SpriteRenderer spriteRenderer;
 
     public GameObject player;
     public GameObject playerColor;
@@ -26,6 +27,7 @@ public class ForbyBehaviour : MonoBehaviour
     public int damage;
 
     public float range;
+    public int direction;
     public bool playerInRange;
 
     public float shootingSpeed;
@@ -52,6 +54,8 @@ public class ForbyBehaviour : MonoBehaviour
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         deathJumpTimer = deathJumpTime;
 
@@ -132,10 +136,18 @@ public class ForbyBehaviour : MonoBehaviour
         DestroyingBulletsUponDeath();
 
         NoteColors();
+
+        DetectingPlayerDirection();
+
+        ChangeDirection();
     }
 
     void BulletRotation()
     {
+        if (dead)
+        {
+            return;
+        }
         if (rotationState == 0)
         {
             fireballsDefeated = 0;
@@ -267,13 +279,11 @@ public class ForbyBehaviour : MonoBehaviour
 
     void DestroyingBulletsUponDeath()
     {
-        if (fireballsDefeated == 4)
+        if (fireballsDefeated == 4 && !dead)
         {
             dead = true;
 
             rigidBody.linearVelocity = new Vector2(0, deathJumpHeight);
-
-            rigidBody.gravityScale = 3;
 
             GetComponent<Collider2D>().enabled = false;
 
@@ -281,9 +291,8 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 bullet[i].SetActive(false);
             }
-        }
-        if (dead == true)
-        {
+            rigidBody.gravityScale = 2;
+
             deathJumpTimer -= Time.deltaTime;
             if (deathJumpTimer < 0)
             {
@@ -310,7 +319,7 @@ public class ForbyBehaviour : MonoBehaviour
             }
         }
 
-        if (playerInRange)
+        if (playerInRange && !dead)
         {
             for (int i = 0; i < note.Length; i++)
             {
@@ -323,6 +332,33 @@ public class ForbyBehaviour : MonoBehaviour
             {
                 note[i].GetComponent<Note>().hideNotes = true;
             }
+        }
+    }
+
+    void DetectingPlayerDirection()
+    {
+        if (playerInRange)
+        {
+            if (player.transform.position.x < transform.position.x)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
+        }
+    }
+
+    void ChangeDirection()
+    {
+        if (direction == 1)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (direction == -1)
+        {
+            spriteRenderer.flipX = true;
         }
     }
 
