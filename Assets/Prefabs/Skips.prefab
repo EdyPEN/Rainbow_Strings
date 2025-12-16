@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 7127513837150670418}
   m_Layer: 0
   m_Name: Audio
-  m_TagString: Audio
+  m_TagString: AudioSkips
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioSkips
   SFXSource: {fileID: 9144350915269750681}
+  player: {fileID: 0}
   maxDistance: 5
   SkipsNoteBlue: {fileID: 8300000, guid: 10e501a3d335a994c8e8c33d24be64c6, type: 3}
   SkipsNoteGreen: {fileID: 8300000, guid: 3bb5a430a2f047540886004efaf2a7fe, type: 3}
