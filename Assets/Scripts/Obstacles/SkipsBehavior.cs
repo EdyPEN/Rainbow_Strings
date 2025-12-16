@@ -10,8 +10,11 @@ public class SkipsBehaviour : MonoBehaviour
     MusicPlay playerKey;
     Rigidbody2D rigidBody;
     SpriteRenderer spriteRenderer;
+
     Animator animator;
     public bool isGrounded;
+
+    AudioSkips audioSkips;
 
     [Header("About Player")]
     public MusicPlay ColorDisplay;
@@ -41,6 +44,8 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
+        audioSkips = GameObject.FindWithTag("Audio").GetComponent<AudioSkips>();
+
         isGrounded = true;
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -134,25 +139,32 @@ public class SkipsBehaviour : MonoBehaviour
 
     void ColorLogic()
     {
-        if (key == MusicKey.Idle)
+        if (isGrounded)
         {
-            spriteRenderer.color = Color.white;
-        }
-        else if (key == MusicKey.Yellow)
-        {
-            spriteRenderer.color = Color.yellow;
-        }
-        else if (key == MusicKey.Green)
-        {
-            spriteRenderer.color = Color.green;
-        }
-        else if (key == MusicKey.Blue)
-        {
-            spriteRenderer.color = Color.deepSkyBlue;
-        }
-        else if (key == MusicKey.Red)
-        {
-            spriteRenderer.color = Color.red;
+            if (key == MusicKey.Idle)
+            {
+                spriteRenderer.color = Color.white;
+            }
+            else if (key == MusicKey.Yellow)
+            {
+                audioSkips.PlaySFX(audioSkips.SkipsNoteYellow);
+                spriteRenderer.color = Color.yellow;
+            }
+            else if (key == MusicKey.Green)
+            {
+                audioSkips.PlaySFX(audioSkips.SkipsNoteGreen);
+                spriteRenderer.color = Color.green;
+            }
+            else if (key == MusicKey.Blue)
+            {
+                audioSkips.PlaySFX(audioSkips.SkipsNoteBlue);
+                spriteRenderer.color = Color.deepSkyBlue;
+            }
+            else if (key == MusicKey.Red)
+            {
+                audioSkips.PlaySFX(audioSkips.SkipsNoteRed);
+                spriteRenderer.color = Color.red;
+            }
         }
     }
 
@@ -227,46 +239,18 @@ public class SkipsBehaviour : MonoBehaviour
         }
 
         jump++;
-        //if (timerIdle == 0)
-        //{
-        //    rigidBody.linearVelocityY = 0;
-        //    rigidBody.linearVelocityX = direction * speed;
-        //    rigidBody.AddForceY(force);
-        //    jump++;
-
-        //    key = pattern[currentNote];
-
-        //    if (currentNote == 2)
-        //    {
-        //        currentNote = 0;
-        //    }
-        //    else
-        //    {
-        //        currentNote++;
-        //    }
-
-        //    // PATTERN IS NOT PATTERING ------------------------------------------------------!!!!
-
-        //    if (key == MusicKey.Idle && timerIdle == 0)
-        //    {
-        //        key = pattern[currentNote];
-        //    }
-        //}
-        //else if (jump == 3)
-        //{
-        //    rigidBody.AddForceY(-1 * force);
-        //    rigidBody.linearVelocity = Vector2.zero;
-        //}
     }
 
     void ChangeDirection()
     {
         if (direction == 1)
         {
+            spriteRenderer.flipX = false;
             direction = -1;
         }
         else if (direction == -1)
         {
+            spriteRenderer.flipX = true;
             direction = 1;
         }
     }

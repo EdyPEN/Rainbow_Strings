@@ -15,7 +15,7 @@ public class MusicPlay : MonoBehaviour
 
     void Start()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager = GameObject.FindWithTag("Audio").GetComponent<AudioManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
