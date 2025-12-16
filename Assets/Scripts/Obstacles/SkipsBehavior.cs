@@ -45,6 +45,9 @@ public class SkipsBehaviour : MonoBehaviour
 
     void Start()
     {
+        Note[0].SetActive(false);
+        Note[1].SetActive(false);
+        Note[2].SetActive(false);
         lastPlayedKey = MusicKey.Idle;
         audioSkips = AudioSkips.Instance;
 
