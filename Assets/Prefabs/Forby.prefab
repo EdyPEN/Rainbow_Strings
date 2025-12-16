@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -1267273715646346044}
   - component: {fileID: -3362402656605751782}
   - component: {fileID: 7999167312129374174}
+  - component: {fileID: 2509333066437393002}
   m_Layer: 0
   m_Name: Forby
   m_TagString: Enemy
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -2477506945211306794, guid: 37256cee497906941b738f66c3c25108, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -193,3 +194,25 @@ MonoBehaviour:
   deathJumpTimer: 0
   deathJumpHeight: 10
   pattern: 00000000000000000000000000000000
+--- !u!95 &2509333066437393002
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8614929587101133050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aa050aeb1a930264e89ffdcb652ea460, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
