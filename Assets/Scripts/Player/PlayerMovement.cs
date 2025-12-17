@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
     Rigidbody2D playerRigidBody;
     SpriteRenderer playerSpriteRenderer;
+    PlayerInteractions playerInteractions;
 
     public GameObject player;
 
@@ -69,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         animator = player.GetComponent<Animator>();
         playerRigidBody = player.GetComponent<Rigidbody2D>();
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+        playerInteractions = player.GetComponent<PlayerInteractions>();
     }
 
     // Update is called once per frame
@@ -182,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!ghostCheatActive)
         {
-            if (!player.GetComponent<Collider2D>().enabled)
+            if (!player.GetComponent<Collider2D>().enabled && !playerInteractions.playerDead)
             {
                 playerRigidBody.gravityScale = 1.75f;
                 player.GetComponent<Collider2D>().enabled = true;
@@ -223,6 +225,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("xVelocity", Math.Abs(playerRigidBody.linearVelocityX));
         animator.SetFloat("yVelocity", (playerRigidBody.linearVelocityY));
         animator.SetBool("isJumping", !grounded);
+        animator.SetBool("isStunned", playerIsStunned);
+        animator.SetBool("isDead",playerInteractions.playerDead);
 
         if (grounded && !wasGrounded)
         {

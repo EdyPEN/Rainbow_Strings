@@ -84432,9 +84432,9 @@ MonoBehaviour:
   inChallengeArea: 0
   horizontalDamageKnockback: 4
   verticalDamageKnockback: 8
-  deathJumpTime: 0
-  deathJumpTimer: 0
-  deathJumpHeight: 0
+  deathJumpTime: 3
+  deathJumpTimer: 3
+  deathJumpHeight: 24
 --- !u!50 &1366648026
 Rigidbody2D:
   serializedVersion: 5
