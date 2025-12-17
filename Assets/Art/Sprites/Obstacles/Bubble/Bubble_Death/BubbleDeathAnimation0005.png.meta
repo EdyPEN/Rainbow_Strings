@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: e025b567f805a7647a7b024fc9cb2e75
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4039518151406510557
+    second: BubbleDeathAnimation0005_0
+  - first:
+      213: -6165111886017151416
+    second: BubbleDeathAnimation0005_1
+  - first:
+      213: 1063258165943995184
+    second: BubbleDeathAnimation0005_2
+  - first:
+      213: -8727464254795708831
+    second: BubbleDeathAnimation0005_3
+  - first:
+      213: -6377513741349164194
+    second: BubbleDeathAnimation0005_4
+  - first:
+      213: -1928835693885171852
+    second: BubbleDeathAnimation0005_5
+  - first:
+      213: 4523125608619598199
+    second: BubbleDeathAnimation0005_6
+  - first:
+      213: -6558066511167653691
+    second: BubbleDeathAnimation0005_7
+  - first:
+      213: 532775286397119046
+    second: BubbleDeathAnimation0005_8
+  - first:
+      213: -3328278273733530491
+    second: BubbleDeathAnimation0005_9
+  - first:
+      213: -1711840736755436593
+    second: BubbleDeathAnimation0005_10
+  - first:
+      213: -3259537661009993128
+    second: BubbleDeathAnimation0005_11
+  - first:
+      213: -1423586275995346502
+    second: BubbleDeathAnimation0005_12
+  - first:
+      213: -5020754632999758603
+    second: BubbleDeathAnimation0005_13
+  - first:
+      213: 6289454355911864679
+    second: BubbleDeathAnimation0005_14
+  - first:
+      213: -7158921247170734938
+    second: BubbleDeathAnimation0005_15
+  - first:
+      213: -2315604989727001595
+    second: BubbleDeathAnimation0005_16
+  - first:
+      213: 2170398244779164947
+    second: BubbleDeathAnimation0005_17
+  - first:
+      213: -5434302159392710498
+    second: BubbleDeathAnimation0005_18
+  - first:
+      213: -5688107261858875899
+    second: BubbleDeathAnimation0005_19
+  - first:
+      213: 1862442154699740830
+    second: BubbleDeathAnimation0005_20
+  - first:
+      213: 2844662775439785693
+    second: BubbleDeathAnimation0005_21
+  - first:
+      213: -7442787361848555437
+    second: BubbleDeathAnimation0005_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 320
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd1e35e3b504f0830800000000000000
+      internalID: 4039518151406510557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_1
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 461
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84eb861676f117aa0800000000000000
+      internalID: -6165111886017151416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 449
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03b00a52ba371ce00800000000000000
+      internalID: 1063258165943995184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_3
+      rect:
+        serializedVersion: 2
+        x: 449
+        y: 447
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1668bf61081d1e680800000000000000
+      internalID: -8727464254795708831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_4
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 350
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5be5b0ba058e77a0800000000000000
+      internalID: -6377513741349164194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_5
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 357
+        width: 78
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47751e3e7266b35e0800000000000000
+      internalID: -1928835693885171852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_6
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 364
+        width: 33
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7716e38c6ce55ce30800000000000000
+      internalID: 4523125608619598199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_7
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 331
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c8777411411df4a0800000000000000
+      internalID: -6558066511167653691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_8
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 291
+        width: 71
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64aaecadc4cc46700800000000000000
+      internalID: 532775286397119046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_9
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 300
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58c66744b849fc1d0800000000000000
+      internalID: -3328278273733530491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_10
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 199
+        width: 62
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc336ad6be15e38e0800000000000000
+      internalID: -1711840736755436593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_11
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 224
+        width: 139
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 852ed7f54cbc3c2d0800000000000000
+      internalID: -3259537661009993128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_12
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 250
+        width: 33
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab91d2013d76e3ce0800000000000000
+      internalID: -1423586275995346502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_13
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 161
+        width: 41
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f417ab2342b25ab0800000000000000
+      internalID: -5020754632999758603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_14
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 124
+        width: 59
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 761f82be961a84750800000000000000
+      internalID: 6289454355911864679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_15
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 166
+        width: 79
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a454672e0766ac90800000000000000
+      internalID: -7158921247170734938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_16
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 169
+        width: 48
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 504333bc7815ddfd0800000000000000
+      internalID: -2315604989727001595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_17
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 113
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 315813154bdce1e10800000000000000
+      internalID: 2170398244779164947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_18
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 129
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e90624b6afa7594b0800000000000000
+      internalID: -5434302159392710498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_19
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 97
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 506f49c0598cf01b0800000000000000
+      internalID: -5688107261858875899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_20
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 75
+        width: 46
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e965795a549b8d910800000000000000
+      internalID: 1862442154699740830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_21
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 40
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dde7ddbf8b54a7720800000000000000
+      internalID: 2844662775439785693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BubbleDeathAnimation0005_22
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 23
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3580046f358e5b890800000000000000
+      internalID: -7442787361848555437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4f04d16302a628a48a089fca1c2f4ebf
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      BubbleDeathAnimation0005_0: 4039518151406510557
+      BubbleDeathAnimation0005_1: -6165111886017151416
+      BubbleDeathAnimation0005_10: -1711840736755436593
+      BubbleDeathAnimation0005_11: -3259537661009993128
+      BubbleDeathAnimation0005_12: -1423586275995346502
+      BubbleDeathAnimation0005_13: -5020754632999758603
+      BubbleDeathAnimation0005_14: 6289454355911864679
+      BubbleDeathAnimation0005_15: -7158921247170734938
+      BubbleDeathAnimation0005_16: -2315604989727001595
+      BubbleDeathAnimation0005_17: 2170398244779164947
+      BubbleDeathAnimation0005_18: -5434302159392710498
+      BubbleDeathAnimation0005_19: -5688107261858875899
+      BubbleDeathAnimation0005_2: 1063258165943995184
+      BubbleDeathAnimation0005_20: 1862442154699740830
+      BubbleDeathAnimation0005_21: 2844662775439785693
+      BubbleDeathAnimation0005_22: -7442787361848555437
+      BubbleDeathAnimation0005_3: -8727464254795708831
+      BubbleDeathAnimation0005_4: -6377513741349164194
+      BubbleDeathAnimation0005_5: -1928835693885171852
+      BubbleDeathAnimation0005_6: 4523125608619598199
+      BubbleDeathAnimation0005_7: -6558066511167653691
+      BubbleDeathAnimation0005_8: 532775286397119046
+      BubbleDeathAnimation0005_9: -3328278273733530491
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

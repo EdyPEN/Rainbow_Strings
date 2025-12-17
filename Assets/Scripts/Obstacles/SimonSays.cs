@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +9,20 @@ public class SimonSays : MonoBehaviour
 {
     public GameObject Player;
     public GameObject ColorDisplay;
+
+    Animator animator;
+
+    private int idleAnim;
+    private int playAnim;
+    private int failAnim;
+    private int successAnim;
+    private int deathAnim;
+
+    private int lastPlayedAnim = -1;
+
+    private float deathDuration = 0.5f;
+    public float deathTimer = 0f;
+    private bool deathStarted = false;
 
     public GameObject[] Note;
 
@@ -47,6 +61,15 @@ public class SimonSays : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
+        idleAnim = Animator.StringToHash("BubbleIdle");
+        playAnim = Animator.StringToHash("BubblePlay");
+        failAnim = Animator.StringToHash("BubbleFail");
+        successAnim = Animator.StringToHash("BubbleSuccess");
+        deathAnim = Animator.StringToHash("BubbleDeath");
+
+
         PatternRandomizer(pattern1);
         PatternRandomizer(pattern2);
 
@@ -88,6 +111,9 @@ public class SimonSays : MonoBehaviour
         TimerLogic();
         ColorLogic();
 
+        UpdateDeathTimer();
+        UpdateAnimation();
+
         //Challenge Bubble!--------------------
         if (Player.GetComponent<PlayerInteractions>().interactButton == true && ChallengeInProcess == false)
         {
@@ -113,12 +139,80 @@ public class SimonSays : MonoBehaviour
             ChallengeBeaten = true;
         }
 
-        if (ChallengeBeaten == true)
+        if (ChallengeBeaten == true && deathStarted == false)
+        {
+            deathStarted = true;
+            deathTimer = deathDuration;
+
+            failTimer = 0f;
+
+            failTimer = 0f;
+            successTimer = 0f;
+            timerPerNote = 0f;
+            timerReaction = 0f;
+        }
+    }
+
+    bool IsShowingPattern()
+    {
+        if (ChallengeInProcess == false) return false;
+
+        // Пока идет показ Pattern 1 (до FinishPattern1)
+        if (currentPattern == 0 && FinishPattern1 == false) return true;
+
+        // Пока идет показ Pattern 2 (до FinishPattern2)
+        if (currentPattern == 1 && FinishPattern2 == false) return true;
+
+        return false;
+    }
+
+    void UpdateAnimation()
+    {
+        if (animator == null) return;
+
+        int targetAnimation = idleAnim;
+
+        if (deathStarted)
+        {
+            targetAnimation = deathAnim;
+        }
+        else if (failTimer > 0f)
+        {
+            targetAnimation = failAnim;
+        }
+        else if (successTimer > 0f)
+        {
+            targetAnimation = successAnim;
+        }
+        else if (IsShowingPattern())
+        {
+            targetAnimation = playAnim;
+        }
+        else
+        {
+            targetAnimation = idleAnim;
+        }
+
+        // Play only when changed (so it won't restart every frame)
+        if (targetAnimation != lastPlayedAnim)
+        {
+            animator.Play(targetAnimation, 0, 0f);
+            lastPlayedAnim = targetAnimation;
+        }
+    }
+    void UpdateDeathTimer()
+    {
+        if (deathStarted == false) return;
+
+        deathTimer -= Time.deltaTime;
+        spriteRenderer.color = Color.white;
+        if (deathTimer <= 0f)
         {
             Player.GetComponentInParent<PlayerInteractions>().keyCollected = true;
             Destroy(gameObject);
         }
     }
+
     void SuccessTimerLogic()
     {
         if (successTimer > 0)
@@ -189,13 +283,13 @@ public class SimonSays : MonoBehaviour
     {
         if (failTimer > 0)
         {
-            spriteRenderer.color = Color.black;
+            spriteRenderer.color = Color.white;
             return;
         }
 
         if (successTimer > 0)
         {
-            spriteRenderer.color = Color.magenta;
+            spriteRenderer.color = Color.white;
             return;
         }
 
