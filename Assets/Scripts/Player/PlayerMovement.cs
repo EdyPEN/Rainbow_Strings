@@ -178,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        //PlayerAnimation();
+        PlayerAnimation();
 
         if (!ghostCheatActive)
         {
