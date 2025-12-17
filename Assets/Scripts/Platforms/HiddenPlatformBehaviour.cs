@@ -11,6 +11,12 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     Collider2D platformCollider;
     SpriteRenderer spriteRenderer;
 
+    Animator animator;
+
+    private int smallPlatform;
+    private int midPlatform;
+    private int fullPlatform;
+
     public GameObject Player;
     public GameObject ColorDisplay;
 
