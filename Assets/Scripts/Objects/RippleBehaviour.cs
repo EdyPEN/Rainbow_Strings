@@ -26,11 +26,11 @@ public class RippleBehaviour : MonoBehaviour
     {
         if (player.transform.position.x < transform.position.x)
         {
-            direction = 1;
+            direction = -1;
         }
         else
         {
-            direction = -1;
+            direction = 1;
         }
     }
 
