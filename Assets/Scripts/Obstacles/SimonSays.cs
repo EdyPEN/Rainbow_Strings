@@ -147,7 +147,7 @@ public class SimonSays : MonoBehaviour
         UpdateAnimation();
 
         //Challenge Bubble!--------------------
-        if (Player.GetComponent<PlayerInteractions>().interactButton == true && ChallengeInProcess == false)
+        if (Player.GetComponent<PlayerInteractions>().interactButton == true && ChallengeInProcess == false && Player.GetComponent<PlayerInteractions>().inChallengeArea == true)
         {
             timerPerNote = 1;
             Note[0].SetActive(true);
