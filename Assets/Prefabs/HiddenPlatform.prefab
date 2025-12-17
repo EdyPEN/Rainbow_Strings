@@ -177,7 +177,7 @@ MonoBehaviour:
   noteStartingPosition: []
   currentNote: 0
   playerInRange: 0
-  platformScale: {x: 3, y: 1}
+  platformScale: {x: 1, y: 1}
   initialPlatformScale: {x: 0, y: 0}
   platformResetTime: 3
   platformResetTimer: 0
