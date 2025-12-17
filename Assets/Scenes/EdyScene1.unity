@@ -1713,8 +1713,8 @@ MonoBehaviour:
   keyCollected: 0
   interactButton: 0
   inChallengeArea: 0
-  horizontalDamageKnockback: 4
-  verticalDamageKnockback: 8
+  horizontalDamageKnockback: 6
+  verticalDamageKnockback: 12
   deathJumpTime: 3
   deathJumpTimer: 3
   deathJumpHeight: 24
