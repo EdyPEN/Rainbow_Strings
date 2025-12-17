@@ -29,7 +29,11 @@ public class CheatBehaviour : MonoBehaviour
             }
             else
             {
-                if (invincibleCheatActive)
+                if (ghostCheatActive)
+                {
+                    tmp.text = "Cheater! >:[\nGhost";
+                }
+                else if (invincibleCheatActive)
                 {
                     tmp.text = "Cheater! >:[\nInvincible";
                 }

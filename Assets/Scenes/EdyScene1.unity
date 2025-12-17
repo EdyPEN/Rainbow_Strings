@@ -2022,6 +2022,9 @@ MonoBehaviour:
   jumpInputTap: 0
   jumpInputHold: 0
   jumpInputRelease: 0
+  ghostXInput: 0
+  ghostYInput: 0
+  ghostSpeed: 5
   walkingSpeed: 2.2
   playerFacingDirection: 1
   grounded: 0

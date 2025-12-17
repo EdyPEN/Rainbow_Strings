@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static PauseMenu;
+using static Cheats;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public bool jumpInputHold;
     public bool jumpInputRelease;
 
+    public int ghostXInput;
+    public int ghostYInput;
+    public float ghostSpeed;
+
     [Header("Walking")]
     // Walking
     public float walkingSpeed;
@@ -30,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     // Jump
     public bool grounded;
-    bool wasGrounded; //---------------------------ehg....
+    bool wasGrounded;
 
     public float jumpForce;
     public float maxFallSpeed;
@@ -75,9 +80,16 @@ public class PlayerMovement : MonoBehaviour
         }
         FlipPlayer();
 
-        DetectWalkingInputsIfNotStunned();
+        if (!ghostCheatActive)
+        {
+            DetectWalkingInputsIfNotStunned();
 
-        DetectJumpingInputs();
+            DetectJumpingInputs();
+        }
+        else
+        {
+            DetectGhostInputs();
+        }
     }
 
     void FlipPlayer()
@@ -130,6 +142,34 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void DetectGhostInputs()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
+            ghostXInput = -1;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            ghostXInput = 1;
+        }
+        else
+        {
+            ghostXInput = 0;
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            ghostYInput = -1;
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            ghostYInput = 1;
+        }
+        else
+        {
+            ghostYInput = 0;
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -137,22 +177,44 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+
         //PlayerAnimation();
 
-        Walking();
+        if (!ghostCheatActive)
+        {
+            if (!player.GetComponent<Collider2D>().enabled)
+            {
+                playerRigidBody.gravityScale = 1.75f;
+                player.GetComponent<Collider2D>().enabled = true;
+                GetComponent<Collider2D>().enabled = true;
+            }
 
-        Jumping();
+            Walking();
 
-        JumpBuffering();
+            Jumping();
 
-        JumpCoyoteTime();
+            JumpBuffering();
 
-        ApplyPushDownForce();
+            JumpCoyoteTime();
 
-        InvincibilityTime();
+            ApplyPushDownForce();
 
-        FallingSpeedCap();
+            InvincibilityTime();
 
+            FallingSpeedCap();
+        }
+        else
+        {
+            if (player.GetComponent<Collider2D>().enabled)
+            {
+                playerRigidBody.gravityScale = 0;
+                player.GetComponent<Collider2D>().enabled = false;
+                GetComponent<Collider2D>().enabled = false;
+            }
+
+            GhostMovement();
+        }
+        
         wasGrounded = grounded;
     }
 
@@ -285,6 +347,12 @@ public class PlayerMovement : MonoBehaviour
     void FallingSpeedCap()
     {
         playerRigidBody.linearVelocityY = Mathf.Clamp(playerRigidBody.linearVelocityY, -maxFallSpeed, Mathf.Infinity);
+    }
+
+    void GhostMovement()
+    {
+        playerRigidBody.linearVelocityX = ghostXInput * ghostSpeed * 100 * Time.fixedDeltaTime;
+        playerRigidBody.linearVelocityY = ghostYInput * ghostSpeed * 100 * Time.fixedDeltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

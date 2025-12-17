@@ -17,6 +17,7 @@ public class SceneManagement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.C))
         {
             invincibleCheatActive = false;
+            ghostCheatActive = false;
             cheats.enabled = !cheats.enabled;
         }
     }
