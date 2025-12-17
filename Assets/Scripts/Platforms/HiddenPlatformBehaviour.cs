@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +16,9 @@ public class HiddenPlatformBehaviour : MonoBehaviour
     private int smallPlatform;
     private int midPlatform;
     private int fullPlatform;
+
+    private int lastPlatformAnim = -1;
+
 
     public GameObject Player;
     public GameObject ColorDisplay;
@@ -41,6 +44,12 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
+        smallPlatform = Animator.StringToHash("HidPlatSmall");
+        midPlatform = Animator.StringToHash("HidPlatMid");
+        fullPlatform = Animator.StringToHash("HidPlatFull");
+
         platformCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerKey = ColorDisplay.GetComponent<MusicPlay>();
@@ -52,6 +61,39 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         key = pattern[0];
 
         GetNoteStartingPositions();
+    }
+    void UpdatePlatformAnimation()
+    {
+        if (animator == null) return;
+
+        int targetAnim = smallPlatform;
+
+        // 0 -> Small
+        // 1 -> Mid
+        // 2 -> Full
+        if (currentNote == 0)
+        {
+            targetAnim = smallPlatform;
+        }
+        else if (currentNote == 1)
+        {
+            targetAnim = midPlatform;
+        }
+        else if (currentNote >= 2 && currentNote < 3)
+        {
+            targetAnim = fullPlatform;
+        }
+        else
+        {
+            // when completed (>=3) keep full or whatever you want; I'll keep full
+            targetAnim = fullPlatform;
+        }
+
+        if (targetAnim != lastPlatformAnim)
+        {
+            animator.Play(targetAnim, 0, 0f);
+            lastPlatformAnim = targetAnim;
+        }
     }
 
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
@@ -87,6 +129,8 @@ public class HiddenPlatformBehaviour : MonoBehaviour
 
     void Update()
     {
+        UpdatePlatformAnimation();
+
         ChangeNoteBasedOnPlayerInput();
 
         ChangePlatformState();
@@ -185,7 +229,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         }
         else
         {
-            spriteRenderer.color = new Color32(100, 50, 0, 255);
+            spriteRenderer.color = Color.white;
         }
     }
 
