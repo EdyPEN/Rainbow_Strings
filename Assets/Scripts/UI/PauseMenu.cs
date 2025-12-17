@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,13 +18,22 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject[] volumeButtons;
 
+    public TextMeshProUGUI musicText;
+    public TextMeshProUGUI sfxText;
+
+    public GameObject musicUpArrow;
+    public GameObject musicDownArrow;
+
+    public GameObject sfxUpArrow;
+    public GameObject sfxDownArrow;
+
     public bool pauseInput, confirmInput, cancelInput;
 
     public static bool isPaused;
 
-    public static int musicVolume;
+    public static int musicVolume = 10;
 
-    public static int sfxVolume;
+    public static int sfxVolume = 10;
 
     public int selectedMenu; // 1 paused, 2 options, 3 volume
 
@@ -51,6 +61,8 @@ public class PauseMenu : MonoBehaviour
         MenuSelection();
 
         VolumeChange();
+
+        VolumeVisuals();
     }
 
     void PauseManager()
@@ -233,31 +245,101 @@ public class PauseMenu : MonoBehaviour
                 //Connection
             }
         }
+        else if (selectedMenu == 3)
+        {
+            if (selectedButton == 1)
+            {
+                selectedMenu = 2;
+                selectedButton = 1;
+            }
+        }
     }
     void VolumeChange()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if (selectedMenu != 3)
         {
-            if (selectedButton > 0)
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            if (selectedButton == 0 && musicVolume < 10)
             {
-                selectedButton--;
+                musicVolume++;
             }
-            else
+            else if (selectedButton == 2 && sfxVolume < 10)
             {
-                selectedButton = 2;
+                sfxVolume++;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            if (selectedButton < 2)
+            if (selectedButton == 0 && musicVolume > 0)
             {
-                selectedButton++;
+                musicVolume--;
+            }
+            else if (selectedButton == 2 && sfxVolume > 0)
+            {
+                sfxVolume--;
+            }
+        }
+    }
+
+    void VolumeVisuals()
+    {
+        musicText.text = "Music: " + musicVolume;
+        sfxText.text = "SFX: " + sfxVolume;
+
+        if (selectedMenu != 3)
+        {
+            return;
+        }
+        if (selectedButton == 0)
+        {
+            if (musicVolume == 10)
+            {
+                musicUpArrow.SetActive(false);
+                musicDownArrow.SetActive(true);
+            }
+            else if (musicVolume == 0)
+            {
+                musicUpArrow.SetActive(true);
+                musicDownArrow.SetActive(false);
             }
             else
             {
-                selectedButton = 0;
+                musicUpArrow.SetActive(true);
+                musicDownArrow.SetActive(true);
             }
+        }
+        else
+        {
+            musicUpArrow.SetActive(false);
+            musicDownArrow.SetActive(false);
+        }
+
+        if (selectedButton == 2)
+        {
+            if (sfxVolume == 10)
+            {
+                sfxUpArrow.SetActive(false);
+                sfxDownArrow.SetActive(true);
+            }
+            else if (sfxVolume == 0)
+            {
+                sfxUpArrow.SetActive(true);
+                sfxDownArrow.SetActive(false);
+            }
+            else
+            {
+                sfxUpArrow.SetActive(true);
+                sfxDownArrow.SetActive(true);
+            }
+        }
+        else
+        {
+            sfxUpArrow.SetActive(false);
+            sfxDownArrow.SetActive(false);
         }
     }
 }

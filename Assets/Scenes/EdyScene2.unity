@@ -89180,6 +89180,12 @@ MonoBehaviour:
   - {fileID: 1683449926}
   - {fileID: 620029197}
   - {fileID: 730052894}
+  musicText: {fileID: 1386897478}
+  sfxText: {fileID: 1290226160}
+  musicUpArrow: {fileID: 1031380070}
+  musicDownArrow: {fileID: 1673673772}
+  sfxUpArrow: {fileID: 1282032179}
+  sfxDownArrow: {fileID: 1448285594}
   pauseInput: 0
   confirmInput: 0
   cancelInput: 0

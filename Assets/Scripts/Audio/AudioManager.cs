@@ -19,11 +19,15 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.clip = background;
         musicSource.Play();
-        musicSource.volume = Mathf.Ceil(musicVolume / 10f);
+    }
+
+    private void Update()
+    {
+        musicSource.volume = musicVolume / 10f;
     }
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip, Mathf.Ceil(sfxVolume / 10f));
+        SFXSource.PlayOneShot(clip, sfxVolume / 10f);
     }
 }

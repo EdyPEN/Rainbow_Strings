@@ -57,6 +57,7 @@ public class AuthUI : MonoBehaviour
 
         if (ok)
         {
+            statusText.text = "Login Successful";
             // TODO: Load next scene or enable main menu
             // SceneManager.LoadScene("MainMenu");
         }
