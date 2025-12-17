@@ -8,21 +8,33 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestScene.unity
     guid: 2b3e1db1b90f5414aa865e96ec37d6c8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EdyScene0.unity
     guid: c1574ce73e7bd2e4a8f672c780efa688
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EdyScene1.unity
     guid: 3c14cb2b4e4fb5c4581f3ef4f734142c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EdyScene2.unity
     guid: 6a3a4ce5f404bb049be9bfae68132b0b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EdyScene3.unity
     guid: 2e6e363fbbe04f04881018704bce3128
   - enabled: 1
     path: Assets/Scenes/SERVER.unity
     guid: 5536225ae31b1e14cbd9c5b88274fa35
+  - enabled: 1
+    path: Assets/Scenes/MainScene0.unity
+    guid: 4643513e1e68d6a499f6206109bfdb67
+  - enabled: 1
+    path: Assets/Scenes/MainScene1.unity
+    guid: 9a20cb1e2485e4b4ca931adc447ea5d2
+  - enabled: 1
+    path: Assets/Scenes/MainScene2.unity
+    guid: 15a45caf2fe2ef34e85478139ce90596
+  - enabled: 1
+    path: Assets/Scenes/MainScene3.unity
+    guid: c8f9384a74fe32448ab5ea34a71bc4ab
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
