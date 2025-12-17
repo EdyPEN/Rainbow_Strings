@@ -1,4 +1,5 @@
 using UnityEngine;
+using static PauseMenu;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,10 +19,11 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.clip = background;
         musicSource.Play();
+        musicSource.volume = Mathf.Ceil(musicVolume / 10f);
     }
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip);
+        SFXSource.PlayOneShot(clip, Mathf.Ceil(sfxVolume / 10f));
     }
 }

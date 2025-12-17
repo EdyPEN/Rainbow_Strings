@@ -1,4 +1,5 @@
 using UnityEngine;
+using static PauseMenu;
 
 public class AudioSkips : MonoBehaviour
 {
@@ -23,13 +24,15 @@ public class AudioSkips : MonoBehaviour
     {
         float distance = Vector2.Distance(player.position, transform.position);
         float volume = Mathf.Clamp01(1 - (distance / maxDistance));
-        SFXSource.volume = volume;
+        SFXSource.volume = volume * Mathf.Ceil(sfxVolume / 10f);
     }
 
     public void PlaySFX(AudioClip clip)
     {
-        // Replace instead of layering
-        if (SFXSource.isPlaying && SFXSource.clip == clip) return;
+        if (SFXSource.isPlaying && SFXSource.clip == clip)
+        {
+            return;
+        }
 
         SFXSource.Stop();
         SFXSource.clip = clip;

@@ -21,6 +21,10 @@ public class PauseMenu : MonoBehaviour
 
     public static bool isPaused;
 
+    public static int musicVolume;
+
+    public static int sfxVolume;
+
     public int selectedMenu; // 1 paused, 2 options, 3 volume
 
     public int selectedButton;
@@ -45,6 +49,8 @@ public class PauseMenu : MonoBehaviour
         Inputs();
 
         MenuSelection();
+
+        VolumeChange();
     }
 
     void PauseManager()
@@ -210,11 +216,12 @@ public class PauseMenu : MonoBehaviour
                 SceneManager.LoadScene(0);
             }
         }
-        else
+        else if (selectedMenu == 2)
         {
             if (selectedButton == 0)
             {
-                //Volume
+                selectedMenu = 3;
+                selectedButton = 1;
             }
             else if (selectedButton == 1)
             {
@@ -224,6 +231,32 @@ public class PauseMenu : MonoBehaviour
             else if (selectedButton == 2)
             {
                 //Connection
+            }
+        }
+    }
+    void VolumeChange()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            if (selectedButton > 0)
+            {
+                selectedButton--;
+            }
+            else
+            {
+                selectedButton = 2;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            if (selectedButton < 2)
+            {
+                selectedButton++;
+            }
+            else
+            {
+                selectedButton = 0;
             }
         }
     }
