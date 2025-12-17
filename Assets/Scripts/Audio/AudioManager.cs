@@ -23,11 +23,11 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        musicSource.volume = musicVolume / 10f;
+        musicSource.volume = (musicVolume / 10f) * defaultMusicVolume;
     }
 
     public void PlaySFX(AudioClip clip)
     {
-        SFXSource.PlayOneShot(clip, sfxVolume / 10f);
+        SFXSource.PlayOneShot(clip, (sfxVolume / 10f) * defaultSfxVolume);
     }
 }

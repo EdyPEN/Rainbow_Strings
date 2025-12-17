@@ -29,9 +29,11 @@ public class MainMenu : MonoBehaviour
 
     public TextMeshProUGUI musicSheetInfo;
 
-    public static int musicVolume = 10;
+    public static int musicVolume = 8;
+    public static float defaultMusicVolume = 0.2f;
 
-    public static int sfxVolume = 10;
+    public static int sfxVolume = 8;
+    public static float defaultSfxVolume = 0.3f;
 
     public bool confirmInput;
 
