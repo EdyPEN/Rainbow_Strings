@@ -52,6 +52,10 @@ public class SimonSays : MonoBehaviour
 
     public int playerNote;
 
+    AudioBubble audioBubble;
+    private MusicPlay.MusicKey lastPlayedKey = MusicPlay.MusicKey.Idle;
+
+
     public MusicPlay.MusicKey[] pattern1 = new MusicPlay.MusicKey[4];
     public MusicPlay.MusicKey[] pattern2 = new MusicPlay.MusicKey[4];
     public MusicKey key;
@@ -81,6 +85,34 @@ public class SimonSays : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         ChallengeBeaten = false;
+
+        audioBubble = GetComponent<AudioBubble>();
+        if (audioBubble == null)
+        {
+            audioBubble = AudioBubble.Instance;
+        }
+    }
+    void PlayKeySfxOnce(MusicPlay.MusicKey newKey)
+    {
+        if (audioBubble == null) return;
+
+        if (newKey == MusicPlay.MusicKey.Yellow)
+        {
+            audioBubble.PlaySFX(audioBubble.BubbleNoteYellow);
+        }
+        else if (newKey == MusicPlay.MusicKey.Green)
+        {
+            audioBubble.PlaySFX(audioBubble.BubbleNoteGreen);
+        }
+        else if (newKey == MusicPlay.MusicKey.Blue)
+        {
+            audioBubble.PlaySFX(audioBubble.BubbleNoteBlue);
+        }
+        else if (newKey == MusicPlay.MusicKey.Red)
+        {
+            audioBubble.PlaySFX(audioBubble.BubbleNoteRed);
+        }
+        // Idle - no sound
     }
     void PatternRandomizer(MusicPlay.MusicKey[] pattern)
     {
@@ -109,7 +141,7 @@ public class SimonSays : MonoBehaviour
     {
         SuccessTimerLogic();
         TimerLogic();
-        ColorLogic();
+        ColorAudioLogic();
 
         UpdateDeathTimer();
         UpdateAnimation();
@@ -143,6 +175,8 @@ public class SimonSays : MonoBehaviour
         {
             deathStarted = true;
             deathTimer = deathDuration;
+
+            lastPlayedKey = MusicPlay.MusicKey.Idle;
 
             failTimer = 0f;
 
@@ -279,8 +313,22 @@ public class SimonSays : MonoBehaviour
             timerReaction = 0;
         }
     }
-    void ColorLogic()
+    void ColorAudioLogic()
     {
+        // same as Skips thing kind a
+        if (IsShowingPattern())
+        {
+            if (key != lastPlayedKey && key != MusicPlay.MusicKey.Idle)
+            {
+                PlayKeySfxOnce(key);
+                lastPlayedKey = key;
+            }
+        }
+        else
+        {
+            lastPlayedKey = MusicPlay.MusicKey.Idle;
+        }
+
         if (failTimer > 0)
         {
             spriteRenderer.color = Color.white;
