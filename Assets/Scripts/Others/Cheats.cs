@@ -9,6 +9,8 @@ public class Cheats : MonoBehaviour
 
     public static bool invincibleCheatActive;
 
+    public static bool ghostCheatActive;
+
     public GameObject player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,9 +29,15 @@ public class Cheats : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && !ghostCheatActive)
         {
             invincibleCheatActive = !invincibleCheatActive;
+        }
+
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            ghostCheatActive = !ghostCheatActive;
+            invincibleCheatActive = ghostCheatActive;
         }
 
         if (Input.GetKeyDown(KeyCode.K))
