@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static MusicSheet;
 
 public class MainMenu : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class MainMenu : MonoBehaviour
 
     public GameObject sfxUpArrow;
     public GameObject sfxDownArrow;
+
+    public TextMeshProUGUI musicSheetInfo;
 
     public static int musicVolume = 10;
 
@@ -58,6 +61,8 @@ public class MainMenu : MonoBehaviour
         VolumeChange();
 
         VolumeVisuals();
+
+        MusicSheetText();
     }
 
     void MenuManager()
@@ -317,6 +322,13 @@ public class MainMenu : MonoBehaviour
         {
             sfxUpArrow.SetActive(false);
             sfxDownArrow.SetActive(false);
+        }
+    }
+    void MusicSheetText()
+    {
+        if (musicSheetCollected)
+        {
+            musicSheetInfo.text = "Music Sheet Collected!";
         }
     }
 }
