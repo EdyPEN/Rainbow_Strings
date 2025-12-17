@@ -2024,7 +2024,7 @@ MonoBehaviour:
   jumpInputRelease: 0
   ghostXInput: 0
   ghostYInput: 0
-  ghostSpeed: 5
+  ghostSpeed: 6
   walkingSpeed: 2.2
   playerFacingDirection: 1
   grounded: 0

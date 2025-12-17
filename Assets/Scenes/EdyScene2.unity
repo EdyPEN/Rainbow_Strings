@@ -12300,6 +12300,9 @@ MonoBehaviour:
   jumpInputTap: 0
   jumpInputHold: 0
   jumpInputRelease: 0
+  ghostXInput: 0
+  ghostYInput: 0
+  ghostSpeed: 6
   walkingSpeed: 2.4
   playerFacingDirection: 1
   grounded: 0
