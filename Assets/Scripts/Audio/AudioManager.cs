@@ -1,5 +1,5 @@
 using UnityEngine;
-using static PauseMenu;
+using static MainMenu;
 
 public class AudioManager : MonoBehaviour
 {

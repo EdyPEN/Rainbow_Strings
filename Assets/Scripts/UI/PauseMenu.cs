@@ -3,16 +3,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static MainMenu;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseContainer;
 
     public GameObject[] pauseButtons;
-
-    public GameObject optionsContainer;
-
-    public GameObject[] optionsButtons;
 
     public GameObject volumeContainer;
 
@@ -31,11 +28,7 @@ public class PauseMenu : MonoBehaviour
 
     public static bool isPaused;
 
-    public static int musicVolume = 10;
-
-    public static int sfxVolume = 10;
-
-    public int selectedMenu; // 1 paused, 2 options, 3 volume
+    public int selectedMenu; // 1 paused, 2 volume
 
     public int selectedButton;
 
@@ -72,19 +65,11 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 0;
             if (selectedMenu == 1)
             {
-                optionsContainer.SetActive(false);
                 pauseContainer.SetActive(true);
                 volumeContainer.SetActive(false);
             }
             else if (selectedMenu == 2)
             {
-                pauseContainer.SetActive(false);
-                optionsContainer.SetActive(true);
-                volumeContainer.SetActive(false);
-            }
-            else if (selectedMenu == 3)
-            {
-                optionsContainer.SetActive(false);
                 pauseContainer.SetActive(false);
                 volumeContainer.SetActive(true);
             }
@@ -92,7 +77,6 @@ public class PauseMenu : MonoBehaviour
         else 
         {
             pauseContainer.SetActive(false);
-            optionsContainer.SetActive(false);
             volumeContainer.SetActive(false);
             Time.timeScale = 1;
             selectedButton = 1;
@@ -115,11 +99,6 @@ public class PauseMenu : MonoBehaviour
             else if (selectedMenu == 2)
             {
                 selectedMenu = 1;
-                selectedButton = 1;
-            }
-            else if (selectedMenu == 3)
-            {
-                selectedMenu = 2;
                 selectedButton = 1;
             }
         }
@@ -180,19 +159,6 @@ public class PauseMenu : MonoBehaviour
             {
                 if (i == selectedButton)
                 {
-                    optionsButtons[i].transform.localScale = new Vector3(1, 1, 1);
-                    optionsButtons[i].GetComponent<Image>().color = Color.deepSkyBlue;
-                }
-                else
-                {
-                    optionsButtons[i].transform.localScale = new Vector3(0.5f, 0.5f, 1);
-                    optionsButtons[i].GetComponent<Image>().color = Color.cornflowerBlue;
-                }
-            }
-            else if (selectedMenu == 3)
-            {
-                if (i == selectedButton)
-                {
                     volumeButtons[i].transform.localScale = new Vector3(1, 1, 1);
                     volumeButtons[i].GetComponent<Image>().color = Color.deepSkyBlue;
                 }
@@ -232,8 +198,14 @@ public class PauseMenu : MonoBehaviour
         {
             if (selectedButton == 0)
             {
-                selectedMenu = 3;
-                selectedButton = 1;
+                if (musicVolume > 0)
+                {
+                    musicVolume = 0;
+                }
+                else
+                {
+                    musicVolume = 10;
+                }
             }
             else if (selectedButton == 1)
             {
@@ -242,21 +214,21 @@ public class PauseMenu : MonoBehaviour
             }
             else if (selectedButton == 2)
             {
-                //Connection
-            }
-        }
-        else if (selectedMenu == 3)
-        {
-            if (selectedButton == 1)
-            {
-                selectedMenu = 2;
-                selectedButton = 1;
+                if (sfxVolume > 0)
+                {
+                    sfxVolume = 0;
+                }
+                else
+                {
+                    sfxVolume = 10;
+                }
             }
         }
     }
+
     void VolumeChange()
     {
-        if (selectedMenu != 3)
+        if (selectedMenu != 2)
         {
             return;
         }
@@ -290,10 +262,11 @@ public class PauseMenu : MonoBehaviour
         musicText.text = "Music: " + musicVolume;
         sfxText.text = "SFX: " + sfxVolume;
 
-        if (selectedMenu != 3)
+        if (selectedMenu != 2)
         {
             return;
         }
+
         if (selectedButton == 0)
         {
             if (musicVolume == 10)
