@@ -1,5 +1,6 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AuthUI : MonoBehaviour
 {
@@ -49,6 +50,11 @@ public class AuthUI : MonoBehaviour
             passwordInput.text,
             OnAuthResult
         );
+    }
+
+    public void OnClickReturn()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void OnAuthResult(bool ok, string msg)
