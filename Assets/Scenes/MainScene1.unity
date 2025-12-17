@@ -476,7 +476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 167125996}
   m_Layer: 0
-  m_Name: MovingPlatforms
+  m_Name: MovingPlatform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -496,7 +496,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724767903}
-  - {fileID: 2042329595}
   - {fileID: 598750125}
   - {fileID: 467776065}
   - {fileID: 228030741}
@@ -677,7 +676,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2621,7 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8740229e4f42c459a4e07aa2ed4bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cheats
-  player: {fileID: 0}
+  player: {fileID: 456744858}
 --- !u!114 &655262290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3480,10 +3479,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.79999995, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.79999995, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1872314384}
+  m_Father: {fileID: 1409128358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &981671069
 SpriteRenderer:
@@ -4753,9 +4752,9 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -20
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -25052,7 +25051,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 981671068}
   m_Father: {fileID: 1872314384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1409128359
@@ -26357,7 +26357,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2042329595}
   m_Father: {fileID: 167125996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1724767904
@@ -26711,7 +26712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872314384}
   m_Layer: 0
-  m_Name: MovingPlatforms (1)
+  m_Name: MovingPlatform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26731,7 +26732,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1409128358}
-  - {fileID: 981671068}
   - {fileID: 1075634690}
   - {fileID: 1696620435}
   - {fileID: 2028659287}
@@ -29425,10 +29425,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.79999995, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.79999995, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 167125996}
+  m_Father: {fileID: 1724767903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2042329596
 SpriteRenderer:
@@ -29790,7 +29790,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.72063285, g: 1, b: 0.5503144, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

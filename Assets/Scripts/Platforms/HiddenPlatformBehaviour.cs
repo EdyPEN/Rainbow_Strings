@@ -81,7 +81,7 @@ public class HiddenPlatformBehaviour : MonoBehaviour
         }
         else if (currentNote >= 2 && currentNote < 3)
         {
-            targetAnim = fullPlatform;
+            targetAnim = midPlatform;
         }
         else
         {

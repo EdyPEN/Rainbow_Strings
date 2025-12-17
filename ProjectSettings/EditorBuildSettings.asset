@@ -21,9 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/EdyScene3.unity
     guid: 2e6e363fbbe04f04881018704bce3128
   - enabled: 1
-    path: Assets/Scenes/SERVER.unity
-    guid: 5536225ae31b1e14cbd9c5b88274fa35
-  - enabled: 1
     path: Assets/Scenes/MainScene0.unity
     guid: 4643513e1e68d6a499f6206109bfdb67
   - enabled: 1
@@ -35,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene3.unity
     guid: c8f9384a74fe32448ab5ea34a71bc4ab
+  - enabled: 1
+    path: Assets/Scenes/SERVER.unity
+    guid: 5536225ae31b1e14cbd9c5b88274fa35
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
