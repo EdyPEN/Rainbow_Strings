@@ -8,8 +8,11 @@ using static Cheats;
 
 public class PlayerInteractions : MonoBehaviour
 {
+    private Collider2D feetCollider;
+    private Collider2D playerCollider;
     private Rigidbody2D playerRigidBody;
     private PlayerMovement playerMovement;
+
 
     public int hp;
     public int maxHp;
@@ -33,6 +36,9 @@ public class PlayerInteractions : MonoBehaviour
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         playerMovement = GetComponentInChildren<PlayerMovement>();
+
+        playerCollider = GetComponent<Collider2D>();
+        feetCollider = playerMovement.GetComponent<Collider2D>();
 
         hp = maxHp;
 
@@ -178,7 +184,7 @@ public class PlayerInteractions : MonoBehaviour
 
         playerRigidBody.linearVelocity = new Vector2(0, deathJumpHeight);
 
-        GetComponent<Collider2D>().enabled = false;
-        playerMovement.GetComponent<Collider2D>().enabled = false;
+        playerCollider.enabled = false;
+        feetCollider.enabled = false;
     }
 } 
