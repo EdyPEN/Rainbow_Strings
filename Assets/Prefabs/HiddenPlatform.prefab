@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7866144184053378473}
   - component: {fileID: 7556403954416936912}
   - component: {fileID: 6211875011232661731}
+  - component: {fileID: 4393983810328984200}
   m_Layer: 0
   m_Name: HiddenPlatform
   m_TagString: Ground
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,12 +83,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -2429342131202777154, guid: 359f050234b123b478ace68409336e9d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.09, y: 1.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -127,17 +128,17 @@ BoxCollider2D:
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.45}
+  m_Offset: {x: 0, y: 0.6}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 3.1953125, y: 1.03125}
+    newSize: {x: 4.09, y: 1.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.1}
+  m_Size: {x: 3.9, y: 0.100000024}
   m_EdgeRadius: 0
 --- !u!251 &7556403954416936912
 PlatformEffector2D:
@@ -170,13 +171,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4986dd9a124e9d141870ffcafefe4e22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  Player: {fileID: 0}
   ColorDisplay: {fileID: 0}
+  Note: []
+  noteStartingPosition: []
   currentNote: 0
   playerInRange: 0
   platformScale: {x: 3, y: 1}
+  initialPlatformScale: {x: 0, y: 0}
   platformResetTime: 3
   platformResetTimer: 0
   platformResetAfterCompletionTime: 6
   platformResetAfterCompletionTimer: 0
   pattern: 000000000000000000000000
   key: 0
+--- !u!95 &4393983810328984200
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465840650259147472}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 111d591a2f4862347b07a0143e04ea35, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
